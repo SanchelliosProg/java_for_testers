@@ -1,3 +1,5 @@
+package path_finding;
+
 /**
  * Created by Александр on 11.03.2017.
  */

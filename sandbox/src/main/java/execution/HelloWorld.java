@@ -1,3 +1,7 @@
+package execution;
+
+import path_finding.Point;
+
 public class HelloWorld {
     public static void main(String[] args) {
         System.out.println("Hello, World!");
