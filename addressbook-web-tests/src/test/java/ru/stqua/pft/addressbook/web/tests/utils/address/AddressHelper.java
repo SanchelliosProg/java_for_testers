@@ -6,43 +6,43 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
 import ru.stqua.pft.addressbook.web.tests.models.AddressData;
+import ru.stqua.pft.addressbook.web.tests.utils.BaseHelper;
+import ru.stqua.pft.addressbook.web.tests.utils.BaseTest;
 import ru.stqua.pft.addressbook.web.tests.utils.PageInteractor;
 
 /**
  * Created by Александр on 19.03.2017.
  */
-public class AddressHelper implements PageInteractor {
+public class AddressHelper extends BaseHelper implements PageInteractor {
     public static final String ADD_ADDRESS_URL = "http://localhost/addressbook/edit.php";
 
-    private WebDriver driver;
-
     public AddressHelper(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
 
     public void addAddress(AddressData data){
         String dataEntry = data.getFirstName() + Keys.TAB +
                 data.getLastName() + Keys.TAB + Keys.TAB + data.getLastName();
-        driver.findElement(By.cssSelector("input[name='firstname']")).sendKeys(dataEntry);
-        driver.findElement(By.cssSelector("textarea[name='address']")).sendKeys(data.getAddress());
-        driver.findElement(By.cssSelector("input[name='home']")).sendKeys(data.getPhone());
-        driver.findElement(By.cssSelector("input[name='email']")).sendKeys(data.getEmail());
-        Select select = new Select(driver.findElement(By.cssSelector("select[name='new_group']")));
+        find("input[name='firstname']").sendKeys(dataEntry);
+        find("textarea[name='address']").sendKeys(data.getAddress());
+        find("input[name='home']").sendKeys(data.getPhone());
+        find("input[name='email']").sendKeys(data.getEmail());
+        Select select = new Select(find("select[name='new_group']"));
         select.selectByVisibleText(data.getGroupName());
-        driver.findElement(By.cssSelector("input[name='submit']")).click();
+        click("input[name='submit']");
     }
 
     public boolean isElementWithTextExists(String text){
         try{
-            return driver.findElement(By.xpath("//td[contains(., \""+ text +"\")]")).isDisplayed();
+            return findByXapth("//td[contains(., \""+ text +"\")]").isDisplayed();
         }catch (ElementNotFoundException ex){
             return false;
         }
     }
 
     public void cleanup(){
-        driver.findElement(By.cssSelector("input#MassCB")).click();
-        driver.findElement(By.cssSelector("input[onclick='DeleteSel()']")).click();
+        click("input#MassCB");
+        click("input[onclick='DeleteSel()']");
         driver.switchTo().alert().accept();
     }
 

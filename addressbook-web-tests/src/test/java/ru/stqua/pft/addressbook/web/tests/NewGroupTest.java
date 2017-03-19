@@ -18,13 +18,13 @@ import static org.hamcrest.Matchers.is;
  */
 public class NewGroupTest extends BaseTest {
     @BeforeClass
-    public void setUp(){
+    public void setUp() {
         login();
     }
 
     @Test
-    public void test1(){
-       groupHelper.open();
+    public void test1() {
+        groupHelper.open();
         groupHelper.openNewGropPage();
         GroupData groupData = GroupProvider.get(Groups.BROTHERHOOD_OF_RING);
         groupHelper.createGroup(groupData);
@@ -34,7 +34,8 @@ public class NewGroupTest extends BaseTest {
     }
 
     @AfterClass
-    public void tearDown(){
-        cleanUp();
+    public void tearDown() {
+        groupHelper.cleanup();
+        driver.quit();
     }
 }
