@@ -1,6 +1,7 @@
-package ru.stqua.pft.addressbook.web.tests.utils.group;
+package ru.stqua.pft.addressbook.web.tests.models;
 
 import ru.stqua.pft.addressbook.web.tests.models.GroupData;
+import ru.stqua.pft.addressbook.web.tests.utils.group.Groups;
 
 /**
  * Created by Александр on 18.03.2017.

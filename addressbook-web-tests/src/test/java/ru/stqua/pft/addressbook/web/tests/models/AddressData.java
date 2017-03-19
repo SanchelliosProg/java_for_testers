@@ -1,4 +1,6 @@
-package ru.stqua.pft.addressbook.web.tests.utils.address;
+package ru.stqua.pft.addressbook.web.tests.models;
+
+import ru.stqua.pft.addressbook.web.tests.utils.group.Groups;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,18 +11,18 @@ import java.io.IOException;
 public class AddressData {
     private String firstName;
     private String lastName;
-    private String photo;
     private String address;
     private String phone;
     private String email;
+    private String groupName;
 
-    private AddressData(String firstName, String lastName, String photo, String address, String phone, String email) {
+    private AddressData(String firstName, String lastName, String address, String phone, String groupName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.photo = photo;
         this.address = address;
         this.phone = phone;
         this.email = email;
+        this.groupName = groupName;
     }
 
     interface FirstNameStep{
@@ -28,11 +30,7 @@ public class AddressData {
     }
 
     interface LastNameStep{
-        PhotoStep lastName(String lastName);
-    }
-
-    interface PhotoStep{
-        AddressStep photo(String fileName);
+        AddressStep lastName(String lastName);
     }
 
     interface AddressStep{
@@ -44,7 +42,11 @@ public class AddressData {
     }
 
     interface EmailStep{
-        BuildStep email(String email);
+        GroupStep email(String email);
+    }
+
+    interface GroupStep{
+        BuildStep group(Groups group);
     }
 
     interface BuildStep{
@@ -55,13 +57,16 @@ public class AddressData {
         return new AddressBuilder();
     }
 
-    private static class AddressBuilder implements FirstNameStep, LastNameStep, PhotoStep, AddressStep, PhoneStep, EmailStep, BuildStep{
+    public static class AddressBuilder implements FirstNameStep, LastNameStep, AddressStep, PhoneStep, EmailStep, GroupStep, BuildStep{
         private String firstName;
         private String lastName;
-        private String photo;
         private String address;
         private String phone;
         private String email;
+        private String groupName;
+
+        public AddressBuilder() {
+        }
 
         @Override
         public LastNameStep firstName(String name) {
@@ -70,20 +75,11 @@ public class AddressData {
         }
 
         @Override
-        public PhotoStep lastName(String lastName) {
+        public AddressStep lastName(String lastName) {
             this.lastName = lastName;
             return this;
         }
-        @Override
-        public AddressStep photo(String fileName) {
-            File pic = new File(".\\..\\resources\\" + fileName);
-            try {
-                this.photo = pic.getCanonicalPath();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return this;
-        }
+
 
         @Override
         public PhoneStep address(String address) {
@@ -98,14 +94,44 @@ public class AddressData {
         }
 
         @Override
-        public BuildStep email(String email) {
+        public GroupStep email(String email) {
             this.email = email;
             return this;
         }
 
         @Override
         public AddressData build() {
-            return new AddressData(firstName, lastName, photo, address, phone, email);
+            return new AddressData(firstName, lastName, address, phone, groupName, email);
         }
-    }    
+
+        @Override
+        public BuildStep group(Groups group) {
+            groupName = group.getName();
+            return this;
+        }
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
 }
