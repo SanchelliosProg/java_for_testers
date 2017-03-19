@@ -11,7 +11,7 @@ import ru.stqua.pft.addressbook.web.tests.utils.group.GroupHelper;
 /**
  * Created by Александр on 18.03.2017.
  */
-public class BaseTest {
+public class TestBase {
     protected WebDriver driver = ApplicationManager.getInstance().getDriver();
     protected GroupHelper groupHelper = ApplicationManager.getInstance().getGroupHelper();
     protected AddressHelper addressHelper = ApplicationManager.getInstance().getAddressHelper();

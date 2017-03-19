@@ -1,13 +1,11 @@
 package ru.stqua.pft.addressbook.web.tests.utils.address;
 
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
-import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
 import ru.stqua.pft.addressbook.web.tests.models.AddressData;
 import ru.stqua.pft.addressbook.web.tests.utils.BaseHelper;
-import ru.stqua.pft.addressbook.web.tests.utils.BaseTest;
 import ru.stqua.pft.addressbook.web.tests.utils.PageInteractor;
 
 /**
