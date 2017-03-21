@@ -1,4 +1,4 @@
-package ru.stqua.pft.addressbook.web.tests.utils;
+package ru.stqua.pft.addressbook.web.appmanager.helpers;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

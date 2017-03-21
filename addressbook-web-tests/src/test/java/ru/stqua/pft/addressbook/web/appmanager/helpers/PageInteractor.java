@@ -1,4 +1,4 @@
-package ru.stqua.pft.addressbook.web.tests.utils;
+package ru.stqua.pft.addressbook.web.appmanager.helpers;
 
 /**
  * Created by Александр on 19.03.2017.

@@ -1,4 +1,4 @@
-package ru.stqua.pft.addressbook.web.tests.utils.address;
+package ru.stqua.pft.addressbook.web.appmanager.helpers.address;
 
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import org.openqa.selenium.By;
@@ -8,9 +8,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import ru.stqua.pft.addressbook.web.tests.models.AddressData;
-import ru.stqua.pft.addressbook.web.tests.utils.BaseHelper;
-import ru.stqua.pft.addressbook.web.tests.utils.PageInteractor;
+import ru.stqua.pft.addressbook.web.model.AddressData;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.BaseHelper;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.PageInteractor;
 
 import java.util.List;
 

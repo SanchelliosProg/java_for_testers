@@ -1,4 +1,4 @@
-package ru.stqua.pft.addressbook.web.tests.models;
+package ru.stqua.pft.addressbook.web.model;
 
 /**
  * Created by Александр on 18.03.2017.

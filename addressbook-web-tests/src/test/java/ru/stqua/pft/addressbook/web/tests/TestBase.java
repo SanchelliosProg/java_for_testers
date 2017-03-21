@@ -1,12 +1,12 @@
-package ru.stqua.pft.addressbook.web.tests.utils;
+package ru.stqua.pft.addressbook.web.tests;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.BeforeClass;
-import ru.stqua.pft.addressbook.web.tests.models.Login;
-import ru.stqua.pft.addressbook.web.tests.utils.address.AddressHelper;
-import ru.stqua.pft.addressbook.web.tests.utils.group.GroupHelper;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.navigation.NavigationHelper;
+import ru.stqua.pft.addressbook.web.model.Login;
+import ru.stqua.pft.addressbook.web.appmanager.ApplicationManager;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.address.AddressHelper;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupHelper;
 
 /**
  * Created by Александр on 18.03.2017.
@@ -15,6 +15,7 @@ public class TestBase {
     protected WebDriver driver = ApplicationManager.getInstance().getDriver();
     protected GroupHelper groupHelper = ApplicationManager.getInstance().getGroupHelper();
     protected AddressHelper addressHelper = ApplicationManager.getInstance().getAddressHelper();
+    protected NavigationHelper navigationHelper = ApplicationManager.getInstance().getNavigationHelper();
 
 
     protected void login() {

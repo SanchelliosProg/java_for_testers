@@ -1,9 +1,10 @@
-package ru.stqua.pft.addressbook.web.tests.utils;
+package ru.stqua.pft.addressbook.web.appmanager;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import ru.stqua.pft.addressbook.web.tests.utils.address.AddressHelper;
-import ru.stqua.pft.addressbook.web.tests.utils.group.GroupHelper;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.address.AddressHelper;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupHelper;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.navigation.NavigationHelper;
 
 /**
  * Created by Александр on 19.03.2017.
@@ -11,6 +12,8 @@ import ru.stqua.pft.addressbook.web.tests.utils.group.GroupHelper;
 public class ApplicationManager {
     private GroupHelper groupHelper;
     private AddressHelper addressHelper;
+    private NavigationHelper navigationHelper;
+
     private static ApplicationManager instance;
     private WebDriver driver;
 
@@ -45,7 +48,7 @@ public class ApplicationManager {
         return addressHelper;
     }
 
-    public void openMainPage(){
-        driver.get("http://localhost/addressbook/");
+    public NavigationHelper getNavigationHelper() {
+        return navigationHelper;
     }
 }

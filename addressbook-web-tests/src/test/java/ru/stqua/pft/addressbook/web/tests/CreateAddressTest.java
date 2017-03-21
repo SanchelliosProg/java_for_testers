@@ -1,19 +1,18 @@
 package ru.stqua.pft.addressbook.web.tests;
 import org.testng.annotations.*;
-import ru.stqua.pft.addressbook.web.tests.models.AddressData;
-import ru.stqua.pft.addressbook.web.tests.utils.ApplicationManager;
-import ru.stqua.pft.addressbook.web.tests.utils.TestBase;
-import ru.stqua.pft.addressbook.web.tests.models.AddressProvider;
-import ru.stqua.pft.addressbook.web.tests.utils.address.Addresses;
-import ru.stqua.pft.addressbook.web.tests.models.GroupProvider;
-import ru.stqua.pft.addressbook.web.tests.utils.group.Groups;
+import ru.stqua.pft.addressbook.web.model.AddressData;
+import ru.stqua.pft.addressbook.web.appmanager.ApplicationManager;
+import ru.stqua.pft.addressbook.web.model.AddressProvider;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.address.Addresses;
+import ru.stqua.pft.addressbook.web.model.GroupProvider;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.group.Groups;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 /**
  * Created by Александр on 18.03.2017.
  */
-public class NewAddressTest extends TestBase {
+public class CreateAddressTest extends TestBase {
 
     @BeforeMethod
     public void setUp(){
@@ -28,17 +27,17 @@ public class NewAddressTest extends TestBase {
         AddressData frodo = AddressProvider.getAddress(Addresses.FRODO_BAGGINS);
         addressHelper.open();
         addressHelper.addAddress(frodo);
-        ApplicationManager.getInstance().openMainPage();
+        navigationHelper.openMainPage();
         assertThat(addressHelper.isElementWithTextExists(frodo.getFirstName()), is(true));
 
         addressHelper.openEditAddressWithName(frodo.getFirstName());
         frodo.setFirstName("Фёдор");
         addressHelper.editFirstName(frodo.getFirstName());
-        ApplicationManager.getInstance().openMainPage();
+        navigationHelper.openMainPage();
         assertThat(addressHelper.isElementWithTextExists(frodo.getFirstName()), is(true));
 
         addressHelper.cleanup();
-        ApplicationManager.getInstance().openMainPage();
+        navigationHelper.openMainPage();
         assertThat(addressHelper.isAddressesPresented(), is(false));
     }
 

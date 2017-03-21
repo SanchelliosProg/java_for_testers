@@ -1,11 +1,9 @@
 package ru.stqua.pft.addressbook.web.tests;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.*;
-import ru.stqua.pft.addressbook.web.tests.models.GroupData;
-import ru.stqua.pft.addressbook.web.tests.utils.TestBase;
-import ru.stqua.pft.addressbook.web.tests.models.GroupProvider;
-import ru.stqua.pft.addressbook.web.tests.utils.group.Groups;
+import ru.stqua.pft.addressbook.web.model.GroupData;
+import ru.stqua.pft.addressbook.web.model.GroupProvider;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.group.Groups;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -13,13 +11,11 @@ import static org.hamcrest.Matchers.is;
 /**
  * Created by Александр on 18.03.2017.
  */
-public class NewGroupTest extends TestBase {
-    boolean isLoggedIn = false;
+public class CreateGroupTest extends TestBase {
+
     @BeforeMethod
     public void setUp() {
-        if(!isLoggedIn){
-            login();
-        }
+        login();
     }
 
     @Test

@@ -1,8 +1,7 @@
-package ru.stqua.pft.addressbook.web.tests.models;
+package ru.stqua.pft.addressbook.web.model;
 
-import ru.stqua.pft.addressbook.web.tests.models.AddressData;
-import ru.stqua.pft.addressbook.web.tests.utils.address.Addresses;
-import ru.stqua.pft.addressbook.web.tests.utils.group.Groups;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.address.Addresses;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.group.Groups;
 
 /**
  * Created by Александр on 19.03.2017.

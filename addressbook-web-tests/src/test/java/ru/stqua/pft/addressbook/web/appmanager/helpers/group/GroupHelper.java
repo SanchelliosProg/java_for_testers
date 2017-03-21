@@ -1,12 +1,12 @@
-package ru.stqua.pft.addressbook.web.tests.utils.group;
+package ru.stqua.pft.addressbook.web.appmanager.helpers.group;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import ru.stqua.pft.addressbook.web.tests.models.GroupData;
-import ru.stqua.pft.addressbook.web.tests.utils.BaseHelper;
-import ru.stqua.pft.addressbook.web.tests.utils.PageInteractor;
+import ru.stqua.pft.addressbook.web.model.GroupData;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.BaseHelper;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.PageInteractor;
 
 import java.util.List;
 import java.util.NoSuchElementException;
