@@ -92,12 +92,6 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
         editInputField(GROUP_FOOTER_TEXT_AREA_CSS, footerText);
     }
 
-    private void editInputField(String cssSelector, String text) {
-        WebElement input = find(cssSelector);
-        clearInputText(input);
-        input.sendKeys(text);
-    }
-
     public void openEditGroupWithName(String name){
         WebElement row = findByXpath("//span[contains(., '" +name+"')]");
         row.findElement(By.cssSelector("input")).click();

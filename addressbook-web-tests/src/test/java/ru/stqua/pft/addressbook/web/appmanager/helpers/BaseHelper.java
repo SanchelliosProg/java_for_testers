@@ -35,6 +35,12 @@ public class BaseHelper {
         find(css).click();
     }
 
+    protected void editInputField(String cssSelector, String text) {
+        WebElement input = find(cssSelector);
+        clearInputText(input);
+        input.sendKeys(text);
+    }
+
     protected void clearInputText(WebElement input){
         String inputText = input.getAttribute("value");
         int length = inputText.length();

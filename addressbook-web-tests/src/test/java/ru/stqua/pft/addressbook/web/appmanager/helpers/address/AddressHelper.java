@@ -21,6 +21,7 @@ public class AddressHelper extends BaseHelper implements PageInteractor {
     public static final String ADD_ADDRESS_URL = "http://localhost/addressbook/edit.php";
 
     private final String FIRST_NAME_INPUT_CSS = "input[name='firstname']";
+    private final String LAST_NAME_INPUT_CSS = "";
 
     private final String ADDRESS_INPUT_CSS = "textarea[name='address']";
     private final String HOME_INPUT_CSS = "input[name='home']";
@@ -76,13 +77,11 @@ public class AddressHelper extends BaseHelper implements PageInteractor {
     }
 
     public void editFirstName(String newName){
-        WebElement firstNameInput = find(FIRST_NAME_INPUT_CSS);
-        int lengthOfName = firstNameInput.getAttribute("value").length();
-        for (int i = 0; i < lengthOfName; i++){
-            firstNameInput.sendKeys(Keys.BACK_SPACE);
-        }
-        firstNameInput.sendKeys(newName);
-        click(UPDATE_BUTTON_CSS);
+        editInputField(FIRST_NAME_INPUT_CSS, newName);
+    }
+
+    public void editLastName(String lastName){
+        //TODO: edit last name
     }
 
     public void cleanup(){
