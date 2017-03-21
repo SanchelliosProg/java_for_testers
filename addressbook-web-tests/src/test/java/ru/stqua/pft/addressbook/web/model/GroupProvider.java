@@ -20,6 +20,10 @@ public class GroupProvider {
                 return new GroupData(Groups.COOL_ACTION_MOVIES.getName(),
                         "Боевички",
                         "С гнусавым голосом");
+            case GOOD_PEOPLE:
+                return new GroupData(Groups.GOOD_PEOPLE.getName(),
+                        "Замечательные люди",
+                        "О таких книжки пишут");
             default:
                 throw new IllegalArgumentException();
         }

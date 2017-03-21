@@ -24,14 +24,6 @@ public class CreateGroupTest extends TestBase {
         groupHelper.open();
         assertThat(groupHelper.isGroupWithNamePresented(groupData.getName()), is(true));
 
-        groupHelper.openEditGroupWithName(groupData.getName());
-        String newGroupName = "Новая Группа";
-        groupData.setName(newGroupName);
-        groupHelper.editGroupName(newGroupName);
-        groupHelper.clickUpdate();
-        groupHelper.open();
-        assertThat(groupHelper.isGroupWithNamePresented(groupData.getName()), is(true));
-
         groupHelper.cleanup();
         assertThat(groupHelper.isGroupsPresented(), is(false));
     }
