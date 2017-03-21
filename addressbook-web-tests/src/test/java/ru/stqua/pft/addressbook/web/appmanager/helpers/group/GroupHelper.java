@@ -1,7 +1,6 @@
 package ru.stqua.pft.addressbook.web.appmanager.helpers.group;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import ru.stqua.pft.addressbook.web.model.GroupData;
@@ -70,6 +69,12 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
         click(UPDATE_BUTTON_CSS);
     }
 
+    public void removeFirstGroup(){
+        WebElement group = find(LIST_OF_GROUPS_CSS);
+        group.findElement(By.cssSelector("input[type='checkbox']")).click();
+        click(DELETE_BUTTON_CSS);
+    }
+
     public boolean isGroupsPresented () {
         List<WebElement> groups = findAll(LIST_OF_GROUPS_CSS);
         if(groups.size() > 0){
@@ -80,15 +85,16 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
     }
 
     public boolean isGroupWithNamePresented(String name){
-        try {
-            return findByXapth("//span[contains(., '" +name+"')]").isDisplayed();
-        }catch (NoSuchElementException ex){
+        WebElement group = findByXpath("//span[contains(., '" +name+"')]");
+        if (group == null){
             return false;
+        } else {
+            return true;
         }
     }
 
     public void openEditGroupWithName(String name){
-        WebElement row = findByXapth("//span[contains(., '" +name+"')]");
+        WebElement row = findByXpath("//span[contains(., '" +name+"')]");
         row.findElement(By.cssSelector("input")).click();
         find("input[name='edit']").click();
     }

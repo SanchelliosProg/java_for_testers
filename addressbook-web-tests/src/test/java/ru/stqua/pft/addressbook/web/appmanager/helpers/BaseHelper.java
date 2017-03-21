@@ -1,9 +1,6 @@
 package ru.stqua.pft.addressbook.web.appmanager.helpers;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 
 import java.util.List;
 
@@ -25,8 +22,13 @@ public class BaseHelper {
         return driver.findElements(By.cssSelector(css));
     }
 
-    public WebElement findByXapth(String xpath){
-        return driver.findElement(By.xpath(xpath));
+    public WebElement findByXpath(String xpath){
+        try {
+            return driver.findElement(By.xpath(xpath));
+        } catch (NoSuchElementException ex){
+            return null;
+        }
+
     }
 
     public void click(String css){

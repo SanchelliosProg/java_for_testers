@@ -6,6 +6,9 @@ import org.testng.annotations.Test;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.Groups;
 import ru.stqua.pft.addressbook.web.model.GroupData;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+
 /**
  * Created by avvasi78 on 21.03.2017.
  */
@@ -22,7 +25,9 @@ public class DeleteGroupTest extends TestBase {
 
     @Test
     public void deleteTest(){
-
+        groupHelper.open();
+        groupHelper.removeFirstGroup();
+        assertThat(groupHelper.isGroupWithNamePresented(groupData.getName()), is(false));
     }
 
     @AfterMethod
