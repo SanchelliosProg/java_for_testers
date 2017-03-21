@@ -2,7 +2,6 @@ package ru.stqua.pft.addressbook.web.tests;
 
 import org.testng.annotations.*;
 import ru.stqua.pft.addressbook.web.model.GroupData;
-import ru.stqua.pft.addressbook.web.model.GroupProvider;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.Groups;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -25,7 +24,7 @@ public class CreateGroupTest extends TestBase {
         assertThat(groupHelper.isGroupWithNamePresented(groupData.getName()), is(true));
 
         groupHelper.cleanup();
-        assertThat(groupHelper.isGroupsPresented(), is(false));
+        assertThat(groupHelper.isAnyGroupPresented(), is(false));
     }
 
     @AfterMethod

@@ -27,9 +27,30 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
 
     private final String LIST_OF_GROUPS_CSS = "form span";
 
-
     public GroupHelper(WebDriver driver) {
         super(driver);
+    }
+
+    public void openNewGroupPage() {
+        click("input[type='submit'][name='new']");
+    }
+
+    public boolean isAnyGroupPresented() {
+        List<WebElement> groups = findAll(LIST_OF_GROUPS_CSS);
+        if(groups.size() > 0){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public boolean isGroupWithNamePresented(String name){
+        WebElement group = findByXpath("//span[contains(., '" +name+"')]");
+        if (group == null){
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public void createGroup(GroupData groupData) {
@@ -37,6 +58,26 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
         find(GROUP_HEADER_TEXT_AREA_CSS).sendKeys(groupData.getHeader());
         find(GROUP_FOOTER_TEXT_AREA_CSS).sendKeys(groupData.getFooter());
         click(SUBMIT_BUTTON_CSS);
+    }
+
+    public void submitChanges(){
+        click(SUBMIT_BUTTON_CSS);
+    }
+
+    public void clickUpdate(){
+        click(UPDATE_BUTTON_CSS);
+    }
+
+    public void removeFirstGroup(){
+        WebElement group = find(LIST_OF_GROUPS_CSS);
+        group.findElement(By.cssSelector("input[type='checkbox']")).click();
+        click(DELETE_BUTTON_CSS);
+    }
+
+    public void editGroup(GroupData data){
+        editGroupName(data.getName());
+        editHeaderText(data.getHeader());
+        editFooterText(data.getFooter());
     }
 
     public void editGroupName(String groupName) {
@@ -57,42 +98,6 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
         input.sendKeys(text);
     }
 
-    public void openNewGroupPage() {
-        click("input[type='submit'][name='new']");
-    }
-
-    public void submitChanges(){
-        click(SUBMIT_BUTTON_CSS);
-    }
-
-    public void clickUpdate(){
-        click(UPDATE_BUTTON_CSS);
-    }
-
-    public void removeFirstGroup(){
-        WebElement group = find(LIST_OF_GROUPS_CSS);
-        group.findElement(By.cssSelector("input[type='checkbox']")).click();
-        click(DELETE_BUTTON_CSS);
-    }
-
-    public boolean isGroupsPresented () {
-        List<WebElement> groups = findAll(LIST_OF_GROUPS_CSS);
-        if(groups.size() > 0){
-            return true;
-        }else {
-            return false;
-        }
-    }
-
-    public boolean isGroupWithNamePresented(String name){
-        WebElement group = findByXpath("//span[contains(., '" +name+"')]");
-        if (group == null){
-            return false;
-        } else {
-            return true;
-        }
-    }
-
     public void openEditGroupWithName(String name){
         WebElement row = findByXpath("//span[contains(., '" +name+"')]");
         row.findElement(By.cssSelector("input")).click();
@@ -105,12 +110,6 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
         GroupData groupData = GroupProvider.get(group);
         createGroup(groupData);
         return groupData;
-    }
-
-    public void editGroup(GroupData data){
-        editGroupName(data.getName());
-        editHeaderText(data.getHeader());
-        editFooterText(data.getFooter());
     }
 
     @Override
