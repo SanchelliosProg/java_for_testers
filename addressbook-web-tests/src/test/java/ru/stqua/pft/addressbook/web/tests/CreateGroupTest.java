@@ -20,7 +20,7 @@ public class CreateGroupTest extends TestBase {
 
     @Test
     public void CRUDGroup() {
-        GroupData groupData = addGroup();
+        GroupData groupData = groupHelper.addGroup(Groups.BROTHERHOOD_OF_RING);
         groupHelper.open();
         assertThat(groupHelper.isGroupWithNamePresented(groupData.getName()), is(true));
 
@@ -36,17 +36,8 @@ public class CreateGroupTest extends TestBase {
         assertThat(groupHelper.isGroupsPresented(), is(false));
     }
 
-    private GroupData addGroup() {
-        groupHelper.open();
-        groupHelper.openNewGroupPage();
-        GroupData groupData = GroupProvider.get(Groups.BROTHERHOOD_OF_RING);
-        groupHelper.createGroup(groupData);
-        return groupData;
-    }
-
     @AfterMethod
     public void tearDown() {
-        groupHelper.cleanup();
         driver.quit();
     }
 

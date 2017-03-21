@@ -1,6 +1,7 @@
 package ru.stqua.pft.addressbook.web.appmanager.helpers;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -30,5 +31,13 @@ public class BaseHelper {
 
     public void click(String css){
         find(css).click();
+    }
+
+    protected void clearInputText(WebElement input){
+        String inputText = input.getAttribute("value");
+        int length = inputText.length();
+        for (int i = 0; i < length; i++){
+            input.sendKeys(Keys.BACK_SPACE);
+        }
     }
 }

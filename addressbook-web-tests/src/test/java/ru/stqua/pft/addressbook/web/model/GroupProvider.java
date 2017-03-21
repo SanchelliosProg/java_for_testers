@@ -9,12 +9,19 @@ public class GroupProvider {
     public static GroupData get(Groups group) {
         switch (group) {
             case BROTHERHOOD_OF_RING:
-                return new GroupData("Братство кольца",
+                return new GroupData(Groups.BROTHERHOOD_OF_RING.getName(),
                         "Герои Властелина Колец",
                         "Книжка и фильм просто замечательны");
+            case FAIRY_WORLDS:
+                return new GroupData(Groups.FAIRY_WORLDS.getName(),
+                        "Просто, надо было придумать что-то",
+                        "Ну, вот, я и придумал");
+            case COOL_ACTION_MOVIES:
+                return new GroupData(Groups.COOL_ACTION_MOVIES.getName(),
+                        "Боевички",
+                        "С гнусавым голосом");
             default:
                 throw new IllegalArgumentException();
         }
-
     }
 }

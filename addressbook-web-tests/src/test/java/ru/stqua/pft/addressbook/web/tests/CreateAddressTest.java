@@ -43,6 +43,6 @@ public class CreateAddressTest extends TestBase {
 
     @AfterMethod
     public void tearDown(){
-        cleanUp();
+        driver.quit();
     }
 }

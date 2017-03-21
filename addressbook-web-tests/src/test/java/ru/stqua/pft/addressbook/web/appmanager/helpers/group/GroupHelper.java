@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import ru.stqua.pft.addressbook.web.model.GroupData;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.BaseHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.PageInteractor;
+import ru.stqua.pft.addressbook.web.model.GroupProvider;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -17,25 +18,44 @@ import java.util.NoSuchElementException;
 public class GroupHelper extends BaseHelper implements PageInteractor {
     public static final String GROUPS_URL = "http://localhost/addressbook/group.php";
 
+    private final String GROUP_NAME_INPUT_CSS = "input[type='text'][name='group_name']";
+    private final String DELETE_BUTTON_CSS = "input[name='delete']";
+    private final String SUBMIT_BUTTON_CSS = "input[name='submit']";
+
+    private final String GROUP_HEADER_TEXT_AREA_CSS = "textarea[name='group_header']";
+    private final String GROUP_FOOTER_TEXT_AREA_CSS = "textarea[name='group_footer']";
+    private final String UPDATE_BUTTON_CSS = "input[name='update']";
+
+    private final String LIST_OF_GROUPS_CSS = "form span";
+
+
     public GroupHelper(WebDriver driver) {
         super(driver);
     }
 
     public void createGroup(GroupData groupData) {
         editGroupName(groupData.getName());
-        find("textarea[name='group_header']").sendKeys(groupData.getHeader());
-        find("textarea[name='group_footer']").sendKeys(groupData.getFooter());
-        click("input[name='submit']");
+        find(GROUP_HEADER_TEXT_AREA_CSS).sendKeys(groupData.getHeader());
+        find(GROUP_FOOTER_TEXT_AREA_CSS).sendKeys(groupData.getFooter());
+        click(SUBMIT_BUTTON_CSS);
     }
 
     public void editGroupName(String groupName) {
-        WebElement input = find("input[type='text'][name='group_name']");
-        String inputText = input.getAttribute("value");
-        int length = inputText.length();
-        for (int i = 0; i < length; i++){
-            input.sendKeys(Keys.BACK_SPACE);
-        }
-        input.sendKeys(groupName);
+        editInputField(GROUP_NAME_INPUT_CSS, groupName);
+    }
+
+    public void editHeaderText(String headerText){
+        editInputField(GROUP_HEADER_TEXT_AREA_CSS, headerText);
+    }
+
+    public void editFooterText(String footerText) {
+        editInputField(GROUP_FOOTER_TEXT_AREA_CSS, footerText);
+    }
+
+    private void editInputField(String cssSelector, String text) {
+        WebElement input = find(cssSelector);
+        clearInputText(input);
+        input.sendKeys(text);
     }
 
     public void openNewGroupPage() {
@@ -43,15 +63,15 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
     }
 
     public void submitChanges(){
-        click("input[name='submit']");
+        click(SUBMIT_BUTTON_CSS);
     }
 
     public void clickUpdate(){
-        click("input[name='update']");
+        click(UPDATE_BUTTON_CSS);
     }
 
     public boolean isGroupsPresented () {
-        List<WebElement> groups = findAll("form span");
+        List<WebElement> groups = findAll(LIST_OF_GROUPS_CSS);
         if(groups.size() > 0){
             return true;
         }else {
@@ -73,6 +93,20 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
         find("input[name='edit']").click();
     }
 
+    public GroupData addGroup(Groups group) {
+        open();
+        openNewGroupPage();
+        GroupData groupData = GroupProvider.get(group);
+        createGroup(groupData);
+        return groupData;
+    }
+
+    public void editGroup(GroupData data){
+        editGroupName(data.getName());
+        editHeaderText(data.getHeader());
+        editFooterText(data.getFooter());
+    }
+
     @Override
     public void cleanup() {
         driver.get(GROUPS_URL);
@@ -80,7 +114,7 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
         for (WebElement group : groups) {
             group.click();
         }
-        click("input[name='delete']");
+        click(DELETE_BUTTON_CSS);
     }
 
     @Override

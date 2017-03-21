@@ -21,6 +21,7 @@ public class ApplicationManager {
         initWebDriver();
         groupHelper = new GroupHelper(getDriver());
         addressHelper = new AddressHelper(getDriver());
+        navigationHelper = new NavigationHelper(getDriver());
     }
 
     public static ApplicationManager getInstance() {

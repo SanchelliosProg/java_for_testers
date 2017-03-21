@@ -8,9 +8,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupHelper;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.group.Groups;
 import ru.stqua.pft.addressbook.web.model.AddressData;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.BaseHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.PageInteractor;
+import ru.stqua.pft.addressbook.web.model.GroupData;
+import ru.stqua.pft.addressbook.web.model.GroupProvider;
 
 import java.util.List;
 
@@ -79,6 +83,8 @@ public class AddressHelper extends BaseHelper implements PageInteractor {
         wait.until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
     }
+
+
 
     @Override
     public void open() {
