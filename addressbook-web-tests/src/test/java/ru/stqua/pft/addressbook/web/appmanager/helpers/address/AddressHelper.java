@@ -20,6 +20,19 @@ import java.util.List;
 public class AddressHelper extends BaseHelper implements PageInteractor {
     public static final String ADD_ADDRESS_URL = "http://localhost/addressbook/edit.php";
 
+    private final String FIRST_NAME_INPUT_CSS = "input[name='firstname']";
+
+    private final String ADDRESS_INPUT_CSS = "textarea[name='address']";
+    private final String HOME_INPUT_CSS = "input[name='home']";
+    private final String EMAIL_INPUT_CSS = "input[name='email']";
+
+    private final String GROUP_SELECT_CSS = "select[name='new_group']";
+
+    private final String UPDATE_BUTTON_CSS = "input[name='update']";
+    private final String SUBMIT_BUTTON = "input[name='submit']";
+
+    private final String LIST_OF_ADDRESSES_CSS = "tr[name='entry']";
+
     public AddressHelper(WebDriver driver) {
         super(driver);
     }
@@ -27,13 +40,13 @@ public class AddressHelper extends BaseHelper implements PageInteractor {
     public void addAddress(AddressData data){
         String dataEntry = data.getFirstName() + Keys.TAB +
                 data.getLastName() + Keys.TAB + Keys.TAB + data.getLastName();
-        find("input[name='firstname']").sendKeys(dataEntry);
-        find("textarea[name='address']").sendKeys(data.getAddress());
-        find("input[name='home']").sendKeys(data.getPhone());
-        find("input[name='email']").sendKeys(data.getEmail());
-        Select select = new Select(find("select[name='new_group']"));
+        find(FIRST_NAME_INPUT_CSS).sendKeys(dataEntry);
+        find(ADDRESS_INPUT_CSS).sendKeys(data.getAddress());
+        find(HOME_INPUT_CSS).sendKeys(data.getPhone());
+        find(EMAIL_INPUT_CSS).sendKeys(data.getEmail());
+        Select select = new Select(find(GROUP_SELECT_CSS));
         select.selectByVisibleText(data.getGroupName());
-        click("input[name='submit']");
+        click(SUBMIT_BUTTON);
     }
 
     public boolean isElementWithTextExists(String text){
@@ -54,7 +67,7 @@ public class AddressHelper extends BaseHelper implements PageInteractor {
     }
 
     public boolean isAddressesPresented(){
-        List<WebElement> list = findAll("tr[name='entry']");
+        List<WebElement> list = findAll(LIST_OF_ADDRESSES_CSS);
         if(list.size() > 0){
             return true;
         }else {
@@ -63,13 +76,13 @@ public class AddressHelper extends BaseHelper implements PageInteractor {
     }
 
     public void editFirstName(String newName){
-        WebElement firstNameInput = find("input[name='firstname']");
+        WebElement firstNameInput = find(FIRST_NAME_INPUT_CSS);
         int lengthOfName = firstNameInput.getAttribute("value").length();
         for (int i = 0; i < lengthOfName; i++){
             firstNameInput.sendKeys(Keys.BACK_SPACE);
         }
         firstNameInput.sendKeys(newName);
-        click("input[name='update']");
+        click(UPDATE_BUTTON_CSS);
     }
 
     public void cleanup(){
@@ -79,8 +92,6 @@ public class AddressHelper extends BaseHelper implements PageInteractor {
         wait.until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
     }
-
-
 
     @Override
     public void open() {
