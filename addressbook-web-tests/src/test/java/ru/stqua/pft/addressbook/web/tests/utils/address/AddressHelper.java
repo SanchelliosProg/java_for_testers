@@ -1,12 +1,18 @@
 package ru.stqua.pft.addressbook.web.tests.utils.address;
 
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.stqua.pft.addressbook.web.tests.models.AddressData;
 import ru.stqua.pft.addressbook.web.tests.utils.BaseHelper;
 import ru.stqua.pft.addressbook.web.tests.utils.PageInteractor;
+
+import java.util.List;
 
 /**
  * Created by Александр on 19.03.2017.
@@ -38,9 +44,39 @@ public class AddressHelper extends BaseHelper implements PageInteractor {
         }
     }
 
+    public void openEditAddressWithName(String name){
+        WebElement row = getRowContainingName(name);
+        row.findElement(By.cssSelector("img[title='Edit']")).click();
+    }
+
+    public WebElement getRowContainingName(String name){
+        return findByXapth("//tr[contains(., '"+name+"')]");
+    }
+
+    public boolean isAddressesPresented(){
+        List<WebElement> list = findAll("tr[name='entry']");
+        if(list.size() > 0){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public void editFirstName(String newName){
+        WebElement firstNameInput = find("input[name='firstname']");
+        int lengthOfName = firstNameInput.getAttribute("value").length();
+        for (int i = 0; i < lengthOfName; i++){
+            firstNameInput.sendKeys(Keys.BACK_SPACE);
+        }
+        firstNameInput.sendKeys(newName);
+        click("input[name='update']");
+    }
+
     public void cleanup(){
+        WebDriverWait wait = new WebDriverWait(driver, 10);
         click("input#MassCB");
         click("input[onclick='DeleteSel()']");
+        wait.until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
     }
 

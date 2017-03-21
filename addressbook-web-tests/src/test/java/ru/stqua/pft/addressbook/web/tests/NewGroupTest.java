@@ -1,9 +1,7 @@
 package ru.stqua.pft.addressbook.web.tests;
 
 import org.openqa.selenium.By;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import ru.stqua.pft.addressbook.web.tests.models.GroupData;
 import ru.stqua.pft.addressbook.web.tests.utils.TestBase;
 import ru.stqua.pft.addressbook.web.tests.models.GroupProvider;
@@ -16,25 +14,45 @@ import static org.hamcrest.Matchers.is;
  * Created by Александр on 18.03.2017.
  */
 public class NewGroupTest extends TestBase {
-    @BeforeClass
+    boolean isLoggedIn = false;
+    @BeforeMethod
     public void setUp() {
-        login();
+        if(!isLoggedIn){
+            login();
+        }
     }
 
     @Test
-    public void test1() {
+    public void CRUDGroup() {
+        GroupData groupData = addGroup();
         groupHelper.open();
-        groupHelper.openNewGropPage();
-        GroupData groupData = GroupProvider.get(Groups.BROTHERHOOD_OF_RING);
-        groupHelper.createGroup(groupData);
+        assertThat(groupHelper.isGroupWithNamePresented(groupData.getName()), is(true));
+
+        groupHelper.openEditGroupWithName(groupData.getName());
+        String newGroupName = "Новая Группа";
+        groupData.setName(newGroupName);
+        groupHelper.editGroupName(newGroupName);
+        groupHelper.clickUpdate();
         groupHelper.open();
-        String text = driver.findElement(By.cssSelector("span.group")).getText();
-        assertThat(text, is(groupData.getName()));
+        assertThat(groupHelper.isGroupWithNamePresented(groupData.getName()), is(true));
+
+        groupHelper.cleanup();
+        assertThat(groupHelper.isGroupsPresented(), is(false));
     }
 
-    @AfterClass
+    private GroupData addGroup() {
+        groupHelper.open();
+        groupHelper.openNewGroupPage();
+        GroupData groupData = GroupProvider.get(Groups.BROTHERHOOD_OF_RING);
+        groupHelper.createGroup(groupData);
+        return groupData;
+    }
+
+    @AfterMethod
     public void tearDown() {
         groupHelper.cleanup();
         driver.quit();
     }
+
+
 }

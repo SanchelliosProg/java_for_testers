@@ -1,7 +1,5 @@
 package ru.stqua.pft.addressbook.web.tests;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import ru.stqua.pft.addressbook.web.tests.models.AddressData;
 import ru.stqua.pft.addressbook.web.tests.utils.ApplicationManager;
 import ru.stqua.pft.addressbook.web.tests.utils.TestBase;
@@ -17,11 +15,11 @@ import static org.hamcrest.Matchers.is;
  */
 public class NewAddressTest extends TestBase {
 
-    @BeforeClass
+    @BeforeMethod
     public void setUp(){
         login();
         groupHelper.open();
-        groupHelper.openNewGropPage();
+        groupHelper.openNewGroupPage();
         groupHelper.createGroup(GroupProvider.get(Groups.BROTHERHOOD_OF_RING));
     }
 
@@ -32,9 +30,19 @@ public class NewAddressTest extends TestBase {
         addressHelper.addAddress(frodo);
         ApplicationManager.getInstance().openMainPage();
         assertThat(addressHelper.isElementWithTextExists(frodo.getFirstName()), is(true));
+
+        addressHelper.openEditAddressWithName(frodo.getFirstName());
+        frodo.setFirstName("Фёдор");
+        addressHelper.editFirstName(frodo.getFirstName());
+        ApplicationManager.getInstance().openMainPage();
+        assertThat(addressHelper.isElementWithTextExists(frodo.getFirstName()), is(true));
+
+        addressHelper.cleanup();
+        ApplicationManager.getInstance().openMainPage();
+        assertThat(addressHelper.isAddressesPresented(), is(false));
     }
 
-    @AfterClass
+    @AfterMethod
     public void tearDown(){
         cleanUp();
     }

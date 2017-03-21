@@ -25,4 +25,8 @@ public class GroupData {
     public String getFooter() {
         return footer;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

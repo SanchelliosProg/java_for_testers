@@ -134,4 +134,8 @@ public class AddressData {
     public String getGroupName() {
         return groupName;
     }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 }
