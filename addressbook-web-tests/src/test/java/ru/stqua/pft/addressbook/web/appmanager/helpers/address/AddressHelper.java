@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.navigation.NavigationHelper;
 import ru.stqua.pft.addressbook.web.model.AddressData;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.BaseHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.PageInteractor;
@@ -21,7 +22,7 @@ public class AddressHelper extends BaseHelper implements PageInteractor {
     public static final String ADD_ADDRESS_URL = "http://localhost/addressbook/edit.php";
 
     private final String FIRST_NAME_INPUT_CSS = "input[name='firstname']";
-    private final String LAST_NAME_INPUT_CSS = "";
+    private final String LAST_NAME_INPUT_CSS = "input[name='lastname']";
 
     private final String ADDRESS_INPUT_CSS = "textarea[name='address']";
     private final String HOME_INPUT_CSS = "input[name='home']";
@@ -39,15 +40,51 @@ public class AddressHelper extends BaseHelper implements PageInteractor {
     }
 
     public void addAddress(AddressData data){
-        String dataEntry = data.getFirstName() + Keys.TAB +
-                data.getLastName() + Keys.TAB + Keys.TAB + data.getLastName();
-        find(FIRST_NAME_INPUT_CSS).sendKeys(dataEntry);
+        find(FIRST_NAME_INPUT_CSS).sendKeys(data.getFirstName());
+        find(LAST_NAME_INPUT_CSS).sendKeys(data.getLastName());
         find(ADDRESS_INPUT_CSS).sendKeys(data.getAddress());
         find(HOME_INPUT_CSS).sendKeys(data.getPhone());
         find(EMAIL_INPUT_CSS).sendKeys(data.getEmail());
+        selectGroup(data);
+        click(SUBMIT_BUTTON);
+    }
+
+    public void editAddressWithName(String addressName, AddressData newData){
+        NavigationHelper nh = new NavigationHelper(driver);
+        nh.openMainPage();
+        WebElement row = findByXpath("//tr[contains(., \""+ addressName +"\")]");
+        row.findElement(By.cssSelector("img[title='Edit']")).click();
+        editFirstName(newData.getFirstName());
+        editLastName(newData.getLastName());
+        editAddress(newData.getAddress());
+        editHomePhone(newData.getPhone());
+        editEmail(newData.getEmail());
+        click(UPDATE_BUTTON_CSS);
+    }
+
+    public void editFirstName(String newName){
+        editInputField(FIRST_NAME_INPUT_CSS, newName);
+    }
+
+    public void editLastName(String lastName){
+        editInputField(LAST_NAME_INPUT_CSS, lastName);
+    }
+
+    public void editAddress(String address){
+        editInputField(ADDRESS_INPUT_CSS, address);
+    }
+
+    public void editHomePhone(String homePhone){
+        editInputField(HOME_INPUT_CSS, homePhone);
+    }
+
+    public void editEmail(String email){
+        editInputField(EMAIL_INPUT_CSS, email);
+    }
+
+    public void selectGroup(AddressData data) {
         Select select = new Select(find(GROUP_SELECT_CSS));
         select.selectByVisibleText(data.getGroupName());
-        click(SUBMIT_BUTTON);
     }
 
     public boolean isElementWithTextExists(String text){
@@ -74,14 +111,6 @@ public class AddressHelper extends BaseHelper implements PageInteractor {
         }else {
             return false;
         }
-    }
-
-    public void editFirstName(String newName){
-        editInputField(FIRST_NAME_INPUT_CSS, newName);
-    }
-
-    public void editLastName(String lastName){
-        //TODO: edit last name
     }
 
     public void cleanup(){

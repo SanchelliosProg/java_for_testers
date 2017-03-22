@@ -30,12 +30,6 @@ public class CreateAddressTest extends TestBase {
         navigationHelper.openMainPage();
         assertThat(addressHelper.isElementWithTextExists(frodo.getFirstName()), is(true));
 
-        addressHelper.openEditAddressWithName(frodo.getFirstName());
-        frodo.setFirstName("Фёдор");
-        addressHelper.editFirstName(frodo.getFirstName());
-        navigationHelper.openMainPage();
-        assertThat(addressHelper.isElementWithTextExists(frodo.getFirstName()), is(true));
-
         addressHelper.cleanup();
         navigationHelper.openMainPage();
         assertThat(addressHelper.isAddressesPresented(), is(false));

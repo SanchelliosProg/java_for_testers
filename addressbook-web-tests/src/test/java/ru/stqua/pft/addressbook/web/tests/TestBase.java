@@ -31,4 +31,12 @@ public class TestBase {
         groupHelper.cleanup();
         driver.quit();
     }
+
+    protected void debug(){
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
