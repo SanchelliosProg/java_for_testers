@@ -21,6 +21,10 @@ public class AddressProvider {
                 return AddressData.newBuilder().firstName(Addresses.CASEY_RAYBACK.getName())
                         .lastName("Rayback").address("USA").phone("03")
                         .email("rayback@powerofliberty.us").group(Groups.COOL_ACTION_MOVIES).build();
+            case M_GHANDI:
+                return AddressData.newBuilder().firstName(Addresses.M_GHANDI.getName())
+                        .lastName("Ghandi").address("India").phone("04")
+                        .email("ghandi@peace.in").group(Groups.GOOD_PEOPLE).build();
             default:
                 throw new IllegalArgumentException();
         }

@@ -32,6 +32,7 @@ public class AddressHelper extends BaseHelper implements PageInteractor {
 
     private final String UPDATE_BUTTON_CSS = "input[name='update']";
     private final String SUBMIT_BUTTON = "input[name='submit']";
+    private final String DELETE_BUTTON_CSS = "input[onclick='DeleteSel()']";
 
     private final String LIST_OF_ADDRESSES_CSS = "tr[name='entry']";
 
@@ -88,11 +89,8 @@ public class AddressHelper extends BaseHelper implements PageInteractor {
     }
 
     public boolean isElementWithTextExists(String text){
-        try{
-            return findByXpath("//td[contains(., \""+ text +"\")]").isDisplayed();
-        }catch (ElementNotFoundException ex){
-            return false;
-        }
+        WebElement we = findByXpath("//td[contains(., \""+ text +"\")]");
+        return we != null;
     }
 
     public void openEditAddressWithName(String name){
@@ -113,10 +111,19 @@ public class AddressHelper extends BaseHelper implements PageInteractor {
         }
     }
 
+    public void deleteFirstAddress(){
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        WebElement firstElement = find(LIST_OF_ADDRESSES_CSS);
+        firstElement.findElement(By.cssSelector("input[type='checkbox']")).click();
+        click(DELETE_BUTTON_CSS);
+        wait.until(ExpectedConditions.alertIsPresent());
+        driver.switchTo().alert().accept();
+    }
+
     public void cleanup(){
         WebDriverWait wait = new WebDriverWait(driver, 10);
         click("input#MassCB");
-        click("input[onclick='DeleteSel()']");
+        click(DELETE_BUTTON_CSS);
         wait.until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
     }

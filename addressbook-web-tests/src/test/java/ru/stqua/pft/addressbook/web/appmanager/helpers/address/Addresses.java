@@ -6,7 +6,8 @@ package ru.stqua.pft.addressbook.web.appmanager.helpers.address;
 public enum Addresses {
     FRODO_BAGGINS ("Frodo"),
     JOHN_MATRIX ("John"),
-    CASEY_RAYBACK ("Casey");
+    CASEY_RAYBACK ("Casey"),
+    M_GHANDI("Mahatma");
 
     private String name;
 
