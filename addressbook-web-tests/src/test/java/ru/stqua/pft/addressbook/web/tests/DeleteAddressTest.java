@@ -23,19 +23,12 @@ public class DeleteAddressTest extends TestBase {
     @Test
     public void deleteTest(){
         groupHelper.addGroup(Groups.GOOD_PEOPLE);
-        // Add address
         AddressData ghandi = AddressProvider.getAddress(Addresses.M_GHANDI);
         addressHelper.open();
         addressHelper.addAddress(ghandi);
-        debug();
-        // Delete first address
         addressHelper.deleteFirstAddress();
-        debug();
         navigationHelper.openMainPage();
-        debug();
-        // Assert that it does not exist
         assertThat(addressHelper.isElementWithTextExists(ghandi.getFirstName()), is(false));
-        debug();
     }
 
     @AfterMethod

@@ -2,6 +2,7 @@ package ru.stqua.pft.addressbook.web.tests;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.BrowserType;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.navigation.NavigationHelper;
 import ru.stqua.pft.addressbook.web.model.Login;
 import ru.stqua.pft.addressbook.web.appmanager.ApplicationManager;
@@ -12,10 +13,12 @@ import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupHelper;
  * Created by Александр on 18.03.2017.
  */
 public class TestBase {
-    protected WebDriver driver = ApplicationManager.getInstance().getDriver();
-    protected GroupHelper groupHelper = ApplicationManager.getInstance().getGroupHelper();
-    protected AddressHelper addressHelper = ApplicationManager.getInstance().getAddressHelper();
-    protected NavigationHelper navigationHelper = ApplicationManager.getInstance().getNavigationHelper();
+
+    protected ApplicationManager app = new ApplicationManager(BrowserType.CHROME);
+    protected GroupHelper groupHelper = app.getGroupHelper();
+    protected AddressHelper addressHelper = app.getAddressHelper();
+    protected NavigationHelper navigationHelper = app.getNavigationHelper();
+    protected WebDriver driver = app.getDriver();
 
 
     protected void login() {
@@ -27,16 +30,16 @@ public class TestBase {
     }
 
     protected void cleanUp(){
+
         addressHelper.cleanup();
         groupHelper.cleanup();
         driver.quit();
     }
 
-    protected void debug(){
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    private void checkDriverInit(){
+        if (driver == null){
+            driver = app.getDriver();
         }
     }
+
 }
