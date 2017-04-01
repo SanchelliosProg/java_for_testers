@@ -32,7 +32,7 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
     }
 
     public void openNewGroupPage() {
-        click("input[type='submit'][name='new']");
+        click(By.cssSelector("input[type='submit'][name='new']"));
     }
 
     public boolean isAnyGroupPresented() {
@@ -55,23 +55,23 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
 
     public void createGroup(GroupData groupData) {
         editGroupName(groupData.getName());
-        find(GROUP_HEADER_TEXT_AREA_CSS).sendKeys(groupData.getHeader());
-        find(GROUP_FOOTER_TEXT_AREA_CSS).sendKeys(groupData.getFooter());
-        click(SUBMIT_BUTTON_CSS);
+        find(By.cssSelector(GROUP_HEADER_TEXT_AREA_CSS)).sendKeys(groupData.getHeader());
+        find(By.cssSelector(GROUP_FOOTER_TEXT_AREA_CSS)).sendKeys(groupData.getFooter());
+        click(By.cssSelector(SUBMIT_BUTTON_CSS));
     }
 
     public void submitChanges(){
-        click(SUBMIT_BUTTON_CSS);
+        click(By.cssSelector(SUBMIT_BUTTON_CSS));
     }
 
     public void clickUpdate(){
-        click(UPDATE_BUTTON_CSS);
+        click(By.cssSelector(UPDATE_BUTTON_CSS));
     }
 
     public void removeFirstGroup(){
-        WebElement group = find(LIST_OF_GROUPS_CSS);
+        WebElement group = find(By.cssSelector(LIST_OF_GROUPS_CSS));
         group.findElement(By.cssSelector("input[type='checkbox']")).click();
-        click(DELETE_BUTTON_CSS);
+        click(By.cssSelector(DELETE_BUTTON_CSS));
     }
 
     public void editGroup(GroupData data){
@@ -81,21 +81,21 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
     }
 
     public void editGroupName(String groupName) {
-        editInputField(GROUP_NAME_INPUT_CSS, groupName);
+        type(By.cssSelector(GROUP_NAME_INPUT_CSS), groupName);
     }
 
     public void editHeaderText(String headerText){
-        editInputField(GROUP_HEADER_TEXT_AREA_CSS, headerText);
+        type(By.cssSelector(GROUP_HEADER_TEXT_AREA_CSS), headerText);
     }
 
     public void editFooterText(String footerText) {
-        editInputField(GROUP_FOOTER_TEXT_AREA_CSS, footerText);
+        type(By.cssSelector(GROUP_FOOTER_TEXT_AREA_CSS), footerText);
     }
 
     public void openEditGroupWithName(String name){
         WebElement row = findByXpath("//span[contains(., '" +name+"')]");
         row.findElement(By.cssSelector("input")).click();
-        find("input[name='edit']").click();
+        find(By.cssSelector("input[name='edit']")).click();
     }
 
     public GroupData addGroup(Groups group) {
@@ -113,7 +113,7 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
         for (WebElement group : groups) {
             group.click();
         }
-        click(DELETE_BUTTON_CSS);
+        click(By.cssSelector(DELETE_BUTTON_CSS));
     }
 
     @Override

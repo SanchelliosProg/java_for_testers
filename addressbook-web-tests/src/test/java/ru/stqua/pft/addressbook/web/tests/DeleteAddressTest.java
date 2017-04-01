@@ -27,7 +27,7 @@ public class DeleteAddressTest extends TestBase {
         addressHelper.open();
         addressHelper.addAddress(ghandi);
         addressHelper.deleteFirstAddress();
-        navigationHelper.openMainPage();
+        navigationHelper.openApp();
         assertThat(addressHelper.isElementWithTextExists(ghandi.getFirstName()), is(false));
     }
 

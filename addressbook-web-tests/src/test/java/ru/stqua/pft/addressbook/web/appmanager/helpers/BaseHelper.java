@@ -14,8 +14,8 @@ public class BaseHelper {
         this.driver = driver;
     }
 
-    public WebElement find(String css){
-        return driver.findElement(By.cssSelector(css));
+    public WebElement find(By locator){
+        return driver.findElement(locator);
     }
 
     public List<WebElement> findAll(String css){
@@ -28,24 +28,33 @@ public class BaseHelper {
         } catch (NoSuchElementException ex){
             return null;
         }
-
     }
 
-    public void click(String css){
-        find(css).click();
+    public void type(By locator, String text){
+        if(text != null){
+            click(locator);
+            String existingText = getAttributeValue(locator);
+            if (!existingText.equals(text)){
+                driver.findElement(locator).clear();
+                driver.findElement(locator).sendKeys(text);
+            }
+        }
     }
 
-    protected void editInputField(String cssSelector, String text) {
-        WebElement input = find(cssSelector);
-        clearInputText(input);
-        input.sendKeys(text);
+    public String getAttributeValue(By locator){
+        return find(locator).getAttribute("value");
     }
 
-    protected void clearInputText(WebElement input){
-        String inputText = input.getAttribute("value");
-        int length = inputText.length();
-        for (int i = 0; i < length; i++){
-            input.sendKeys(Keys.BACK_SPACE);
+    public void click(By locator){
+        find(locator).click();
+    }
+
+    public boolean isElementPresent(By by) {
+        try {
+            driver.findElement(by);
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
         }
     }
 }

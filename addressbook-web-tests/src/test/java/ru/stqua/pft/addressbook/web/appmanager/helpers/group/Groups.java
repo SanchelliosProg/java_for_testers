@@ -7,7 +7,9 @@ public enum Groups {
     BROTHERHOOD_OF_RING("Братство кольца"),
     FAIRY_WORLDS("Волшебные миры"),
     COOL_ACTION_MOVIES("Крутые боевики"),
-    GOOD_PEOPLE("Замечательные люди");
+    GOOD_PEOPLE("Замечательные люди"),
+    DEFAULT_GROUP("Default group"),
+    DUPLICATE_GROUP("Дубликаты");
 
     private String name;
 

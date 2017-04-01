@@ -24,6 +24,14 @@ public class GroupProvider {
                 return new GroupData(Groups.GOOD_PEOPLE.getName(),
                         "Замечательные люди",
                         "О таких книжки пишут");
+            case DEFAULT_GROUP:
+                return new GroupData(Groups.DEFAULT_GROUP.getName(),
+                        "Default boring stuff",
+                        "Default boring stuff again");
+            case DUPLICATE_GROUP:
+                return new GroupData(Groups.DUPLICATE_GROUP.getName(),
+                        "Одно и то же...",
+                        "Везде...");
             default:
                 throw new IllegalArgumentException();
         }

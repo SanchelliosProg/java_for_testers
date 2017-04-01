@@ -27,11 +27,11 @@ public class CreateAddressTest extends TestBase {
         AddressData frodo = AddressProvider.getAddress(Addresses.FRODO_BAGGINS);
         addressHelper.open();
         addressHelper.addAddress(frodo);
-        navigationHelper.openMainPage();
+        navigationHelper.goToHomePage();
         assertThat(addressHelper.isElementWithTextExists(frodo.getFirstName()), is(true));
 
         addressHelper.cleanup();
-        navigationHelper.openMainPage();
+        navigationHelper.goToHomePage();
         assertThat(addressHelper.isAddressesPresented(), is(false));
     }
 

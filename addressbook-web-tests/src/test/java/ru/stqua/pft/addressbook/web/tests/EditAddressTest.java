@@ -29,11 +29,11 @@ public class EditAddressTest extends TestBase{
         data = AddressProvider.getAddress(Addresses.JOHN_MATRIX);
         addressHelper.open();
         addressHelper.addAddress(data);
-        navigationHelper.openMainPage();
+        navigationHelper.openApp();
         String prevName = data.getFirstName();
         data = AddressProvider.getAddress(Addresses.CASEY_RAYBACK);
         addressHelper.editAddressWithName(prevName, data);
-        navigationHelper.openMainPage();
+        navigationHelper.openApp();
         assertThat(addressHelper.isElementWithTextExists(data.getFirstName()), is(true));
     }
 

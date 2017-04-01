@@ -20,7 +20,7 @@ public class CreateGroupTest extends TestBase {
     @Test
     public void CRUDGroup() {
         GroupData groupData = groupHelper.addGroup(Groups.BROTHERHOOD_OF_RING);
-        groupHelper.open();
+        navigationHelper.goToGroupPage();
         assertThat(groupHelper.isGroupWithNamePresented(groupData.getName()), is(true));
 
         groupHelper.cleanup();

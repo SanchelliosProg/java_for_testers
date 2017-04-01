@@ -1,8 +1,6 @@
 package ru.stqua.pft.addressbook.web.appmanager.helpers.address;
 
-import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -41,18 +39,18 @@ public class AddressHelper extends BaseHelper implements PageInteractor {
     }
 
     public void addAddress(AddressData data){
-        find(FIRST_NAME_INPUT_CSS).sendKeys(data.getFirstName());
-        find(LAST_NAME_INPUT_CSS).sendKeys(data.getLastName());
-        find(ADDRESS_INPUT_CSS).sendKeys(data.getAddress());
-        find(HOME_INPUT_CSS).sendKeys(data.getPhone());
-        find(EMAIL_INPUT_CSS).sendKeys(data.getEmail());
+        find(By.cssSelector(FIRST_NAME_INPUT_CSS)).sendKeys(data.getFirstName());
+        find(By.cssSelector(LAST_NAME_INPUT_CSS)).sendKeys(data.getLastName());
+        find(By.cssSelector(ADDRESS_INPUT_CSS)).sendKeys(data.getAddress());
+        find(By.cssSelector(HOME_INPUT_CSS)).sendKeys(data.getPhone());
+        find(By.cssSelector(EMAIL_INPUT_CSS)).sendKeys(data.getEmail());
         selectGroup(data);
-        click(SUBMIT_BUTTON);
+        click(By.cssSelector(SUBMIT_BUTTON));
     }
 
     public void editAddressWithName(String addressName, AddressData newData){
         NavigationHelper nh = new NavigationHelper(driver);
-        nh.openMainPage();
+        nh.openApp();
         WebElement row = findByXpath("//tr[contains(., \""+ addressName +"\")]");
         row.findElement(By.cssSelector("img[title='Edit']")).click();
         editFirstName(newData.getFirstName());
@@ -60,31 +58,31 @@ public class AddressHelper extends BaseHelper implements PageInteractor {
         editAddress(newData.getAddress());
         editHomePhone(newData.getPhone());
         editEmail(newData.getEmail());
-        click(UPDATE_BUTTON_CSS);
+        click(By.cssSelector(UPDATE_BUTTON_CSS));
     }
 
     public void editFirstName(String newName){
-        editInputField(FIRST_NAME_INPUT_CSS, newName);
+        type(By.cssSelector(FIRST_NAME_INPUT_CSS), newName);
     }
 
     public void editLastName(String lastName){
-        editInputField(LAST_NAME_INPUT_CSS, lastName);
+        type(By.cssSelector(LAST_NAME_INPUT_CSS), lastName);
     }
 
     public void editAddress(String address){
-        editInputField(ADDRESS_INPUT_CSS, address);
+        type(By.cssSelector(ADDRESS_INPUT_CSS), address);
     }
 
     public void editHomePhone(String homePhone){
-        editInputField(HOME_INPUT_CSS, homePhone);
+        type(By.cssSelector(HOME_INPUT_CSS), homePhone);
     }
 
     public void editEmail(String email){
-        editInputField(EMAIL_INPUT_CSS, email);
+        type(By.cssSelector(EMAIL_INPUT_CSS), email);
     }
 
     public void selectGroup(AddressData data) {
-        Select select = new Select(find(GROUP_SELECT_CSS));
+        Select select = new Select(find(By.cssSelector(GROUP_SELECT_CSS)));
         select.selectByVisibleText(data.getGroupName());
     }
 
@@ -113,17 +111,17 @@ public class AddressHelper extends BaseHelper implements PageInteractor {
 
     public void deleteFirstAddress(){
         WebDriverWait wait = new WebDriverWait(driver, 10);
-        WebElement firstElement = find(LIST_OF_ADDRESSES_CSS);
+        WebElement firstElement = find(By.cssSelector(LIST_OF_ADDRESSES_CSS));
         firstElement.findElement(By.cssSelector("input[type='checkbox']")).click();
-        click(DELETE_BUTTON_CSS);
+        click(By.cssSelector(DELETE_BUTTON_CSS));
         wait.until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
     }
 
     public void cleanup(){
         WebDriverWait wait = new WebDriverWait(driver, 10);
-        click("input#MassCB");
-        click(DELETE_BUTTON_CSS);
+        click(By.cssSelector("input#MassCB"));
+        click(By.cssSelector(DELETE_BUTTON_CSS));
         wait.until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
     }
