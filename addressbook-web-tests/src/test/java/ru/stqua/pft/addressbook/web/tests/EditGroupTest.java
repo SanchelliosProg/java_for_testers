@@ -14,23 +14,23 @@ import static org.hamcrest.Matchers.is;
  * Created by avvasi78 on 21.03.2017.
  */
 public class EditGroupTest extends TestBase {
-    private GroupData groupData;
-
     @BeforeMethod
     public void setUp() {
         login();
-        groupData = groupHelper.addGroup(Groups.FAIRY_WORLDS);
+
     }
 
     @Test
     public void editTest() {
-        String oldName = groupData.getName();
-        groupData = GroupProvider.get(Groups.COOL_ACTION_MOVIES);
-        groupHelper.open();
-        groupHelper.openEditGroupWithName(oldName);
+        if(!groupHelper.isThereGroup()){
+            groupHelper.createGroup(Groups.FAIRY_WORLDS);
+        }
+        GroupData groupData = GroupProvider.get(Groups.COOL_ACTION_MOVIES);
+        navigationHelper.goToGroupPage();
+        groupHelper.openEditFirstGroup();
         groupHelper.editGroup(groupData);
         groupHelper.clickUpdate();
-        groupHelper.open();
+        navigationHelper.goToGroupPage();
         assertThat(groupHelper.isGroupWithNamePresented(groupData.getName()), is(true));
     }
 

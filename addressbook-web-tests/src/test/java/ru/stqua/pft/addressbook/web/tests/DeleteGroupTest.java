@@ -18,14 +18,15 @@ public class DeleteGroupTest extends TestBase {
     @BeforeMethod
     public void setUp() {
         login();
-        groupHelper.open();
-        groupHelper.cleanup();
-        groupData = groupHelper.addGroup(Groups.GOOD_PEOPLE);
+        navigationHelper.goToGroupPage();
     }
 
     @Test
-    public void deleteTest(){
-        groupHelper.open();
+    public void deleteTest() {
+        if (!groupHelper.isThereGroup()) {
+            groupHelper.createGroup(Groups.GOOD_PEOPLE);
+        }
+        navigationHelper.goToGroupPage();
         groupHelper.removeFirstGroup();
         assertThat(groupHelper.isGroupWithNamePresented(groupData.getName()), is(false));
     }

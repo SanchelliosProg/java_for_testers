@@ -93,12 +93,21 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
     }
 
     public void openEditGroupWithName(String name){
-        WebElement row = findByXpath("//span[contains(., '" +name+"')]");
+        WebElement row = find(By.xpath("//span[contains(., '" +name+"')]"));
+        openEditPage(row);
+    }
+
+    public void openEditFirstGroup(){
+        WebElement row = findAll("form span").get(0);
+        openEditPage(row);
+    }
+
+    private void openEditPage(WebElement row){
         row.findElement(By.cssSelector("input")).click();
         find(By.cssSelector("input[name='edit']")).click();
     }
 
-    public GroupData addGroup(Groups group) {
+    public GroupData createGroup(Groups group) {
         open();
         openNewGroupPage();
         GroupData groupData = GroupProvider.get(group);
@@ -119,5 +128,9 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
     @Override
     public void open() {
         driver.get(GROUPS_URL);
+    }
+
+    public boolean isThereGroup() {
+        return isElementPresent(By.name("selected[]"));
     }
 }

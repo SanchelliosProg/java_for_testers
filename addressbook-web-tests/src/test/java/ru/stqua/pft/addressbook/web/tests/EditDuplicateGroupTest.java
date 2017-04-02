@@ -19,7 +19,7 @@ public class EditDuplicateGroupTest extends TestBase {
     @BeforeMethod
     public void setUp() {
         login();
-        groupData = groupHelper.addGroup(Groups.DUPLICATE_GROUP);
+        groupData = groupHelper.createGroup(Groups.DUPLICATE_GROUP);
     }
 
     @Test

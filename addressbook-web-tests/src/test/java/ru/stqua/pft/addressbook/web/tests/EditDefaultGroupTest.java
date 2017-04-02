@@ -5,7 +5,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.Groups;
 import ru.stqua.pft.addressbook.web.model.GroupData;
-import ru.stqua.pft.addressbook.web.model.GroupProvider;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -19,7 +18,7 @@ public class EditDefaultGroupTest extends TestBase {
     @BeforeMethod
     public void setUp() {
         login();
-        groupData = groupHelper.addGroup(Groups.DEFAULT_GROUP);
+        groupData = groupHelper.createGroup(Groups.DEFAULT_GROUP);
     }
 
     @Test

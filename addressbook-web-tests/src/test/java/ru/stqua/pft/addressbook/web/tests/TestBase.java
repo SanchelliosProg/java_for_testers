@@ -42,4 +42,12 @@ public class TestBase {
         }
     }
 
+    protected void debugWait() {
+        try {
+            Thread.sleep(1250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

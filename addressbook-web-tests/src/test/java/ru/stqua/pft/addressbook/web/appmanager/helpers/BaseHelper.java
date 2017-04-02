@@ -15,13 +15,18 @@ public class BaseHelper {
     }
 
     public WebElement find(By locator){
-        return driver.findElement(locator);
+        try{
+            return driver.findElement(locator);
+        }catch (NoSuchElementException ex){
+            return null;
+        }
     }
 
     public List<WebElement> findAll(String css){
         return driver.findElements(By.cssSelector(css));
     }
 
+    @Deprecated
     public WebElement findByXpath(String xpath){
         try {
             return driver.findElement(By.xpath(xpath));

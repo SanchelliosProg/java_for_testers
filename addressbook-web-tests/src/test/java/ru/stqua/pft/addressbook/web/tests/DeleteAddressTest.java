@@ -22,7 +22,7 @@ public class DeleteAddressTest extends TestBase {
 
     @Test
     public void deleteTest(){
-        groupHelper.addGroup(Groups.GOOD_PEOPLE);
+        groupHelper.createGroup(Groups.GOOD_PEOPLE);
         AddressData ghandi = AddressProvider.getAddress(Addresses.M_GHANDI);
         addressHelper.open();
         addressHelper.addAddress(ghandi);
