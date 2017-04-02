@@ -39,6 +39,8 @@ public class AddressHelper extends BaseHelper implements PageInteractor {
     }
 
     public void addAddress(AddressData data){
+        NavigationHelper helper = new NavigationHelper(driver);
+        helper.goAddNewAddress();
         find(By.cssSelector(FIRST_NAME_INPUT_CSS)).sendKeys(data.getFirstName());
         find(By.cssSelector(LAST_NAME_INPUT_CSS)).sendKeys(data.getLastName());
         find(By.cssSelector(ADDRESS_INPUT_CSS)).sendKeys(data.getAddress());
@@ -86,8 +88,8 @@ public class AddressHelper extends BaseHelper implements PageInteractor {
         select.selectByVisibleText(data.getGroupName());
     }
 
-    public boolean isElementWithTextExists(String text){
-        WebElement we = findByXpath("//td[contains(., \""+ text +"\")]");
+    public boolean isAddressWithNamePresented(String text){
+        WebElement we = find(By.xpath("//td[contains(., \""+ text +"\")]"));
         return we != null;
     }
 

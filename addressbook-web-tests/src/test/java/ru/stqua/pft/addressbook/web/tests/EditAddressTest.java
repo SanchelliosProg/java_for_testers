@@ -19,22 +19,23 @@ public class EditAddressTest extends TestBase{
     @BeforeMethod
     public void setUp(){
         login();
-        groupHelper.open();
-        groupHelper.openNewGroupPage();
-        groupHelper.createGroup(GroupProvider.get(Groups.COOL_ACTION_MOVIES));
+        createGroupIfNotExist(Groups.COOL_ACTION_MOVIES);
     }
 
     @Test
     public void editTest() {
         data = AddressProvider.getAddress(Addresses.JOHN_MATRIX);
-        addressHelper.open();
-        addressHelper.addAddress(data);
-        navigationHelper.openApp();
+
+        createAddressIfNotExist(data);
+
+        navigationHelper.goToHomePage();
         String prevName = data.getFirstName();
+
         data = AddressProvider.getAddress(Addresses.CASEY_RAYBACK);
         addressHelper.editAddressWithName(prevName, data);
-        navigationHelper.openApp();
-        assertThat(addressHelper.isElementWithTextExists(data.getFirstName()), is(true));
+
+        navigationHelper.goToHomePage();
+        assertThat(addressHelper.isAddressWithNamePresented(data.getFirstName()), is(true));
     }
 
     @AfterMethod

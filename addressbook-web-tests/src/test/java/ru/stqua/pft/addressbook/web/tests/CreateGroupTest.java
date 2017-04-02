@@ -19,18 +19,17 @@ public class CreateGroupTest extends TestBase {
     }
 
     @Test
-    public void CRUDGroup() {
+    public void createGroup() {
         GroupData groupData = GroupProvider.get(Groups.BROTHERHOOD_OF_RING);
-
-        if(!groupHelper.isThereGroup()){
+        navigationHelper.goToGroupPage();
+        if(!groupHelper.isGroupWithNamePresented(groupData.getName())){
             groupHelper.createGroup(Groups.BROTHERHOOD_OF_RING);
         }
-
+        debugWait();
         navigationHelper.goToGroupPage();
+        debugWait();
         assertThat(groupHelper.isGroupWithNamePresented(groupData.getName()), is(true));
 
-        groupHelper.cleanup();
-        assertThat(groupHelper.isAnyGroupPresented(), is(false));
     }
 
     @AfterMethod

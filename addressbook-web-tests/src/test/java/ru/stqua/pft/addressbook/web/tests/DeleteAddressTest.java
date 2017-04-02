@@ -17,18 +17,20 @@ public class DeleteAddressTest extends TestBase {
     @BeforeMethod
     public void setUp(){
         login();
-        addressHelper.cleanup();
     }
 
     @Test
     public void deleteTest(){
-        groupHelper.createGroup(Groups.GOOD_PEOPLE);
+        createGroupIfNotExist(Groups.GOOD_PEOPLE);
         AddressData ghandi = AddressProvider.getAddress(Addresses.M_GHANDI);
         addressHelper.open();
-        addressHelper.addAddress(ghandi);
+
+        createAddressIfNotExist(ghandi);
+
+        navigationHelper.goToHomePage();
         addressHelper.deleteFirstAddress();
-        navigationHelper.openApp();
-        assertThat(addressHelper.isElementWithTextExists(ghandi.getFirstName()), is(false));
+        navigationHelper.goToHomePage();
+        assertThat(addressHelper.isAddressWithNamePresented(ghandi.getFirstName()), is(false));
     }
 
     @AfterMethod

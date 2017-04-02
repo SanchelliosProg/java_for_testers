@@ -32,4 +32,12 @@ public class NavigationHelper extends BaseHelper {
         }
         click(By.linkText("home"));
     }
+
+    public void goAddNewAddress() {
+        if(isElementPresent(By.tagName("h1"))
+                && find(By.tagName("h1")).getText().equals("Edit / add address book entry")){
+            return;
+        }
+        click(By.linkText("add new"));
+    }
 }
