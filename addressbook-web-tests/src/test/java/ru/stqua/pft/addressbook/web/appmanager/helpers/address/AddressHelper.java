@@ -103,7 +103,7 @@ public class AddressHelper extends BaseHelper implements PageInteractor {
     }
 
     public boolean isAddressesPresented(){
-        List<WebElement> list = findAll(LIST_OF_ADDRESSES_CSS);
+        List<WebElement> list = findAll(By.cssSelector(LIST_OF_ADDRESSES_CSS));
         if(list.size() > 0){
             return true;
         }else {

@@ -46,7 +46,6 @@ public class TestBase {
     }
 
     protected void cleanUp(){
-
         addressHelper.cleanup();
         groupHelper.cleanup();
         driver.quit();

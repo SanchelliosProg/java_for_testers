@@ -22,8 +22,8 @@ public class BaseHelper {
         }
     }
 
-    public List<WebElement> findAll(String css){
-        return driver.findElements(By.cssSelector(css));
+    public List<WebElement> findAll(By locator){
+        return driver.findElements(locator);
     }
 
     @Deprecated

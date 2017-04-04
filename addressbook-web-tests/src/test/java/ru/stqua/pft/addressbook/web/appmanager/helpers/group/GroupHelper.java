@@ -3,6 +3,7 @@ package ru.stqua.pft.addressbook.web.appmanager.helpers.group;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.navigation.NavigationHelper;
 import ru.stqua.pft.addressbook.web.model.GroupData;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.BaseHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.PageInteractor;
@@ -36,7 +37,7 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
     }
 
     public boolean isAnyGroupPresented() {
-        List<WebElement> groups = findAll(LIST_OF_GROUPS_CSS);
+        List<WebElement> groups = findAll(By.cssSelector(LIST_OF_GROUPS_CSS));
         if(groups.size() > 0){
             return true;
         }else {
@@ -70,8 +71,22 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
 
     public void removeFirstGroup(){
         WebElement group = find(By.cssSelector(LIST_OF_GROUPS_CSS));
+        removeGroup(group);
+    }
+
+    private void removeGroup(WebElement group){
         group.findElement(By.cssSelector("input[type='checkbox']")).click();
         click(By.cssSelector(DELETE_BUTTON_CSS));
+    }
+
+    public void removeGroupWithName(String name){
+        List<WebElement> groups = findAll(By.cssSelector(LIST_OF_GROUPS_CSS));
+        for (WebElement group : groups) {
+            if(group.getText().contains(name)){
+                removeGroup(group);
+                return;
+            }
+        }
     }
 
     public void editGroup(GroupData data){
@@ -98,7 +113,7 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
     }
 
     public void openEditFirstGroup(){
-        WebElement row = findAll("form span").get(0);
+        WebElement row = findAll(By.cssSelector("form span")).get(0);
         openEditPage(row);
     }
 
@@ -115,10 +130,15 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
         return groupData;
     }
 
+    public List<WebElement> getGroupList(){
+        new NavigationHelper(driver).goToGroupPage();
+        return findAll(By.name("selected[]"));
+    }
+
     @Override
     public void cleanup() {
         driver.get(GROUPS_URL);
-        List<WebElement> groups = findAll("form span");
+        List<WebElement> groups = findAll(By.cssSelector("form span"));
         for (WebElement group : groups) {
             group.click();
         }
