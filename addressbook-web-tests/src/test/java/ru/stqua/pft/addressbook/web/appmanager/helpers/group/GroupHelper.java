@@ -9,6 +9,7 @@ import ru.stqua.pft.addressbook.web.appmanager.helpers.BaseHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.PageInteractor;
 import ru.stqua.pft.addressbook.web.model.GroupProvider;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -130,9 +131,16 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
         return groupData;
     }
 
-    public List<WebElement> getGroupList(){
+    public List<GroupData> getGroupDataList(){
         new NavigationHelper(driver).goToGroupPage();
-        return findAll(By.name("selected[]"));
+        List<WebElement> groups = findAll(By.cssSelector("form span"));
+        List<GroupData> gd = new ArrayList<>();
+        for (WebElement group : groups){
+            String name = group.getText();
+            int id = Integer.parseInt(group.findElement(By.tagName("input")).getAttribute("value"));
+            gd.add(new GroupData(id, name, null, null));
+        }
+        return gd;
     }
 
     @Override

@@ -11,12 +11,12 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 
 /**
  * Created by avvasi78 on 21.03.2017.
  */
 public class DeleteGroupTest extends TestBase {
-    private GroupData groupData;
 
     @BeforeMethod
     public void setUp() {
@@ -26,12 +26,16 @@ public class DeleteGroupTest extends TestBase {
 
     @Test
     public void deleteTest() {
+
         createGroupIfNotExist(Groups.GOOD_PEOPLE);
-        List<WebElement> before = groupHelper.getGroupList();
+        List<GroupData> before = groupHelper.getGroupDataList();
         navigationHelper.goToGroupPage();
         groupHelper.removeGroupWithName(Groups.GOOD_PEOPLE.getName());
-        List<WebElement> after = groupHelper.getGroupList();
+        List<GroupData> after = groupHelper.getGroupDataList();
         assertThat(after.size(), is(before.size() - 1));
+
+        groupHelper.removeGroupWithName(Groups.GOOD_PEOPLE.getName());
+        assertThat(before, is(not(after)));
     }
 
     @AfterMethod

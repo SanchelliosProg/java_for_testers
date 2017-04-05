@@ -1,11 +1,15 @@
 package ru.stqua.pft.addressbook.web.tests;
 
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import org.testng.annotations.*;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupHelper;
 import ru.stqua.pft.addressbook.web.model.GroupData;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.Groups;
 import ru.stqua.pft.addressbook.web.model.GroupProvider;
 
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -23,22 +27,28 @@ public class CreateGroupTest extends TestBase {
 
     @Test
     public void createGroup() {
-        List<WebElement> before = groupHelper.getGroupList();
-        int expectedCount;
-        if(groupHelper.isGroupWithNamePresented(Groups.BROTHERHOOD_OF_RING.getName())){
-            expectedCount = before.size();
-        }else {
-            expectedCount = before.size() + 1;
-        }
+        List<GroupData> before = groupHelper.getGroupDataList();
+
         GroupData groupData = GroupProvider.get(Groups.BROTHERHOOD_OF_RING);
         navigationHelper.goToGroupPage();
         if(!groupHelper.isGroupWithNamePresented(groupData.getName())){
             groupHelper.createGroup(Groups.BROTHERHOOD_OF_RING);
         }
         navigationHelper.goToGroupPage();
-        List<WebElement> after = groupHelper.getGroupList();
+        List<GroupData> after = groupHelper.getGroupDataList();
         assertThat(groupHelper.isGroupWithNamePresented(groupData.getName()), is(true));
-        assertThat(after.size(), is(expectedCount));
+
+        Comparator<? super GroupData> byId = (o1, o2) -> Integer.compare(o1.getId(), o2.getId());
+
+//        int maxId = after.stream().max(byId).get().getId();
+//        groupData.setId(maxId);
+
+        before.add(groupData);
+
+        before.sort(byId);
+        after.sort(byId);
+
+        Assert.assertEquals(before, after);
     }
 
     @AfterMethod
