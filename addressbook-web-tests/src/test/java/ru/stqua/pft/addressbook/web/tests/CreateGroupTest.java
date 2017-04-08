@@ -40,9 +40,6 @@ public class CreateGroupTest extends TestBase {
 
         Comparator<? super GroupData> byId = (o1, o2) -> Integer.compare(o1.getId(), o2.getId());
 
-//        int maxId = after.stream().max(byId).get().getId();
-//        groupData.setId(maxId);
-
         before.add(groupData);
 
         before.sort(byId);

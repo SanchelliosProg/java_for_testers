@@ -3,6 +3,7 @@ package ru.stqua.pft.addressbook.web.tests;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.BrowserType;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.address.AddressListHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.Groups;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.navigation.NavigationHelper;
 import ru.stqua.pft.addressbook.web.model.AddressData;
@@ -20,6 +21,7 @@ public class TestBase {
     protected GroupHelper groupHelper = app.getGroupHelper();
     protected AddressHelper addressHelper = app.getAddressHelper();
     protected NavigationHelper navigationHelper = app.getNavigationHelper();
+    protected AddressListHelper addressListHelper = app.getAddressListHelper();
     protected WebDriver driver = app.getDriver();
 
 
@@ -46,7 +48,7 @@ public class TestBase {
     }
 
     protected void cleanUp(){
-        addressHelper.cleanup();
+        addressListHelper.cleanup();
         groupHelper.cleanup();
         driver.quit();
     }

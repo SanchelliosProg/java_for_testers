@@ -6,6 +6,7 @@ import ru.stqua.pft.addressbook.web.appmanager.helpers.group.Groups;
  * Created by Александр on 18.03.2017.
  */
 public class AddressData {
+    private int id;
     private String firstName;
     private String lastName;
     private String address;
@@ -14,12 +15,19 @@ public class AddressData {
     private String groupName;
 
     private AddressData(String firstName, String lastName, String address, String phone, String groupName, String email) {
+        this.id = Integer.MAX_VALUE;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.phone = phone;
         this.email = email;
         this.groupName = groupName;
+    }
+
+    public AddressData(int id, String firstName, String lastName){
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     interface FirstNameStep{
@@ -132,7 +140,42 @@ public class AddressData {
         return groupName;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    @Override
+    public String toString() {
+        return "AddressData{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", groupName='" + groupName + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AddressData that = (AddressData) o;
+
+        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
+        return lastName != null ? lastName.equals(that.lastName) : that.lastName == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = firstName != null ? firstName.hashCode() : 0;
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        return result;
     }
 }

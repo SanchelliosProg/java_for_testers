@@ -5,8 +5,10 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.address.Addresses;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.Groups;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.navigation.NavigationHelper;
 import ru.stqua.pft.addressbook.web.model.AddressData;
 import ru.stqua.pft.addressbook.web.model.AddressProvider;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -15,26 +17,27 @@ import static org.hamcrest.Matchers.is;
  */
 public class DeleteAddressTest extends TestBase {
     @BeforeMethod
-    public void setUp(){
+    public void setUp() {
         login();
     }
 
     @Test
-    public void deleteTest(){
+    public void deleteTest() {
+        NavigationHelper navigationHelper = new NavigationHelper(driver);
         createGroupIfNotExist(Groups.GOOD_PEOPLE);
         AddressData ghandi = AddressProvider.getAddress(Addresses.M_GHANDI);
-        addressHelper.open();
+        navigationHelper.goToHomePage();
 
         createAddressIfNotExist(ghandi);
 
         navigationHelper.goToHomePage();
-        addressHelper.deleteFirstAddress();
+        addressListHelper.deleteFirstAddress();
         navigationHelper.goToHomePage();
         assertThat(addressHelper.isAddressWithNamePresented(ghandi.getFirstName()), is(false));
     }
 
     @AfterMethod
-    public void tearDown(){
+    public void tearDown() {
         driver.quit();
     }
 }
