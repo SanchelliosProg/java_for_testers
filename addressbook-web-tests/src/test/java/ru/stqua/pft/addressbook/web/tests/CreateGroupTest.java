@@ -27,20 +27,23 @@ public class CreateGroupTest extends TestBase {
 
     @Test
     public void createGroup() {
+        boolean doAdd = false;
         List<GroupData> before = groupHelper.getGroupDataList();
 
         GroupData groupData = GroupProvider.get(Groups.BROTHERHOOD_OF_RING);
         navigationHelper.goToGroupPage();
         if(!groupHelper.isGroupWithNamePresented(groupData.getName())){
             groupHelper.createGroup(Groups.BROTHERHOOD_OF_RING);
+            doAdd = true;
         }
         navigationHelper.goToGroupPage();
         List<GroupData> after = groupHelper.getGroupDataList();
         assertThat(groupHelper.isGroupWithNamePresented(groupData.getName()), is(true));
 
         Comparator<? super GroupData> byId = (o1, o2) -> Integer.compare(o1.getId(), o2.getId());
-
-        before.add(groupData);
+        if(doAdd){
+            before.add(groupData);
+        }
 
         before.sort(byId);
         after.sort(byId);

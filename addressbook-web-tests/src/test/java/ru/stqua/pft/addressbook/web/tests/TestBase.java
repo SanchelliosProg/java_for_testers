@@ -33,11 +33,14 @@ public class TestBase {
         driver.findElement(By.cssSelector("input[type='submit']")).click();
     }
 
-    protected void createGroupIfNotExist(Groups group){
+    protected boolean createGroupIfNotExist(Groups group){
+        boolean isCreated = false;
         navigationHelper.goToGroupPage();
         if(!groupHelper.isGroupWithNamePresented(group.getName())){
             groupHelper.createGroup(group);
+            isCreated = true;
         }
+        return isCreated;
     }
 
     protected void createAddressIfNotExist(AddressData address){
