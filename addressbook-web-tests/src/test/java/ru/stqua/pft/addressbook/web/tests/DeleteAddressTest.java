@@ -28,7 +28,6 @@ public class DeleteAddressTest extends TestBase {
     @Test
     public void deleteTest() {
         NavigationHelper navigationHelper = new NavigationHelper(driver);
-        boolean isCreated = createGroupIfNotExist(Groups.GOOD_PEOPLE);
         List<AddressData> before = addressListHelper.getAddresses();
         AddressData ghandi = AddressProvider.getAddress(Addresses.M_GHANDI);
         navigationHelper.goToHomePage();
