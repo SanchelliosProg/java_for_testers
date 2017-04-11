@@ -14,6 +14,7 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 
 /**
  * Created by Александр on 22.03.2017.
@@ -44,7 +45,7 @@ public class DeleteAddressTest extends TestBase {
             delta = 1;
         }
 
-        Assert.assertEquals(after.size(), before.size() - delta);
+        assertThat(after, is(not(before)));
     }
 
     @AfterMethod
