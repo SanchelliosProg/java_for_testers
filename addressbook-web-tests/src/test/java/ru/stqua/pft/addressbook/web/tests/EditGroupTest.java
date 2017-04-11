@@ -42,7 +42,7 @@ public class EditGroupTest extends TestBase {
         Comparator<? super GroupData> byId = (o1, o2) -> Integer.compare(o1.getId(), o2.getId());
         before.sort(byId);
         after.sort(byId);
-        Assert.assertEquals(before, after);
+        Assert.assertNotEquals(before, after);
     }
 
     @AfterMethod

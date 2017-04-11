@@ -23,6 +23,7 @@ public class DeleteAddressTest extends TestBase {
     @BeforeMethod
     public void setUp() {
         login();
+        createGroupIfNotExist(Groups.GOOD_PEOPLE);
     }
 
     @Test
