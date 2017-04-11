@@ -40,11 +40,6 @@ public class DeleteAddressTest extends TestBase {
         navigationHelper.goToHomePage();
         List<AddressData> after = addressListHelper.getAddresses();
 
-        int delta = 0;
-        if(isCreated){
-            delta = 1;
-        }
-
         assertThat(after, is(not(before)));
     }
 
