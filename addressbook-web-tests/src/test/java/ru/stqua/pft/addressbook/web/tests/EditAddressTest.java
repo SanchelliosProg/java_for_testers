@@ -20,14 +20,9 @@ import static org.hamcrest.Matchers.is;
  */
 public class EditAddressTest extends TestBase{
 
-    @BeforeMethod
-    public void setUp(){
-        login();
-        createGroupIfNotExist(Groups.COOL_ACTION_MOVIES);
-    }
-
     @Test
     public void editTest() {
+        createGroupIfNotExist(Groups.COOL_ACTION_MOVIES);
         AddressData beforeAddress = AddressProvider.getAddress(Addresses.JOHN_MATRIX);
 
         createAddressIfNotExist(beforeAddress);
@@ -44,10 +39,5 @@ public class EditAddressTest extends TestBase{
         navigationHelper.goToHomePage();
         assertThat(addressHelper.isAddressWithNamePresented(afterAddress.getFirstName()), is(true));
         Assert.assertNotEquals(before, after);
-    }
-
-    @AfterMethod
-    public void tearDown(){
-        driver.quit();
     }
 }

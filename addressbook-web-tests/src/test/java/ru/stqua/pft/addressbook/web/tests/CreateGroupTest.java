@@ -20,11 +20,6 @@ import static org.hamcrest.Matchers.is;
  */
 public class CreateGroupTest extends TestBase {
 
-    @BeforeMethod
-    public void setUp() {
-        login();
-    }
-
     @Test
     public void createGroup() {
         boolean doAdd = false;
@@ -50,11 +45,5 @@ public class CreateGroupTest extends TestBase {
 
         Assert.assertEquals(before, after);
     }
-
-    @AfterMethod
-    public void tearDown() {
-        driver.quit();
-    }
-
 
 }

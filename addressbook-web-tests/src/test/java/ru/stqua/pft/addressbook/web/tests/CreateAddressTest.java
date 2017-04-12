@@ -18,11 +18,6 @@ import static org.hamcrest.Matchers.is;
  */
 public class CreateAddressTest extends TestBase {
 
-    @BeforeMethod
-    public void setUp(){
-        login();
-    }
-
     @Test
     public void addContact(){
         List<AddressData> before = addressListHelper.getAddresses();
@@ -45,8 +40,4 @@ public class CreateAddressTest extends TestBase {
         Assert.assertEquals(after, before);
     }
 
-    @AfterMethod
-    public void tearDown(){
-        driver.quit();
-    }
 }

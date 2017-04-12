@@ -20,14 +20,10 @@ import static org.hamcrest.Matchers.not;
  * Created by Александр on 22.03.2017.
  */
 public class DeleteAddressTest extends TestBase {
-    @BeforeMethod
-    public void setUp() {
-        login();
-        createGroupIfNotExist(Groups.GOOD_PEOPLE);
-    }
 
     @Test
     public void deleteTest() {
+        createGroupIfNotExist(Groups.GOOD_PEOPLE);
         NavigationHelper navigationHelper = new NavigationHelper(driver);
         List<AddressData> before = addressListHelper.getAddresses();
         AddressData ghandi = AddressProvider.getAddress(Addresses.M_GHANDI);
@@ -43,8 +39,4 @@ public class DeleteAddressTest extends TestBase {
         assertThat(after, is(not(before)));
     }
 
-    @AfterMethod
-    public void tearDown() {
-        driver.quit();
-    }
 }

@@ -18,15 +18,9 @@ import static org.hamcrest.Matchers.not;
  */
 public class DeleteGroupTest extends TestBase {
 
-    @BeforeMethod
-    public void setUp() {
-        login();
-        navigationHelper.goToGroupPage();
-    }
-
     @Test
     public void deleteTest() {
-
+        navigationHelper.goToGroupPage();
         createGroupIfNotExist(Groups.GOOD_PEOPLE);
         List<GroupData> before = groupHelper.getGroupDataList();
         navigationHelper.goToGroupPage();
@@ -38,8 +32,4 @@ public class DeleteGroupTest extends TestBase {
         assertThat(before, is(not(after)));
     }
 
-    @AfterMethod
-    public void tearDown() {
-        driver.quit();
-    }
 }

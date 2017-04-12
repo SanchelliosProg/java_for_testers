@@ -20,11 +20,6 @@ import static org.hamcrest.Matchers.is;
  * Created by avvasi78 on 21.03.2017.
  */
 public class EditGroupTest extends TestBase {
-    @BeforeMethod
-    public void setUp() {
-        login();
-
-    }
 
     @Test
     public void editTest() {
@@ -45,8 +40,4 @@ public class EditGroupTest extends TestBase {
         Assert.assertNotEquals(before, after);
     }
 
-    @AfterMethod
-    public void tearDown() {
-        driver.quit();
-    }
 }

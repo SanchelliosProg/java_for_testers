@@ -3,6 +3,8 @@ package ru.stqua.pft.addressbook.web.tests;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.BrowserType;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.address.AddressListHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.Groups;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.navigation.NavigationHelper;
@@ -24,6 +26,16 @@ public class TestBase {
     protected AddressListHelper addressListHelper = app.getAddressListHelper();
     protected WebDriver driver = app.getDriver();
 
+
+    @BeforeMethod
+    public void setUp(){
+        login();
+    }
+
+    @AfterMethod
+    public void tearDown(){
+        driver.quit();
+    }
 
     protected void login() {
         Login login = new Login("admin", "secret");
