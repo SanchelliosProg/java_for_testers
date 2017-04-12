@@ -19,19 +19,19 @@ public class EditDefaultGroupTest extends TestBase {
     @BeforeMethod
     public void setUp() {
         login();
-        groupData = groupHelper.createGroup(Groups.DEFAULT_GROUP);
+        groupData = group.createGroup(Groups.DEFAULT_GROUP);
     }
 
     @Test
     public void editTest() {
         String oldName = groupData.getName();
-        groupData = new GroupData("Updated group", null, null);
-        groupHelper.open();
-        groupHelper.openEditGroupWithName(oldName);
-        groupHelper.editGroup(groupData);
-        groupHelper.clickUpdate();
-        groupHelper.open();
-        assertThat(groupHelper.isGroupWithNamePresented(groupData.getName()), is(true));
+        groupData = new GroupData().withName("Updated group");
+        group.open();
+        group.openEditGroupWithName(oldName);
+        group.editGroup(groupData);
+        group.clickUpdate();
+        group.open();
+        assertThat(group.isGroupWithNamePresented(groupData.getName()), is(true));
     }
 
     @AfterMethod

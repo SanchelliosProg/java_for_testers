@@ -20,19 +20,19 @@ public class EditDuplicateGroupTest extends TestBase {
     @BeforeMethod
     public void setUp() {
         login();
-        groupData = groupHelper.createGroup(Groups.DUPLICATE_GROUP);
+        groupData = group.createGroup(Groups.DUPLICATE_GROUP);
     }
 
     @Test
     public void editTest() {
         String oldName = groupData.getName();
         groupData = GroupProvider.get(Groups.DUPLICATE_GROUP);
-        groupHelper.open();
-        groupHelper.openEditGroupWithName(oldName);
-        groupHelper.editGroup(groupData);
-        groupHelper.clickUpdate();
-        groupHelper.open();
-        assertThat(groupHelper.isGroupWithNamePresented(groupData.getName()), is(true));
+        group.open();
+        group.openEditGroupWithName(oldName);
+        group.editGroup(groupData);
+        group.clickUpdate();
+        group.open();
+        assertThat(group.isGroupWithNamePresented(groupData.getName()), is(true));
     }
 
     @AfterMethod

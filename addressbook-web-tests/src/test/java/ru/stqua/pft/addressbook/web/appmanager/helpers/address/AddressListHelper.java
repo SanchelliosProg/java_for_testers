@@ -10,7 +10,6 @@ import ru.stqua.pft.addressbook.web.appmanager.helpers.navigation.NavigationHelp
 import ru.stqua.pft.addressbook.web.model.AddressData;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -30,7 +29,7 @@ public class AddressListHelper extends BaseHelper {
     public List<AddressData> getAddresses(){
         List<AddressData> addresses = new ArrayList<>();
         NavigationHelper navigationHelper = new NavigationHelper(driver);
-        navigationHelper.goToHomePage();
+        navigationHelper.homePage();
         List<WebElement> addressRows = findAll(By.cssSelector(LIST_OF_ADDRESSES_CSS));
         for (WebElement row : addressRows){
             int id = Integer.parseInt(row.findElement(By.cssSelector(CHECKBOX_ROW_CSS)).getAttribute("value"));

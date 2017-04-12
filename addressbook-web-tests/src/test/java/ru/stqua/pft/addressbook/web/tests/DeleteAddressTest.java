@@ -1,7 +1,5 @@
 package ru.stqua.pft.addressbook.web.tests;
 
-import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.address.Addresses;
@@ -21,19 +19,23 @@ import static org.hamcrest.Matchers.not;
  */
 public class DeleteAddressTest extends TestBase {
 
+    @BeforeMethod
+    public void preconditionsSetUp(){
+        createGroupIfNotExist(Groups.GOOD_PEOPLE);
+    }
+
     @Test
     public void deleteTest() {
-        createGroupIfNotExist(Groups.GOOD_PEOPLE);
-        NavigationHelper navigationHelper = new NavigationHelper(driver);
+
         List<AddressData> before = addressListHelper.getAddresses();
         AddressData ghandi = AddressProvider.getAddress(Addresses.M_GHANDI);
-        navigationHelper.goToHomePage();
+        goTo.homePage();
 
         createAddressIfNotExist(ghandi);
 
-        navigationHelper.goToHomePage();
+        goTo.homePage();
         addressListHelper.deleteFirstAddress();
-        navigationHelper.goToHomePage();
+        goTo.homePage();
         List<AddressData> after = addressListHelper.getAddresses();
 
         assertThat(after, is(not(before)));

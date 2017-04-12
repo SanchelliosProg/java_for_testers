@@ -11,7 +11,6 @@ import ru.stqua.pft.addressbook.web.model.GroupProvider;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 /**
  * Created by Александр on 18.03.2017.
@@ -131,16 +130,27 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
         return groupData;
     }
 
-    public List<GroupData> getGroupDataList(){
-        new NavigationHelper(driver).goToGroupPage();
+    public List<GroupData> list(){
+        new NavigationHelper(driver).groupPage();
         List<WebElement> groups = findAll(By.cssSelector("form span"));
         List<GroupData> gd = new ArrayList<>();
         for (WebElement group : groups){
             String name = group.getText();
             int id = Integer.parseInt(group.findElement(By.tagName("input")).getAttribute("value"));
-            gd.add(new GroupData(id, name, null, null));
+            gd.add(new GroupData()
+                    .withId(id)
+                    .withName(name));
         }
         return gd;
+    }
+
+    public void modifyGroupHeader(GroupData groupData, String newHeader, NavigationHelper navigationHelper) {
+        groupData.withHeader(newHeader);
+        navigationHelper.groupPage();
+        openEditFirstGroup();
+        editGroup(groupData);
+        clickUpdate();
+        navigationHelper.groupPage();
     }
 
     @Override

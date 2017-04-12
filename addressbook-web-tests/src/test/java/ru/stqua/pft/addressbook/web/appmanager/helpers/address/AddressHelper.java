@@ -3,16 +3,10 @@ package ru.stqua.pft.addressbook.web.appmanager.helpers.address;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.navigation.NavigationHelper;
 import ru.stqua.pft.addressbook.web.model.AddressData;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.BaseHelper;
-import ru.stqua.pft.addressbook.web.appmanager.helpers.PageInteractor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Александр on 19.03.2017.
@@ -39,7 +33,7 @@ public class AddressHelper extends BaseHelper {
 
     public void addAddress(AddressData data){
         NavigationHelper helper = new NavigationHelper(driver);
-        helper.goAddNewAddress();
+        helper.addNewAddressPage();
         find(By.cssSelector(INPUT_FIRST_NAME_CSS)).sendKeys(data.getFirstName());
         find(By.cssSelector(INPUT_LAST_NAME_CSS)).sendKeys(data.getLastName());
         find(By.cssSelector(INPUT_ADDRESS_CSS)).sendKeys(data.getAddress());

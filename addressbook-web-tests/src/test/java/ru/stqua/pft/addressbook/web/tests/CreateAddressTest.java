@@ -5,7 +5,6 @@ import ru.stqua.pft.addressbook.web.appmanager.helpers.group.Groups;
 import ru.stqua.pft.addressbook.web.model.AddressData;
 import ru.stqua.pft.addressbook.web.model.AddressProvider;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.address.Addresses;
-import ru.stqua.pft.addressbook.web.model.GroupData;
 
 import java.util.Comparator;
 import java.util.List;
@@ -18,13 +17,18 @@ import static org.hamcrest.Matchers.is;
  */
 public class CreateAddressTest extends TestBase {
 
+    @BeforeMethod
+    public void preconditions(){
+        createGroupIfNotExist(Groups.BROTHERHOOD_OF_RING);
+    }
+
     @Test
     public void addContact(){
         List<AddressData> before = addressListHelper.getAddresses();
-        createGroupIfNotExist(Groups.BROTHERHOOD_OF_RING);
+
 
         AddressData frodo = AddressProvider.getAddress(Addresses.FRODO_BAGGINS);
-        navigationHelper.goToHomePage();
+        goTo.homePage();
 
         createAddressIfNotExist(frodo);
 
@@ -36,7 +40,7 @@ public class CreateAddressTest extends TestBase {
         before.sort(byId);
         after.sort(byId);
 
-        navigationHelper.goToHomePage();
+        goTo.homePage();
         Assert.assertEquals(after, before);
     }
 

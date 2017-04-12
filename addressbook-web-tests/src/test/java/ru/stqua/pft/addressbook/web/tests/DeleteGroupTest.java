@@ -1,7 +1,5 @@
 package ru.stqua.pft.addressbook.web.tests;
 
-import org.openqa.selenium.WebElement;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.Groups;
@@ -18,17 +16,22 @@ import static org.hamcrest.Matchers.not;
  */
 public class DeleteGroupTest extends TestBase {
 
+    @BeforeMethod
+    public void preconditionsSetUp(){
+        goTo.groupPage();
+        createGroupIfNotExist(Groups.GOOD_PEOPLE);
+    }
+
     @Test
     public void deleteTest() {
-        navigationHelper.goToGroupPage();
-        createGroupIfNotExist(Groups.GOOD_PEOPLE);
-        List<GroupData> before = groupHelper.getGroupDataList();
-        navigationHelper.goToGroupPage();
-        groupHelper.removeGroupWithName(Groups.GOOD_PEOPLE.getName());
-        List<GroupData> after = groupHelper.getGroupDataList();
+
+        List<GroupData> before = group.list();
+        goTo.groupPage();
+        group.removeGroupWithName(Groups.GOOD_PEOPLE.getName());
+        List<GroupData> after = group.list();
         assertThat(after.size(), is(before.size() - 1));
 
-        groupHelper.removeGroupWithName(Groups.GOOD_PEOPLE.getName());
+        group.removeGroupWithName(Groups.GOOD_PEOPLE.getName());
         assertThat(before, is(not(after)));
     }
 

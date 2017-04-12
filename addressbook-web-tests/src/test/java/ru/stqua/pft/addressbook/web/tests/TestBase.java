@@ -3,8 +3,8 @@ package ru.stqua.pft.addressbook.web.tests;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.BrowserType;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.address.AddressListHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.Groups;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.navigation.NavigationHelper;
@@ -18,21 +18,19 @@ import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupHelper;
  * Created by Александр on 18.03.2017.
  */
 public class TestBase {
+    protected static ApplicationManager app = new ApplicationManager(BrowserType.CHROME);
+    protected static GroupHelper group = app.getGroupHelper();
+    protected static AddressHelper address = app.getAddressHelper();
+    protected static NavigationHelper goTo = app.getNavigationHelper();
+    protected static AddressListHelper addressListHelper = app.getAddressListHelper();
+    protected static WebDriver driver = app.getDriver();
 
-    protected ApplicationManager app = new ApplicationManager(BrowserType.CHROME);
-    protected GroupHelper groupHelper = app.getGroupHelper();
-    protected AddressHelper addressHelper = app.getAddressHelper();
-    protected NavigationHelper navigationHelper = app.getNavigationHelper();
-    protected AddressListHelper addressListHelper = app.getAddressListHelper();
-    protected WebDriver driver = app.getDriver();
-
-
-    @BeforeMethod
+    @BeforeSuite
     public void setUp(){
         login();
     }
 
-    @AfterMethod
+    @AfterSuite
     public void tearDown(){
         driver.quit();
     }
@@ -47,24 +45,24 @@ public class TestBase {
 
     protected boolean createGroupIfNotExist(Groups group){
         boolean isCreated = false;
-        navigationHelper.goToGroupPage();
-        if(!groupHelper.isGroupWithNamePresented(group.getName())){
-            groupHelper.createGroup(group);
+        goTo.groupPage();
+        if(!TestBase.group.isGroupWithNamePresented(group.getName())){
+            TestBase.group.createGroup(group);
             isCreated = true;
         }
         return isCreated;
     }
 
     protected void createAddressIfNotExist(AddressData address){
-        navigationHelper.goToHomePage();
-        if(!addressHelper.isAddressWithNamePresented(address.getFirstName())){
-            addressHelper.addAddress(address);
+        goTo.homePage();
+        if(!TestBase.address.isAddressWithNamePresented(address.getFirstName())){
+            TestBase.address.addAddress(address);
         }
     }
 
     protected void cleanUp(){
         addressListHelper.cleanup();
-        groupHelper.cleanup();
+        group.cleanup();
         driver.quit();
     }
 
