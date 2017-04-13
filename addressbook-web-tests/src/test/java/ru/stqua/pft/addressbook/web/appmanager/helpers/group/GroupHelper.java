@@ -10,7 +10,9 @@ import ru.stqua.pft.addressbook.web.appmanager.helpers.PageInteractor;
 import ru.stqua.pft.addressbook.web.model.GroupProvider;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Александр on 18.03.2017.
@@ -142,6 +144,20 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
                     .withName(name));
         }
         return gd;
+    }
+
+    public Set<GroupData> all(){
+        new NavigationHelper(driver).groupPage();
+        List<WebElement> elements = findAll(By.cssSelector("form span"));
+        Set<GroupData> groups = new HashSet<>();
+        for (WebElement group : elements){
+            String name = group.getText();
+            int id = Integer.parseInt(group.findElement(By.tagName("input")).getAttribute("value"));
+            groups.add(new GroupData()
+                    .withId(id)
+                    .withName(name));
+        }
+        return groups;
     }
 
     public void modifyGroupHeader(GroupData groupData, String newHeader, NavigationHelper navigationHelper) {

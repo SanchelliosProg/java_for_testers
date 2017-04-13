@@ -8,6 +8,7 @@ import ru.stqua.pft.addressbook.web.model.GroupProvider;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -20,7 +21,7 @@ public class CreateGroupTest extends TestBase {
     @Test
     public void createGroup() {
         boolean doAdd = false;
-        List<GroupData> before = group.list();
+        Set<GroupData> before = group.all();
 
         GroupData groupData = GroupProvider.get(Groups.BROTHERHOOD_OF_RING);
         goTo.groupPage();
@@ -29,16 +30,12 @@ public class CreateGroupTest extends TestBase {
             doAdd = true;
         }
         goTo.groupPage();
-        List<GroupData> after = group.list();
+        Set<GroupData> after = group.all();
         assertThat(group.isGroupWithNamePresented(groupData.getName()), is(true));
 
-        Comparator<? super GroupData> byId = (o1, o2) -> Integer.compare(o1.getId(), o2.getId());
         if(doAdd){
             before.add(groupData);
         }
-
-        before.sort(byId);
-        after.sort(byId);
 
         Assert.assertEquals(before, after);
     }
