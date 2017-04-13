@@ -3,6 +3,7 @@ package ru.stqua.pft.addressbook.web.tests;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.Groups;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.group.NewGroupStatus;
 import ru.stqua.pft.addressbook.web.model.GroupData;
 
 import java.util.List;
@@ -15,11 +16,11 @@ import static org.hamcrest.Matchers.not;
  * Created by avvasi78 on 21.03.2017.
  */
 public class DeleteGroupTest extends TestBase {
-
+    NewGroupStatus statusBundle;
     @BeforeMethod
     public void preconditionsSetUp(){
         goTo.groupPage();
-        createGroupIfNotExist(Groups.GOOD_PEOPLE);
+        statusBundle = createGroupIfNotExist(Groups.GOOD_PEOPLE);
     }
 
     @Test
@@ -32,7 +33,10 @@ public class DeleteGroupTest extends TestBase {
         assertThat(after.size(), is(before.size() - 1));
 
         group.removeGroupWithName(Groups.GOOD_PEOPLE.getName());
-        assertThat(before, is(not(after)));
+
+        before.remove(statusBundle.getData());
+
+        assertThat(before, is(after));
     }
 
 }

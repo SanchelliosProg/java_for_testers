@@ -38,7 +38,9 @@ public class DeleteAddressTest extends TestBase {
         goTo.homePage();
         List<AddressData> after = addressListHelper.getAddresses();
 
-        assertThat(after, is(not(before)));
+        before.remove(ghandi);
+
+        assertThat(after, is(before));
     }
 
 }

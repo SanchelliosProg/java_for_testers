@@ -7,8 +7,11 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.address.AddressListHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.Groups;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.group.NewGroupStatus;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.navigation.NavigationHelper;
 import ru.stqua.pft.addressbook.web.model.AddressData;
+import ru.stqua.pft.addressbook.web.model.GroupData;
+import ru.stqua.pft.addressbook.web.model.GroupProvider;
 import ru.stqua.pft.addressbook.web.model.Login;
 import ru.stqua.pft.addressbook.web.appmanager.ApplicationManager;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.address.AddressHelper;
@@ -43,14 +46,16 @@ public class TestBase {
         driver.findElement(By.cssSelector("input[type='submit']")).click();
     }
 
-    protected boolean createGroupIfNotExist(Groups group){
-        boolean isCreated = false;
+    protected NewGroupStatus createGroupIfNotExist(Groups group){
+        GroupData newGroup;
         goTo.groupPage();
         if(!TestBase.group.isGroupWithNamePresented(group.getName())){
-            TestBase.group.createGroup(group);
-            isCreated = true;
+            newGroup = TestBase.group.createGroup(group);
+            return new NewGroupStatus(true, newGroup);
+        } else {
+            return new NewGroupStatus(false, GroupProvider.get(group));
         }
-        return isCreated;
+
     }
 
     protected void createAddressIfNotExist(AddressData address){
