@@ -35,6 +35,7 @@ public class DeleteGroupTest extends TestBase {
         group.removeGroupWithName(Groups.GOOD_PEOPLE.getName());
 
         before.remove(statusBundle.getData());
+        System.out.println(statusBundle.getData().toString());
 
         assertThat(before, is(after));
     }
