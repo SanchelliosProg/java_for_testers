@@ -8,11 +8,10 @@ import ru.stqua.pft.addressbook.web.model.GroupData;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.BaseHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.PageInteractor;
 import ru.stqua.pft.addressbook.web.model.GroupProvider;
+import ru.stqua.pft.addressbook.web.model.DataSet;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Александр on 18.03.2017.
@@ -124,7 +123,7 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
         find(By.cssSelector("input[name='edit']")).click();
     }
 
-    public GroupData createGroup(Groups group) {
+    public GroupData createGroup(GroupLabels group) {
         open();
         openNewGroupPage();
         GroupData groupData = GroupProvider.get(group);
@@ -146,18 +145,18 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
         return gd;
     }
 
-    public Set<GroupData> all(){
+    public DataSet<GroupData> all(){
         new NavigationHelper(driver).groupPage();
         List<WebElement> elements = findAll(By.cssSelector("form span"));
-        Set<GroupData> groups = new HashSet<>();
-        for (WebElement group : elements){
-            String name = group.getText();
-            int id = Integer.parseInt(group.findElement(By.tagName("input")).getAttribute("value"));
-            groups.add(new GroupData()
+        DataSet<GroupData> dataSet = new DataSet();
+        for (WebElement element : elements){
+            String name = element.getText();
+            int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+            dataSet.add(new GroupData()
                     .withId(id)
                     .withName(name));
         }
-        return groups;
+        return dataSet;
     }
 
     public void modifyGroupHeader(GroupData groupData, String newHeader, NavigationHelper navigationHelper) {

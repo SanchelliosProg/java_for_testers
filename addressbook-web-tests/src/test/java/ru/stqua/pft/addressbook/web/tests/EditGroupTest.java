@@ -2,13 +2,12 @@ package ru.stqua.pft.addressbook.web.tests;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import ru.stqua.pft.addressbook.web.appmanager.helpers.group.Groups;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupLabels;
 import ru.stqua.pft.addressbook.web.model.GroupData;
 import ru.stqua.pft.addressbook.web.model.GroupProvider;
+import ru.stqua.pft.addressbook.web.model.DataSet;
 
-import java.util.Comparator;
-import java.util.List;
-
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -20,23 +19,21 @@ public class EditGroupTest extends TestBase {
 
     @BeforeMethod
     public void preconditionsSetUp(){
-        createGroupIfNotExist(Groups.FAIRY_WORLDS);
+        createGroupIfNotExist(GroupLabels.FAIRY_WORLDS);
     }
 
     @Test
     public void editTest() {
 
-        List<GroupData> before = group.list();
-        GroupData groupData = GroupProvider.get(Groups.FAIRY_WORLDS);
+        DataSet<GroupData> before = group.all();
+        GroupData groupData = GroupProvider.get(GroupLabels.FAIRY_WORLDS);
 
         group.modifyGroupHeader(groupData, "new", goTo);
 
-        List<GroupData> after = group.list();
+        DataSet<GroupData> after = group.all();
         assertThat(group.isGroupWithNamePresented(groupData.getName()), is(true));
-        Comparator<? super GroupData> byId = (o1, o2) -> Integer.compare(o1.getId(), o2.getId());
-        before.sort(byId);
-        after.sort(byId);
-        assertThat(after, is(before));
+
+        assertThat(after, equalTo(before));
     }
 
 

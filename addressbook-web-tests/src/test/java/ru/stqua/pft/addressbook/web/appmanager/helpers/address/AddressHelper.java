@@ -31,7 +31,7 @@ public class AddressHelper extends BaseHelper {
         super(driver);
     }
 
-    public void addAddress(AddressData data){
+    public AddressData addAddress(AddressData data){
         NavigationHelper helper = new NavigationHelper(driver);
         helper.addNewAddressPage();
         find(By.cssSelector(INPUT_FIRST_NAME_CSS)).sendKeys(data.getFirstName());
@@ -41,6 +41,7 @@ public class AddressHelper extends BaseHelper {
         find(By.cssSelector(INPUT_EMAIL_CSS)).sendKeys(data.getEmail());
         selectGroup(data);
         click(By.cssSelector(BUTTON_SUBMIT_CSS));
+        return data;
     }
 
     public void editAddressWithName(String addressName, AddressData newData){

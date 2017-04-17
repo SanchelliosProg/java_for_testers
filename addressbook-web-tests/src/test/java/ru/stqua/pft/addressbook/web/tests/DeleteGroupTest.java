@@ -2,12 +2,12 @@ package ru.stqua.pft.addressbook.web.tests;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import ru.stqua.pft.addressbook.web.appmanager.helpers.group.Groups;
-import ru.stqua.pft.addressbook.web.appmanager.helpers.group.NewGroupStatus;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupLabels;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.group.AddedDataStatus;
+import ru.stqua.pft.addressbook.web.model.DataSet;
 import ru.stqua.pft.addressbook.web.model.GroupData;
 
-import java.util.List;
-
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -16,28 +16,25 @@ import static org.hamcrest.Matchers.not;
  * Created by avvasi78 on 21.03.2017.
  */
 public class DeleteGroupTest extends TestBase {
-    NewGroupStatus statusBundle;
+    private AddedDataStatus<GroupData> newGroupBundle;
     @BeforeMethod
     public void preconditionsSetUp(){
         goTo.groupPage();
-        statusBundle = createGroupIfNotExist(Groups.GOOD_PEOPLE);
+        newGroupBundle = createGroupIfNotExist(GroupLabels.GOOD_PEOPLE);
     }
 
     @Test
     public void deleteTest() {
 
-        List<GroupData> before = group.list();
+        DataSet<GroupData> before = group.all();
         goTo.groupPage();
-        group.removeGroupWithName(Groups.GOOD_PEOPLE.getName());
-        List<GroupData> after = group.list();
-        assertThat(after.size(), is(before.size() - 1));
+        group.removeGroupWithName(GroupLabels.GOOD_PEOPLE.getName());
+        DataSet<GroupData> after = group.all();
+        assertThat(after.size(), equalTo(before.size() - 1));
 
-        group.removeGroupWithName(Groups.GOOD_PEOPLE.getName());
+        group.removeGroupWithName(GroupLabels.GOOD_PEOPLE.getName());
 
-        before.remove(statusBundle.getData());
-        System.out.println(statusBundle.getData().toString());
-
-        assertThat(before, is(after));
+        assertThat(after, equalTo(before.without(newGroupBundle.data())));
     }
 
 }

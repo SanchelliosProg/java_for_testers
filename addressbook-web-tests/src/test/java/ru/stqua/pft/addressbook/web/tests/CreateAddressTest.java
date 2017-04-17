@@ -1,14 +1,18 @@
 package ru.stqua.pft.addressbook.web.tests;
+import org.hamcrest.CoreMatchers;
 import org.testng.Assert;
 import org.testng.annotations.*;
-import ru.stqua.pft.addressbook.web.appmanager.helpers.group.Groups;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.group.AddedDataStatus;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupLabels;
 import ru.stqua.pft.addressbook.web.model.AddressData;
 import ru.stqua.pft.addressbook.web.model.AddressProvider;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.address.Addresses;
+import ru.stqua.pft.addressbook.web.model.DataSet;
 
 import java.util.Comparator;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -19,29 +23,28 @@ public class CreateAddressTest extends TestBase {
 
     @BeforeMethod
     public void preconditions(){
-        createGroupIfNotExist(Groups.BROTHERHOOD_OF_RING);
+        createGroupIfNotExist(GroupLabels.BROTHERHOOD_OF_RING);
     }
 
     @Test
     public void addContact(){
-        List<AddressData> before = addressListHelper.getAddresses();
+        DataSet<AddressData> before = addressListHelper.all();
 
 
         AddressData frodo = AddressProvider.getAddress(Addresses.FRODO_BAGGINS);
         goTo.homePage();
 
-        createAddressIfNotExist(frodo);
+        AddedDataStatus<AddressData> newAddress = createAddressIfNotExist(frodo);
 
-        List<AddressData> after = addressListHelper.getAddresses();
-        before.add(frodo);
-
-        Comparator<? super AddressData> byId = (o1, o2) -> Integer.compare(o1.getId(), o2.getId());
-
-        before.sort(byId);
-        after.sort(byId);
+        DataSet<AddressData> after = addressListHelper.all();
 
         goTo.homePage();
-        Assert.assertEquals(after, before);
+        if(newAddress.isCreated()){
+            assertThat(after, equalTo(before.withAdded(frodo)));
+        }else {
+            assertThat(after, equalTo(before));
+        }
+
     }
 
 }

@@ -19,7 +19,7 @@ public class NavigationHelper extends BaseHelper {
 
     public void groupPage(){
         if(isElementPresent(By.tagName("h1"))
-                && find(By.tagName("h1")).getText().equals("Groups")
+                && find(By.tagName("h1")).getText().equals("GroupLabels")
                 && isElementPresent(By.name("new"))){
             return;
         }

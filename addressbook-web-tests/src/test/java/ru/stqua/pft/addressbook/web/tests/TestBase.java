@@ -6,13 +6,10 @@ import org.openqa.selenium.remote.BrowserType;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.address.AddressListHelper;
-import ru.stqua.pft.addressbook.web.appmanager.helpers.group.Groups;
-import ru.stqua.pft.addressbook.web.appmanager.helpers.group.NewGroupStatus;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupLabels;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.group.AddedDataStatus;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.navigation.NavigationHelper;
-import ru.stqua.pft.addressbook.web.model.AddressData;
-import ru.stqua.pft.addressbook.web.model.GroupData;
-import ru.stqua.pft.addressbook.web.model.GroupProvider;
-import ru.stqua.pft.addressbook.web.model.Login;
+import ru.stqua.pft.addressbook.web.model.*;
 import ru.stqua.pft.addressbook.web.appmanager.ApplicationManager;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.address.AddressHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupHelper;
@@ -46,22 +43,24 @@ public class TestBase {
         driver.findElement(By.cssSelector("input[type='submit']")).click();
     }
 
-    protected NewGroupStatus createGroupIfNotExist(Groups group){
+    protected AddedDataStatus<GroupData> createGroupIfNotExist(GroupLabels group){
         GroupData newGroup;
         goTo.groupPage();
         if(!TestBase.group.isGroupWithNamePresented(group.getName())){
             newGroup = TestBase.group.createGroup(group);
-            return new NewGroupStatus(true, newGroup);
+            return new AddedDataStatus<>(true, newGroup);
         } else {
-            return new NewGroupStatus(false, GroupProvider.get(group));
+            return new AddedDataStatus<>(false, GroupProvider.get(group));
         }
-
     }
 
-    protected void createAddressIfNotExist(AddressData address){
+    protected AddedDataStatus<AddressData> createAddressIfNotExist(AddressData address){
         goTo.homePage();
         if(!TestBase.address.isAddressWithNamePresented(address.getFirstName())){
             TestBase.address.addAddress(address);
+            return new AddedDataStatus<>(true, address);
+        } else {
+            return new AddedDataStatus<>(false, address);
         }
     }
 

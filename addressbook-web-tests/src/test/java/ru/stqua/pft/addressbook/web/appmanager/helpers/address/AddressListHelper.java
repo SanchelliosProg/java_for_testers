@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.BaseHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.navigation.NavigationHelper;
 import ru.stqua.pft.addressbook.web.model.AddressData;
+import ru.stqua.pft.addressbook.web.model.DataSet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,21 @@ public class AddressListHelper extends BaseHelper {
 
     public List<AddressData> getAddresses(){
         List<AddressData> addresses = new ArrayList<>();
+        NavigationHelper navigationHelper = new NavigationHelper(driver);
+        navigationHelper.homePage();
+        List<WebElement> addressRows = findAll(By.cssSelector(LIST_OF_ADDRESSES_CSS));
+        for (WebElement row : addressRows){
+            int id = Integer.parseInt(row.findElement(By.cssSelector(CHECKBOX_ROW_CSS)).getAttribute("value"));
+            String lastName = row.findElement(By.cssSelector(LABEL_LAST_NAME_CSS)).getText();
+            String firstName = row.findElement(By.cssSelector(LABEL_FIRST_NAME_CSS)).getText();
+            AddressData addressData = new AddressData(id, firstName, lastName);
+            addresses.add(addressData);
+        }
+        return addresses;
+    }
+
+    public DataSet<AddressData> all(){
+        DataSet<AddressData> addresses = new DataSet<>();
         NavigationHelper navigationHelper = new NavigationHelper(driver);
         navigationHelper.homePage();
         List<WebElement> addressRows = findAll(By.cssSelector(LIST_OF_ADDRESSES_CSS));

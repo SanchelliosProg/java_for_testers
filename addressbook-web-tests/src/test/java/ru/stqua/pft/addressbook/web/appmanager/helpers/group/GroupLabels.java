@@ -3,7 +3,7 @@ package ru.stqua.pft.addressbook.web.appmanager.helpers.group;
 /**
  * Created by Александр on 18.03.2017.
  */
-public enum Groups {
+public enum GroupLabels {
     BROTHERHOOD_OF_RING("Братство кольца"),
     FAIRY_WORLDS("Волшебные миры"),
     COOL_ACTION_MOVIES("Крутые боевики"),
@@ -13,7 +13,7 @@ public enum Groups {
 
     private String name;
 
-    Groups(String name) {
+    GroupLabels(String name) {
         this.name = name;
     }
 

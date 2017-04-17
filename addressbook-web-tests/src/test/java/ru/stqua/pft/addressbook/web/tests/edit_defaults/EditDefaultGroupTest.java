@@ -3,7 +3,7 @@ package ru.stqua.pft.addressbook.web.tests.edit_defaults;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import ru.stqua.pft.addressbook.web.appmanager.helpers.group.Groups;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupLabels;
 import ru.stqua.pft.addressbook.web.model.GroupData;
 import ru.stqua.pft.addressbook.web.tests.TestBase;
 
@@ -19,7 +19,7 @@ public class EditDefaultGroupTest extends TestBase {
     @BeforeMethod
     public void setUp() {
         login();
-        groupData = group.createGroup(Groups.DEFAULT_GROUP);
+        groupData = group.createGroup(GroupLabels.DEFAULT_GROUP);
     }
 
     @Test
