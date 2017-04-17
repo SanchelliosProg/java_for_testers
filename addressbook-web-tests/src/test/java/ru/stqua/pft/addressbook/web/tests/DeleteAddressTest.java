@@ -8,9 +8,6 @@ import ru.stqua.pft.addressbook.web.model.AddressData;
 import ru.stqua.pft.addressbook.web.model.AddressProvider;
 import ru.stqua.pft.addressbook.web.model.DataSet;
 
-import javax.xml.crypto.Data;
-import java.util.List;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -34,7 +31,7 @@ public class DeleteAddressTest extends TestBase {
         createAddressIfNotExist(ghandi);
 
         goTo.homePage();
-        addressListHelper.deleteFirstAddress();
+        addressListHelper.removeFirstAddress();
         goTo.homePage();
         DataSet<AddressData> after = addressListHelper.all();
 

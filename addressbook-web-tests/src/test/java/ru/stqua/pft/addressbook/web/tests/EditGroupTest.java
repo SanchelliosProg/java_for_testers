@@ -19,21 +19,20 @@ public class EditGroupTest extends TestBase {
 
     @BeforeMethod
     public void preconditionsSetUp(){
-        createGroupIfNotExist(GroupLabels.FAIRY_WORLDS);
+        if(!group.isAnyGroupPresented()){
+            group.createGroup(GroupLabels.FAIRY_WORLDS);
+        }
     }
 
     @Test
     public void editTest() {
-
         DataSet<GroupData> before = group.all();
-        GroupData groupData = GroupProvider.get(GroupLabels.FAIRY_WORLDS);
-
-        group.modifyGroupHeader(groupData, "new", goTo);
+        GroupData groupToRemove = group.removeFirstGroup();
+        GroupData groupToAdd = group.createGroup(GroupLabels.COOL_ACTION_MOVIES);
 
         DataSet<GroupData> after = group.all();
-        assertThat(group.isGroupWithNamePresented(groupData.getName()), is(true));
 
-        assertThat(after, equalTo(before));
+        assertThat(after, equalTo(before.without(groupToRemove).withAdded(groupToAdd)));
     }
 
 

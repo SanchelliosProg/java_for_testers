@@ -70,9 +70,11 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
         click(By.cssSelector(UPDATE_BUTTON_CSS));
     }
 
-    public void removeFirstGroup(){
+    public GroupData removeFirstGroup(){
         WebElement group = find(By.cssSelector(LIST_OF_GROUPS_CSS));
+        GroupData removedGroup = transformElementToGroupData(group);
         removeGroup(group);
+        return removedGroup;
     }
 
     private void removeGroup(WebElement group){
@@ -95,6 +97,8 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
         editHeaderText(data.getHeader());
         editFooterText(data.getFooter());
     }
+
+
 
     public void editGroupName(String groupName) {
         type(By.cssSelector(GROUP_NAME_INPUT_CSS), groupName);
@@ -150,13 +154,17 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
         List<WebElement> elements = findAll(By.cssSelector("form span"));
         DataSet<GroupData> dataSet = new DataSet();
         for (WebElement element : elements){
-            String name = element.getText();
-            int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-            dataSet.add(new GroupData()
-                    .withId(id)
-                    .withName(name));
+            dataSet.add(transformElementToGroupData(element));
         }
         return dataSet;
+    }
+
+    public GroupData transformElementToGroupData(WebElement element) {
+        String name = element.getText();
+        int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+        return new GroupData()
+                .withId(id)
+                .withName(name);
     }
 
     public void modifyGroupHeader(GroupData groupData, String newHeader, NavigationHelper navigationHelper) {

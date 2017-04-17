@@ -33,10 +33,7 @@ public class AddressListHelper extends BaseHelper {
         navigationHelper.homePage();
         List<WebElement> addressRows = findAll(By.cssSelector(LIST_OF_ADDRESSES_CSS));
         for (WebElement row : addressRows){
-            int id = Integer.parseInt(row.findElement(By.cssSelector(CHECKBOX_ROW_CSS)).getAttribute("value"));
-            String lastName = row.findElement(By.cssSelector(LABEL_LAST_NAME_CSS)).getText();
-            String firstName = row.findElement(By.cssSelector(LABEL_FIRST_NAME_CSS)).getText();
-            AddressData addressData = new AddressData(id, firstName, lastName);
+            AddressData addressData = convertElementToAddressData(row);
             addresses.add(addressData);
         }
         return addresses;
@@ -48,13 +45,17 @@ public class AddressListHelper extends BaseHelper {
         navigationHelper.homePage();
         List<WebElement> addressRows = findAll(By.cssSelector(LIST_OF_ADDRESSES_CSS));
         for (WebElement row : addressRows){
-            int id = Integer.parseInt(row.findElement(By.cssSelector(CHECKBOX_ROW_CSS)).getAttribute("value"));
-            String lastName = row.findElement(By.cssSelector(LABEL_LAST_NAME_CSS)).getText();
-            String firstName = row.findElement(By.cssSelector(LABEL_FIRST_NAME_CSS)).getText();
-            AddressData addressData = new AddressData(id, firstName, lastName);
+            AddressData addressData = convertElementToAddressData(row);
             addresses.add(addressData);
         }
         return addresses;
+    }
+
+    public AddressData convertElementToAddressData(WebElement row) {
+        int id = Integer.parseInt(row.findElement(By.cssSelector(CHECKBOX_ROW_CSS)).getAttribute("value"));
+        String lastName = row.findElement(By.cssSelector(LABEL_LAST_NAME_CSS)).getText();
+        String firstName = row.findElement(By.cssSelector(LABEL_FIRST_NAME_CSS)).getText();
+        return new AddressData(id, firstName, lastName);
     }
 
     public boolean isAddressesPresented(){
@@ -66,13 +67,15 @@ public class AddressListHelper extends BaseHelper {
         }
     }
 
-    public void deleteFirstAddress(){
+    public AddressData removeFirstAddress(){
         WebDriverWait wait = new WebDriverWait(driver, 10);
         WebElement firstElement = find(By.cssSelector(LIST_OF_ADDRESSES_CSS));
+        AddressData address = convertElementToAddressData(firstElement);
         firstElement.findElement(By.cssSelector(CHECKBOX_ROW_CSS)).click();
         click(By.cssSelector(BUTTON_DELETE_CSS));
         wait.until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
+        return address;
     }
 
     public void cleanup(){

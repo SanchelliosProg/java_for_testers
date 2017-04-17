@@ -30,31 +30,31 @@ public class AddressData {
         this.lastName = lastName;
     }
 
-    interface FirstNameStep{
+    public interface FirstNameStep{
         LastNameStep firstName(String name);
     }
 
-    interface LastNameStep{
+    public interface LastNameStep{
         AddressStep lastName(String lastName);
     }
 
-    interface AddressStep{
+    public interface AddressStep{
         PhoneStep address(String address);
     }
 
-    interface PhoneStep{
+    public interface PhoneStep{
         EmailStep phone(String phone);
     }
 
-    interface EmailStep{
+    public interface EmailStep{
         GroupStep email(String email);
     }
 
-    interface GroupStep{
+    public interface GroupStep{
         BuildStep group(GroupLabels group);
     }
 
-    interface BuildStep{
+    public interface BuildStep{
         AddressData build();
     }
 
