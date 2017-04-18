@@ -31,7 +31,7 @@ public class DeleteAddressTest extends TestBase {
         createAddressIfNotExist(ghandi);
 
         goTo.homePage();
-        addressListHelper.removeFirstAddress();
+        addressListHelper.removeAddress(ghandi);
         goTo.homePage();
         DataSet<AddressData> after = addressListHelper.all();
 
