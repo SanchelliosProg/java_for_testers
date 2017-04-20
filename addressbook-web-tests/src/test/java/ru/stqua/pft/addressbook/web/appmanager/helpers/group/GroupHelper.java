@@ -22,10 +22,15 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
     private final String GROUP_NAME_INPUT_CSS = "input[type='text'][name='group_name']";
     private final String DELETE_BUTTON_CSS = "input[name='delete']";
     private final String SUBMIT_BUTTON_CSS = "input[name='submit']";
+    private final String BUTTON_EDIT_CSS = "form input[type='submit'][name='edit']";
 
     private final String GROUP_HEADER_TEXT_AREA_CSS = "textarea[name='group_header']";
     private final String GROUP_FOOTER_TEXT_AREA_CSS = "textarea[name='group_footer']";
     private final String UPDATE_BUTTON_CSS = "input[name='update']";
+
+    private final String CHECKBOX_CHOOSE_GROUP_CSS = "input[type='checkbox']";
+
+    private final String BUTTON_UPDATE_EDIT_CSS = "form input[type='submit']";
 
     private final String LIST_OF_GROUPS_CSS = "form span";
 
@@ -70,16 +75,31 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
         click(By.cssSelector(UPDATE_BUTTON_CSS));
     }
 
+    public GroupData editFirstGroup(GroupData newGroupData){
+        WebElement groupElement = find(By.cssSelector(LIST_OF_GROUPS_CSS));
+        GroupData oldGroup = transformElementToGroupData(groupElement);
+
+        chooseGroup(groupElement);
+        click(By.cssSelector(BUTTON_EDIT_CSS));
+        editGroup(newGroupData);
+        click(BUTTON_UPDATE_EDIT_CSS);
+        return oldGroup;
+    }
+
     public GroupData removeFirstGroup(){
-        WebElement group = find(By.cssSelector(LIST_OF_GROUPS_CSS));
-        GroupData removedGroup = transformElementToGroupData(group);
-        removeGroup(group);
+        WebElement groupElement = find(By.cssSelector(LIST_OF_GROUPS_CSS));
+        GroupData removedGroup = transformElementToGroupData(groupElement);
+        removeGroup(groupElement);
         return removedGroup;
     }
 
     private void removeGroup(WebElement group){
-        group.findElement(By.cssSelector("input[type='checkbox']")).click();
+        chooseGroup(group);
         click(By.cssSelector(DELETE_BUTTON_CSS));
+    }
+
+    private void chooseGroup(WebElement group) {
+        group.findElement(By.cssSelector(CHECKBOX_CHOOSE_GROUP_CSS)).click();
     }
 
     public void removeGroupWithName(String name){
@@ -97,8 +117,6 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
         editHeaderText(data.getHeader());
         editFooterText(data.getFooter());
     }
-
-
 
     public void editGroupName(String groupName) {
         type(By.cssSelector(GROUP_NAME_INPUT_CSS), groupName);

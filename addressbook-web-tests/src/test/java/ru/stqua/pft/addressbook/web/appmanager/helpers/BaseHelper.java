@@ -54,6 +54,10 @@ public class BaseHelper {
         find(locator).click();
     }
 
+    public void click(String css) {
+        find(By.cssSelector(css)).click();
+    }
+
     public boolean isElementPresent(By by) {
         try {
             driver.findElement(by);
