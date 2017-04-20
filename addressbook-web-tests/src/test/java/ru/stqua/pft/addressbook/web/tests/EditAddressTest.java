@@ -19,9 +19,9 @@ public class EditAddressTest extends TestBase{
 
     @BeforeMethod
     public void preconditionsSetUp(){
-        if(!addressListHelper.isAddressesPresented()){
-            address.addAddress(AddressProvider.getAddress(Addresses.JOHN_MATRIX));
-        }
+        goTo.homePage();
+        addressListHelper.cleanup();
+        address.addAddress(AddressProvider.getAddress(Addresses.JOHN_MATRIX));
         createGroupIfNotExist(GroupLabels.GOOD_PEOPLE);
     }
 
@@ -29,11 +29,11 @@ public class EditAddressTest extends TestBase{
     public void editTest() {
         DataSet<AddressData> before = addressListHelper.all();
         goTo.homePage();
-        AddressData removedAddress = addressListHelper.removeFirstAddress();
-        AddressData addedAddress = AddressData.newBuilder().firstName("Lionel").lastName("Richie").address("USA")
+        AddressData newAddress = AddressData.newBuilder().firstName("Lionel").lastName("Richie").address("USA")
                 .phone("02").email("donwritehere@getoff.us").group(GroupLabels.GOOD_PEOPLE).build();
-        address.addAddress(addedAddress);
+        AddressData oldAddress = addressListHelper.editFirstAddress(newAddress);
+
         DataSet<AddressData> after = addressListHelper.all();
-        assertThat(after, equalTo(before.without(removedAddress).withAdded(addedAddress)));
+        assertThat(after, equalTo(before.without(oldAddress).withAdded(newAddress)));
     }
 }

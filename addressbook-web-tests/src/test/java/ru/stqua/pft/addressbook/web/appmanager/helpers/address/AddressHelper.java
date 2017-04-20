@@ -49,6 +49,10 @@ public class AddressHelper extends BaseHelper {
         nh.openApp();
         WebElement row = find(By.xpath("//tr[contains(., \""+ addressName +"\")]"));
         row.findElement(By.cssSelector("img[title='Edit']")).click();
+        editAddress(newData);
+    }
+
+    public void editAddress(AddressData newData) {
         editFirstName(newData.getFirstName());
         editLastName(newData.getLastName());
         editAddress(newData.getAddress());

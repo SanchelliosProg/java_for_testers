@@ -67,6 +67,31 @@ public class AddressListHelper extends BaseHelper {
         }
     }
 
+    public AddressData editFirstAddress(AddressData newAddress) {
+        WebElement firstElement = find(By.cssSelector(LIST_OF_ADDRESSES_CSS));
+        AddressData oldAddress = convertElementToAddressData(firstElement);
+        chooseAddress(firstElement);
+        clickEdit(firstElement);
+        AddressHelper helper = new AddressHelper(driver);
+        helper.editAddress(newAddress);
+        return oldAddress;
+    }
+
+    public void clickEdit(WebElement firstElement) {
+        firstElement.findElement(By.cssSelector("img[title='Edit']")).click();
+    }
+//    public GroupData editFirstGroup(GroupData newGroupData){
+//        WebElement groupElement = find(By.cssSelector(LIST_OF_GROUPS_CSS));
+//        GroupData oldGroup = transformElementToGroupData(groupElement);
+//
+//        chooseGroup(groupElement);
+//        click(By.cssSelector(BUTTON_EDIT_CSS));
+//        editGroup(newGroupData);
+//        click(BUTTON_UPDATE_EDIT_CSS);
+//        return oldGroup;
+//    }
+//
+
     public AddressData removeFirstAddress() {
         WebElement firstElement = find(By.cssSelector(LIST_OF_ADDRESSES_CSS));
         AddressData address = convertElementToAddressData(firstElement);
@@ -76,10 +101,14 @@ public class AddressListHelper extends BaseHelper {
 
     public void removeElement(WebElement firstElement) {
         WebDriverWait wait = new WebDriverWait(driver, 10);
-        firstElement.findElement(By.cssSelector(CHECKBOX_ROW_CSS)).click();
+        chooseAddress(firstElement);
         click(By.cssSelector(BUTTON_DELETE_CSS));
         wait.until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
+    }
+
+    public void chooseAddress(WebElement firstElement) {
+        firstElement.findElement(By.cssSelector(CHECKBOX_ROW_CSS)).click();
     }
 
     public AddressData removeAddress(AddressData data) {
