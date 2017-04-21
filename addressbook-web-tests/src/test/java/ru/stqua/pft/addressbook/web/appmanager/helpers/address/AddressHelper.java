@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.Select;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.navigation.NavigationHelper;
 import ru.stqua.pft.addressbook.web.model.AddressData;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.BaseHelper;
+import ru.stqua.pft.addressbook.web.model.DataSet;
 
 /**
  * Created by Александр on 19.03.2017.
@@ -31,9 +32,15 @@ public class AddressHelper extends BaseHelper {
         super(driver);
     }
 
-    public AddressData addAddress(AddressData data){
-        NavigationHelper helper = new NavigationHelper(driver);
-        helper.addNewAddressPage();
+    public void editAddressWithName(String addressName, AddressData newData){
+        NavigationHelper nh = new NavigationHelper(driver);
+        nh.openApp();
+        WebElement row = find(By.xpath("//tr[contains(., \""+ addressName +"\")]"));
+        row.findElement(By.cssSelector("img[title='Edit']")).click();
+        editAddress(newData);
+    }
+
+    public void fillNewAddressData(AddressData data){
         find(By.cssSelector(INPUT_FIRST_NAME_CSS)).sendKeys(data.getFirstName());
         find(By.cssSelector(INPUT_LAST_NAME_CSS)).sendKeys(data.getLastName());
         find(By.cssSelector(INPUT_ADDRESS_CSS)).sendKeys(data.getAddress());
@@ -41,15 +48,6 @@ public class AddressHelper extends BaseHelper {
         find(By.cssSelector(INPUT_EMAIL_CSS)).sendKeys(data.getEmail());
         selectGroup(data);
         click(By.cssSelector(BUTTON_SUBMIT_CSS));
-        return data;
-    }
-
-    public void editAddressWithName(String addressName, AddressData newData){
-        NavigationHelper nh = new NavigationHelper(driver);
-        nh.openApp();
-        WebElement row = find(By.xpath("//tr[contains(., \""+ addressName +"\")]"));
-        row.findElement(By.cssSelector("img[title='Edit']")).click();
-        editAddress(newData);
     }
 
     public void editAddress(AddressData newData) {

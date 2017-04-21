@@ -21,7 +21,7 @@ public class EditAddressTest extends TestBase{
     public void preconditionsSetUp(){
         goTo.homePage();
         addressListHelper.cleanup();
-        address.addAddress(AddressProvider.getAddress(Addresses.JOHN_MATRIX));
+        addressListHelper.addAddress(AddressProvider.getAddress(Addresses.JOHN_MATRIX));
         createGroupIfNotExist(GroupLabels.GOOD_PEOPLE);
     }
 

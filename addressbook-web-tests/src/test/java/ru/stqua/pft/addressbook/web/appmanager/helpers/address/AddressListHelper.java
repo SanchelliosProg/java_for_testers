@@ -23,23 +23,16 @@ public class AddressListHelper extends BaseHelper {
     private final String LABEL_LAST_NAME_CSS = "td:nth-child(2)";
     private final String LABEL_FIRST_NAME_CSS = "td:nth-child(3)";
 
+    private DataSet<AddressData> addressCache = null;
+
     public AddressListHelper(WebDriver driver) {
         super(driver);
     }
 
-    public List<AddressData> getAddresses() {
-        List<AddressData> addresses = new ArrayList<>();
-        NavigationHelper navigationHelper = new NavigationHelper(driver);
-        navigationHelper.homePage();
-        List<WebElement> addressRows = findAll(By.cssSelector(LIST_OF_ADDRESSES_CSS));
-        for (WebElement row : addressRows) {
-            AddressData addressData = convertElementToAddressData(row);
-            addresses.add(addressData);
-        }
-        return addresses;
-    }
-
     public DataSet<AddressData> all() {
+        if (addressCache != null) {
+            return new DataSet<>(addressCache);
+        }
         DataSet<AddressData> addresses = new DataSet<>();
         NavigationHelper navigationHelper = new NavigationHelper(driver);
         navigationHelper.homePage();
@@ -51,13 +44,6 @@ public class AddressListHelper extends BaseHelper {
         return addresses;
     }
 
-    public AddressData convertElementToAddressData(WebElement row) {
-        int id = Integer.parseInt(row.findElement(By.cssSelector(CHECKBOX_ROW_CSS)).getAttribute("value"));
-        String lastName = row.findElement(By.cssSelector(LABEL_LAST_NAME_CSS)).getText();
-        String firstName = row.findElement(By.cssSelector(LABEL_FIRST_NAME_CSS)).getText();
-        return new AddressData(id, firstName, lastName);
-    }
-
     public boolean isAddressesPresented() {
         List<WebElement> list = findAll(By.cssSelector(LIST_OF_ADDRESSES_CSS));
         if (list.size() > 0) {
@@ -67,7 +53,16 @@ public class AddressListHelper extends BaseHelper {
         }
     }
 
+    public AddressData addAddress(AddressData data){
+        addressCache = null;
+        NavigationHelper goTo = new NavigationHelper(driver);
+        goTo.addNewAddressPage();
+        new AddressHelper(driver).fillNewAddressData(data);
+        return data;
+    }
+
     public AddressData editFirstAddress(AddressData newAddress) {
+        addressCache = null;
         WebElement firstElement = find(By.cssSelector(LIST_OF_ADDRESSES_CSS));
         AddressData oldAddress = convertElementToAddressData(firstElement);
         chooseAddress(firstElement);
@@ -77,21 +72,6 @@ public class AddressListHelper extends BaseHelper {
         return oldAddress;
     }
 
-    public void clickEdit(WebElement firstElement) {
-        firstElement.findElement(By.cssSelector("img[title='Edit']")).click();
-    }
-//    public GroupData editFirstGroup(GroupData newGroupData){
-//        WebElement groupElement = find(By.cssSelector(LIST_OF_GROUPS_CSS));
-//        GroupData oldGroup = transformElementToGroupData(groupElement);
-//
-//        chooseGroup(groupElement);
-//        click(By.cssSelector(BUTTON_EDIT_CSS));
-//        editGroup(newGroupData);
-//        click(BUTTON_UPDATE_EDIT_CSS);
-//        return oldGroup;
-//    }
-//
-
     public AddressData removeFirstAddress() {
         WebElement firstElement = find(By.cssSelector(LIST_OF_ADDRESSES_CSS));
         AddressData address = convertElementToAddressData(firstElement);
@@ -99,19 +79,8 @@ public class AddressListHelper extends BaseHelper {
         return address;
     }
 
-    public void removeElement(WebElement firstElement) {
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        chooseAddress(firstElement);
-        click(By.cssSelector(BUTTON_DELETE_CSS));
-        wait.until(ExpectedConditions.alertIsPresent());
-        driver.switchTo().alert().accept();
-    }
-
-    public void chooseAddress(WebElement firstElement) {
-        firstElement.findElement(By.cssSelector(CHECKBOX_ROW_CSS)).click();
-    }
-
     public AddressData removeAddress(AddressData data) {
+        addressCache = null;
         AddressData removedElement;
         WebDriverWait wait = new WebDriverWait(driver, 10);
         List<WebElement> rows = findAll(By.cssSelector(LIST_OF_ADDRESSES_CSS));
@@ -132,5 +101,28 @@ public class AddressListHelper extends BaseHelper {
         click(By.cssSelector(BUTTON_DELETE_CSS));
         wait.until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
+    }
+
+    private AddressData convertElementToAddressData(WebElement row) {
+        int id = Integer.parseInt(row.findElement(By.cssSelector(CHECKBOX_ROW_CSS)).getAttribute("value"));
+        String lastName = row.findElement(By.cssSelector(LABEL_LAST_NAME_CSS)).getText();
+        String firstName = row.findElement(By.cssSelector(LABEL_FIRST_NAME_CSS)).getText();
+        return new AddressData(id, firstName, lastName);
+    }
+
+    private void clickEdit(WebElement firstElement) {
+        firstElement.findElement(By.cssSelector("img[title='Edit']")).click();
+    }
+
+    private void removeElement(WebElement firstElement) {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        chooseAddress(firstElement);
+        click(By.cssSelector(BUTTON_DELETE_CSS));
+        wait.until(ExpectedConditions.alertIsPresent());
+        driver.switchTo().alert().accept();
+    }
+
+    private void chooseAddress(WebElement firstElement) {
+        firstElement.findElement(By.cssSelector(CHECKBOX_ROW_CSS)).click();
     }
 }

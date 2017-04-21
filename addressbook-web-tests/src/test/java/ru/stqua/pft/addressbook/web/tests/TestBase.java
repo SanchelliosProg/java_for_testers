@@ -57,7 +57,7 @@ public class TestBase {
     protected AddedDataStatus<AddressData> createAddressIfNotExist(AddressData address){
         goTo.homePage();
         if(!TestBase.address.isAddressWithNamePresented(address.getFirstName())){
-            TestBase.address.addAddress(address);
+            TestBase.addressListHelper.addAddress(address);
             return new AddedDataStatus<>(true, address);
         } else {
             return new AddedDataStatus<>(false, address);

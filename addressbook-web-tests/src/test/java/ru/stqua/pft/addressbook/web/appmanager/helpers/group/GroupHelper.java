@@ -47,7 +47,7 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
     public DataSet<GroupData> all() {
         new NavigationHelper(driver).groupPage();
         if (groupCache != null) {
-            return groupCache;
+            return new DataSet<>(groupCache);
         }
         List<WebElement> elements = findAll(By.cssSelector("form span"));
         groupCache = new DataSet<>();
