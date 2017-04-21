@@ -5,13 +5,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.BrowserType;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
-import ru.stqua.pft.addressbook.web.appmanager.helpers.address.AddressListHelper;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.address.ContactListHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupLabels;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.AddedDataStatus;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.navigation.NavigationHelper;
 import ru.stqua.pft.addressbook.web.model.*;
 import ru.stqua.pft.addressbook.web.appmanager.ApplicationManager;
-import ru.stqua.pft.addressbook.web.appmanager.helpers.address.AddressHelper;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.address.ContactHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupHelper;
 
 /**
@@ -20,9 +20,9 @@ import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupHelper;
 public class TestBase {
     protected static ApplicationManager app = new ApplicationManager(BrowserType.CHROME);
     protected static GroupHelper group = app.getGroupHelper();
-    protected static AddressHelper address = app.getAddressHelper();
+    protected static ContactHelper address = app.getContactHelper();
     protected static NavigationHelper goTo = app.getNavigationHelper();
-    protected static AddressListHelper addressListHelper = app.getAddressListHelper();
+    protected static ContactListHelper contactListHelper = app.getContactListHelper();
     protected static WebDriver driver = app.getDriver();
 
     protected int beforeCount = 0;
@@ -56,10 +56,10 @@ public class TestBase {
         }
     }
 
-    protected AddedDataStatus<AddressData> createAddressIfNotExist(AddressData address){
+    protected AddedDataStatus<ContactData> createContactIfNotExist(ContactData address){
         goTo.homePage();
-        if(!TestBase.address.isAddressWithNamePresented(address.getFirstName())){
-            TestBase.addressListHelper.addAddress(address);
+        if(!TestBase.address.isContactWithNamePresented(address.getFirstName())){
+            TestBase.contactListHelper.addContact(address);
             return new AddedDataStatus<>(true, address);
         } else {
             return new AddedDataStatus<>(false, address);
@@ -67,7 +67,7 @@ public class TestBase {
     }
 
     protected void cleanUp(){
-        addressListHelper.cleanup();
+        contactListHelper.cleanup();
         group.cleanup();
         driver.quit();
     }

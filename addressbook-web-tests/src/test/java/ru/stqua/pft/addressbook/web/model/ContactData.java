@@ -5,7 +5,7 @@ import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupLabels;
 /**
  * Created by Александр on 18.03.2017.
  */
-public class AddressData {
+public class ContactData {
     private int id;
     private String firstName;
     private String lastName;
@@ -14,7 +14,7 @@ public class AddressData {
     private String email;
     private String groupName;
 
-    private AddressData(String firstName, String lastName, String address, String phone, String groupName, String email) {
+    private ContactData(String firstName, String lastName, String address, String phone, String groupName, String email) {
         this.id = Integer.MAX_VALUE;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -24,7 +24,7 @@ public class AddressData {
         this.groupName = groupName;
     }
 
-    public AddressData(int id, String firstName, String lastName){
+    public ContactData(int id, String firstName, String lastName){
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -55,7 +55,7 @@ public class AddressData {
     }
 
     public interface BuildStep{
-        AddressData build();
+        ContactData build();
     }
 
     public static FirstNameStep newBuilder(){
@@ -105,8 +105,8 @@ public class AddressData {
         }
 
         @Override
-        public AddressData build() {
-            return new AddressData(firstName, lastName, address, phone, groupName, email);
+        public ContactData build() {
+            return new ContactData(firstName, lastName, address, phone, groupName, email);
         }
 
         @Override
@@ -150,7 +150,7 @@ public class AddressData {
 
     @Override
     public String toString() {
-        return "AddressData{" +
+        return "ContactData{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
@@ -162,7 +162,7 @@ public class AddressData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        AddressData that = (AddressData) o;
+        ContactData that = (ContactData) o;
 
         if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
         return lastName != null ? lastName.equals(that.lastName) : that.lastName == null;

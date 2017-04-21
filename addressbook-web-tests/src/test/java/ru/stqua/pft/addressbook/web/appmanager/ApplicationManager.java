@@ -5,8 +5,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.BrowserType;
-import ru.stqua.pft.addressbook.web.appmanager.helpers.address.AddressHelper;
-import ru.stqua.pft.addressbook.web.appmanager.helpers.address.AddressListHelper;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.address.ContactHelper;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.address.ContactListHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.navigation.NavigationHelper;
 
@@ -17,9 +17,9 @@ import java.util.Objects;
  */
 public class ApplicationManager {
     private GroupHelper groupHelper;
-    private AddressHelper addressHelper;
+    private ContactHelper contactHelper;
     private NavigationHelper navigationHelper;
-    private AddressListHelper addressListHelper;
+    private ContactListHelper contactListHelper;
 
     private String browser;
 
@@ -33,9 +33,9 @@ public class ApplicationManager {
 
     private void initHelpers(){
         groupHelper = new GroupHelper(getDriver());
-        addressHelper = new AddressHelper(getDriver());
+        contactHelper = new ContactHelper(getDriver());
         navigationHelper = new NavigationHelper(getDriver());
-        addressListHelper = new AddressListHelper(getDriver());
+        contactListHelper = new ContactListHelper(getDriver());
     }
 
     private void initWebDriver(){
@@ -56,15 +56,15 @@ public class ApplicationManager {
         return groupHelper;
     }
 
-    public AddressHelper getAddressHelper() {
-        return addressHelper;
+    public ContactHelper getContactHelper() {
+        return contactHelper;
     }
 
     public NavigationHelper getNavigationHelper() {
         return navigationHelper;
     }
 
-    public AddressListHelper getAddressListHelper() {
-        return addressListHelper;
+    public ContactListHelper getContactListHelper() {
+        return contactListHelper;
     }
 }

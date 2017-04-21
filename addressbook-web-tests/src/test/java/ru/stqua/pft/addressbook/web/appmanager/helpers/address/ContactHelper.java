@@ -5,14 +5,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.navigation.NavigationHelper;
-import ru.stqua.pft.addressbook.web.model.AddressData;
+import ru.stqua.pft.addressbook.web.model.ContactData;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.BaseHelper;
-import ru.stqua.pft.addressbook.web.model.DataSet;
 
 /**
  * Created by Александр on 19.03.2017.
  */
-public class AddressHelper extends BaseHelper {
+public class ContactHelper extends BaseHelper {
     public static final String ADD_ADDRESS_URL = "http://localhost/addressbook/edit.php";
 
     private final String INPUT_FIRST_NAME_CSS = "input[name='firstname']";
@@ -28,19 +27,19 @@ public class AddressHelper extends BaseHelper {
     private final String BUTTON_SUBMIT_CSS = "input[name='submit']";
 
 
-    public AddressHelper(WebDriver driver) {
+    public ContactHelper(WebDriver driver) {
         super(driver);
     }
 
-    public void editAddressWithName(String addressName, AddressData newData){
+    public void editContactWithName(String addressName, ContactData newData){
         NavigationHelper nh = new NavigationHelper(driver);
         nh.openApp();
         WebElement row = find(By.xpath("//tr[contains(., \""+ addressName +"\")]"));
         row.findElement(By.cssSelector("img[title='Edit']")).click();
-        editAddress(newData);
+        editContact(newData);
     }
 
-    public void fillNewAddressData(AddressData data){
+    public void fillNewContactData(ContactData data){
         find(By.cssSelector(INPUT_FIRST_NAME_CSS)).sendKeys(data.getFirstName());
         find(By.cssSelector(INPUT_LAST_NAME_CSS)).sendKeys(data.getLastName());
         find(By.cssSelector(INPUT_ADDRESS_CSS)).sendKeys(data.getAddress());
@@ -50,10 +49,10 @@ public class AddressHelper extends BaseHelper {
         click(By.cssSelector(BUTTON_SUBMIT_CSS));
     }
 
-    public void editAddress(AddressData newData) {
+    public void editContact(ContactData newData) {
         editFirstName(newData.getFirstName());
         editLastName(newData.getLastName());
-        editAddress(newData.getAddress());
+        editContact(newData.getAddress());
         editHomePhone(newData.getPhone());
         editEmail(newData.getEmail());
         click(By.cssSelector(BUTTON_UPDATE_CSS));
@@ -67,7 +66,7 @@ public class AddressHelper extends BaseHelper {
         type(By.cssSelector(INPUT_LAST_NAME_CSS), lastName);
     }
 
-    public void editAddress(String address){
+    public void editContact(String address){
         type(By.cssSelector(INPUT_ADDRESS_CSS), address);
     }
 
@@ -79,17 +78,17 @@ public class AddressHelper extends BaseHelper {
         type(By.cssSelector(INPUT_EMAIL_CSS), email);
     }
 
-    public void selectGroup(AddressData data) {
+    public void selectGroup(ContactData data) {
         Select select = new Select(find(By.cssSelector(SELECT_GROUP_CSS)));
         select.selectByVisibleText(data.getGroupName());
     }
 
-    public boolean isAddressWithNamePresented(String text){
+    public boolean isContactWithNamePresented(String text){
         WebElement we = find(By.xpath("//td[contains(., \""+ text +"\")]"));
         return we != null;
     }
 
-    public void openEditAddressWithName(String name){
+    public void openEditContactWithName(String name){
         WebElement row = getRowContainingName(name);
         row.findElement(By.cssSelector("img[title='Edit']")).click();
     }

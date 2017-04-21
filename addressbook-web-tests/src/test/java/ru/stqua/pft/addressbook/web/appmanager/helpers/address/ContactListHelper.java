@@ -7,25 +7,24 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.BaseHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.navigation.NavigationHelper;
-import ru.stqua.pft.addressbook.web.model.AddressData;
+import ru.stqua.pft.addressbook.web.model.ContactData;
 import ru.stqua.pft.addressbook.web.model.DataSet;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Александр on 08.04.2017.
  */
-public class AddressListHelper extends BaseHelper {
+public class ContactListHelper extends BaseHelper {
     private final String BUTTON_DELETE_CSS = "input[onclick='DeleteSel()']";
     private final String LIST_OF_ADDRESSES_CSS = "table tbody tr[name='entry']";
     private final String CHECKBOX_ROW_CSS = "input[type='checkbox']";
     private final String LABEL_LAST_NAME_CSS = "td:nth-child(2)";
     private final String LABEL_FIRST_NAME_CSS = "td:nth-child(3)";
 
-    private DataSet<AddressData> addressCache = null;
+    private DataSet<ContactData> addressCache = null;
 
-    public AddressListHelper(WebDriver driver) {
+    public ContactListHelper(WebDriver driver) {
         super(driver);
     }
 
@@ -33,17 +32,17 @@ public class AddressListHelper extends BaseHelper {
         return findAll(By.cssSelector(LIST_OF_ADDRESSES_CSS)).size();
     }
 
-    public DataSet<AddressData> all() {
+    public DataSet<ContactData> all() {
         if (addressCache != null) {
             return new DataSet<>(addressCache);
         }
-        DataSet<AddressData> addresses = new DataSet<>();
+        DataSet<ContactData> addresses = new DataSet<>();
         NavigationHelper navigationHelper = new NavigationHelper(driver);
         navigationHelper.homePage();
         List<WebElement> addressRows = findAll(By.cssSelector(LIST_OF_ADDRESSES_CSS));
         for (WebElement row : addressRows) {
-            AddressData addressData = convertElementToAddressData(row);
-            addresses.add(addressData);
+            ContactData contactData = convertElementToContactData(row);
+            addresses.add(contactData);
         }
         return addresses;
     }
@@ -57,41 +56,41 @@ public class AddressListHelper extends BaseHelper {
         }
     }
 
-    public AddressData addAddress(AddressData data){
+    public ContactData addContact(ContactData data){
         addressCache = null;
         NavigationHelper goTo = new NavigationHelper(driver);
         goTo.addNewAddressPage();
-        new AddressHelper(driver).fillNewAddressData(data);
+        new ContactHelper(driver).fillNewContactData(data);
         return data;
     }
 
-    public AddressData editFirstAddress(AddressData newAddress) {
+    public ContactData editFirstContact(ContactData newAddress) {
         addressCache = null;
         WebElement firstElement = find(By.cssSelector(LIST_OF_ADDRESSES_CSS));
-        AddressData oldAddress = convertElementToAddressData(firstElement);
+        ContactData oldAddress = convertElementToContactData(firstElement);
         chooseAddress(firstElement);
         clickEdit(firstElement);
-        AddressHelper helper = new AddressHelper(driver);
-        helper.editAddress(newAddress);
+        ContactHelper helper = new ContactHelper(driver);
+        helper.editContact(newAddress);
         return oldAddress;
     }
 
-    public AddressData removeFirstAddress() {
+    public ContactData removeFirstContact() {
         WebElement firstElement = find(By.cssSelector(LIST_OF_ADDRESSES_CSS));
-        AddressData address = convertElementToAddressData(firstElement);
+        ContactData address = convertElementToContactData(firstElement);
         removeElement(firstElement);
         return address;
     }
 
-    public AddressData removeAddress(AddressData data) {
+    public ContactData removeContact(ContactData data) {
         addressCache = null;
-        AddressData removedElement;
+        ContactData removedElement;
         WebDriverWait wait = new WebDriverWait(driver, 10);
         List<WebElement> rows = findAll(By.cssSelector(LIST_OF_ADDRESSES_CSS));
         for (WebElement row : rows) {
             String lastName = row.findElement(By.cssSelector(LABEL_LAST_NAME_CSS)).getText();
             if(lastName.equals(data.getLastName())){
-                removedElement = convertElementToAddressData(row);
+                removedElement = convertElementToContactData(row);
                 removeElement(row);
                 return removedElement;
             }
@@ -107,11 +106,11 @@ public class AddressListHelper extends BaseHelper {
         driver.switchTo().alert().accept();
     }
 
-    private AddressData convertElementToAddressData(WebElement row) {
+    private ContactData convertElementToContactData(WebElement row) {
         int id = Integer.parseInt(row.findElement(By.cssSelector(CHECKBOX_ROW_CSS)).getAttribute("value"));
         String lastName = row.findElement(By.cssSelector(LABEL_LAST_NAME_CSS)).getText();
         String firstName = row.findElement(By.cssSelector(LABEL_FIRST_NAME_CSS)).getText();
-        return new AddressData(id, firstName, lastName);
+        return new ContactData(id, firstName, lastName);
     }
 
     private void clickEdit(WebElement firstElement) {

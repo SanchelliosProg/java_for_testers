@@ -2,10 +2,10 @@ package ru.stqua.pft.addressbook.web.tests;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import ru.stqua.pft.addressbook.web.appmanager.helpers.address.Addresses;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.address.Contacts;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.AddedDataStatus;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupLabels;
-import ru.stqua.pft.addressbook.web.model.AddressData;
+import ru.stqua.pft.addressbook.web.model.ContactData;
 import ru.stqua.pft.addressbook.web.model.AddressProvider;
 import ru.stqua.pft.addressbook.web.model.DataSet;
 
@@ -15,7 +15,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Created by Александр on 22.03.2017.
  */
-public class DeleteAddressTest extends TestBase {
+public class DeleteContactTest extends TestBase {
 
     @BeforeMethod
     public void preconditionsSetUp(){
@@ -25,22 +25,22 @@ public class DeleteAddressTest extends TestBase {
     @Test
     public void deleteTest() {
 
-        DataSet<AddressData> before = addressListHelper.all();
-        beforeCount = addressListHelper.count();
-        AddressData ghandi = AddressProvider.getAddress(Addresses.M_GHANDI);
+        DataSet<ContactData> before = contactListHelper.all();
+        beforeCount = contactListHelper.count();
+        ContactData ghandi = AddressProvider.getAddress(Contacts.M_GHANDI);
         goTo.homePage();
 
-        AddedDataStatus<AddressData> status = createAddressIfNotExist(ghandi);
+        AddedDataStatus<ContactData> status = createContactIfNotExist(ghandi);
 
         if (status.isCreated()){
             riseBeforeCountDueToDataObjCreation();
         }
 
         goTo.homePage();
-        addressListHelper.removeAddress(ghandi);
+        contactListHelper.removeContact(ghandi);
         goTo.homePage();
-        assertThat(addressListHelper.count(), equalTo(beforeCount-1));
-        DataSet<AddressData> after = addressListHelper.all();
+        assertThat(contactListHelper.count(), equalTo(beforeCount-1));
+        DataSet<ContactData> after = contactListHelper.all();
 
         assertThat(after, equalTo(before.without(ghandi)));
     }
