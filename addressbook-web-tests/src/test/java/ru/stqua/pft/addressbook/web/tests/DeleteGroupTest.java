@@ -27,10 +27,12 @@ public class DeleteGroupTest extends TestBase {
     public void deleteTest() {
 
         DataSet<GroupData> before = group.all();
+        beforeCount = group.count();
         goTo.groupPage();
         group.removeGroupWithName(GroupLabels.GOOD_PEOPLE.getName());
+        goTo.groupPage();
+        assertThat(group.count(), equalTo(beforeCount - 1));
         DataSet<GroupData> after = group.all();
-        assertThat(after.size(), equalTo(before.size() - 1));
 
         group.removeGroupWithName(GroupLabels.GOOD_PEOPLE.getName());
 

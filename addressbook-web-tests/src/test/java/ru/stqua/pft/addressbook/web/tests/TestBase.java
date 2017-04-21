@@ -25,6 +25,8 @@ public class TestBase {
     protected static AddressListHelper addressListHelper = app.getAddressListHelper();
     protected static WebDriver driver = app.getDriver();
 
+    protected int beforeCount = 0;
+
     @BeforeSuite
     public void setUp(){
         login();
@@ -82,6 +84,14 @@ public class TestBase {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    protected void reduceBeforeCountDueToDataObjCreation() {
+        beforeCount -= 1;
+    }
+
+    protected void riseBeforeCountDueToDataObjCreation() {
+        beforeCount += 1;
     }
 
 }

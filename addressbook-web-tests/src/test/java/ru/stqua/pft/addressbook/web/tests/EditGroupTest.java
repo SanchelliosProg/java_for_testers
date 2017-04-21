@@ -28,10 +28,11 @@ public class EditGroupTest extends TestBase {
     @Test
     public void editTest() {
         DataSet<GroupData> before = group.all();
-
+        beforeCount = group.count();
         GroupData newGroup = GroupProvider.get(GroupLabels.COOL_ACTION_MOVIES);
         GroupData groupToRemove = group.editFirstGroup(newGroup);
         goTo.groupPage();
+        assertThat(group.count(), equalTo(beforeCount));
         DataSet<GroupData> after = group.all();
 
         assertThat(after, equalTo(before.without(groupToRemove).withAdded(newGroup)));

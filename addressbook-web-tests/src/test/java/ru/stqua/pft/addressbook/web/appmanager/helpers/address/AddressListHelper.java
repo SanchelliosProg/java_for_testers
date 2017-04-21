@@ -29,6 +29,10 @@ public class AddressListHelper extends BaseHelper {
         super(driver);
     }
 
+    public int count(){
+        return findAll(By.cssSelector(LIST_OF_ADDRESSES_CSS)).size();
+    }
+
     public DataSet<AddressData> all() {
         if (addressCache != null) {
             return new DataSet<>(addressCache);

@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by Александр on 18.03.2017.
  */
-public class GroupHelper extends BaseHelper implements PageInteractor {
+public class GroupHelper extends BaseHelper {
     public static final String GROUPS_URL = "http://localhost/addressbook/group.php";
 
     private final String GROUP_NAME_INPUT_CSS = "input[type='text'][name='group_name']";
@@ -40,8 +40,26 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
         super(driver);
     }
 
-    public void openNewGroupPage() {
-        click(By.cssSelector("input[type='submit'][name='new']"));
+    public boolean isGroupWithNamePresented(String name) {
+        WebElement group = find(By.xpath("//span[contains(., '" + name + "')]"));
+        if (group == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean isAnyGroupPresented() {
+        List<WebElement> groups = findAll(By.cssSelector(LIST_OF_GROUPS_CSS));
+        if (groups.size() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public int count(){
+        return driver.findElements(By.cssSelector(LIST_OF_GROUPS_CSS)).size();
     }
 
     public DataSet<GroupData> all() {
@@ -57,37 +75,27 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
         return groupCache;
     }
 
-    public boolean isAnyGroupPresented() {
-        List<WebElement> groups = findAll(By.cssSelector(LIST_OF_GROUPS_CSS));
-        if (groups.size() > 0) {
-            return true;
-        } else {
-            return false;
+    public List<GroupData> list() {
+        new NavigationHelper(driver).groupPage();
+        List<WebElement> groups = findAll(By.cssSelector("form span"));
+        List<GroupData> gd = new ArrayList<>();
+        for (WebElement group : groups) {
+            String name = group.getText();
+            int id = Integer.parseInt(group.findElement(By.tagName("input")).getAttribute("value"));
+            gd.add(new GroupData()
+                    .withId(id)
+                    .withName(name));
         }
+        return gd;
     }
 
-    public boolean isGroupWithNamePresented(String name) {
-        WebElement group = find(By.xpath("//span[contains(., '" + name + "')]"));
-        if (group == null) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public void createGroup(GroupData groupData) {
-        editGroupName(groupData.getName());
-        find(By.cssSelector(GROUP_HEADER_TEXT_AREA_CSS)).sendKeys(groupData.getHeader());
-        find(By.cssSelector(GROUP_FOOTER_TEXT_AREA_CSS)).sendKeys(groupData.getFooter());
-        click(By.cssSelector(SUBMIT_BUTTON_CSS));
-    }
-
-    public void submitChanges() {
-        click(By.cssSelector(SUBMIT_BUTTON_CSS));
-    }
-
-    public void clickUpdate() {
-        click(By.cssSelector(UPDATE_BUTTON_CSS));
+    public GroupData createGroup(GroupLabels group) {
+        groupCache = null;
+        open();
+        openNewGroupPage();
+        GroupData groupData = GroupProvider.get(group);
+        createGroup(groupData);
+        return groupData;
     }
 
     public GroupData editFirstGroup(GroupData newGroupData) {
@@ -102,17 +110,18 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
         return oldGroup;
     }
 
-    public GroupData removeFirstGroup() {
-        WebElement groupElement = find(By.cssSelector(LIST_OF_GROUPS_CSS));
-        GroupData removedGroup = transformElementToGroupData(groupElement);
-        removeGroup(groupElement);
-        return removedGroup;
-    }
-
     private void removeGroup(WebElement group) {
         groupCache = null;
         chooseGroup(group);
         click(By.cssSelector(DELETE_BUTTON_CSS));
+    }
+
+    public GroupData removeFirstGroup() {
+        groupCache = null;
+        WebElement groupElement = find(By.cssSelector(LIST_OF_GROUPS_CSS));
+        GroupData removedGroup = transformElementToGroupData(groupElement);
+        removeGroup(groupElement);
+        return removedGroup;
     }
 
     private void chooseGroup(WebElement group) {
@@ -130,69 +139,9 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
         }
     }
 
-    public void editGroup(GroupData data) {
-        groupCache = null;
-        editGroupName(data.getName());
-        editHeaderText(data.getHeader());
-        editFooterText(data.getFooter());
-    }
-
-    public void editGroupName(String groupName) {
-        type(By.cssSelector(GROUP_NAME_INPUT_CSS), groupName);
-    }
-
-    public void editHeaderText(String headerText) {
-        type(By.cssSelector(GROUP_HEADER_TEXT_AREA_CSS), headerText);
-    }
-
-    public void editFooterText(String footerText) {
-        type(By.cssSelector(GROUP_FOOTER_TEXT_AREA_CSS), footerText);
-    }
-
     public void openEditGroupWithName(String name) {
         WebElement row = find(By.xpath("//span[contains(., '" + name + "')]"));
         openEditPage(row);
-    }
-
-    public void openEditFirstGroup() {
-        WebElement row = findAll(By.cssSelector("form span")).get(0);
-        openEditPage(row);
-    }
-
-    private void openEditPage(WebElement row) {
-        row.findElement(By.cssSelector("input")).click();
-        find(By.cssSelector("input[name='edit']")).click();
-    }
-
-    public GroupData createGroup(GroupLabels group) {
-        open();
-        openNewGroupPage();
-        GroupData groupData = GroupProvider.get(group);
-        createGroup(groupData);
-        return groupData;
-    }
-
-    public List<GroupData> list() {
-        new NavigationHelper(driver).groupPage();
-        List<WebElement> groups = findAll(By.cssSelector("form span"));
-        List<GroupData> gd = new ArrayList<>();
-        for (WebElement group : groups) {
-            String name = group.getText();
-            int id = Integer.parseInt(group.findElement(By.tagName("input")).getAttribute("value"));
-            gd.add(new GroupData()
-                    .withId(id)
-                    .withName(name));
-        }
-        return gd;
-    }
-
-
-    public GroupData transformElementToGroupData(WebElement element) {
-        String name = element.getText();
-        int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-        return new GroupData()
-                .withId(id)
-                .withName(name);
     }
 
     public void modifyGroupHeader(GroupData groupData, String newHeader, NavigationHelper navigationHelper) {
@@ -204,7 +153,6 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
         navigationHelper.groupPage();
     }
 
-    @Override
     public void cleanup() {
         groupCache = null;
         driver.get(GROUPS_URL);
@@ -215,12 +163,59 @@ public class GroupHelper extends BaseHelper implements PageInteractor {
         click(By.cssSelector(DELETE_BUTTON_CSS));
     }
 
-    @Override
-    public void open() {
+    private void open() {
         driver.get(GROUPS_URL);
     }
 
-    public boolean isThereGroup() {
-        return isElementPresent(By.name("selected[]"));
+    private void createGroup(GroupData groupData) {
+        editGroupName(groupData.getName());
+        find(By.cssSelector(GROUP_HEADER_TEXT_AREA_CSS)).sendKeys(groupData.getHeader());
+        find(By.cssSelector(GROUP_FOOTER_TEXT_AREA_CSS)).sendKeys(groupData.getFooter());
+        click(By.cssSelector(SUBMIT_BUTTON_CSS));
+    }
+
+    private GroupData transformElementToGroupData(WebElement element) {
+        String name = element.getText();
+        int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+        return new GroupData()
+                .withId(id)
+                .withName(name);
+    }
+
+    private void openNewGroupPage() {
+        click(By.cssSelector("input[type='submit'][name='new']"));
+    }
+
+    private void openEditFirstGroup() {
+        WebElement row = findAll(By.cssSelector(LIST_OF_GROUPS_CSS)).get(0);
+        openEditPage(row);
+    }
+
+    private void openEditPage(WebElement row) {
+        row.findElement(By.cssSelector("input")).click();
+        find(By.cssSelector("input[name='edit']")).click();
+    }
+
+    private void editGroup(GroupData data) {
+        groupCache = null;
+        editGroupName(data.getName());
+        editHeaderText(data.getHeader());
+        editFooterText(data.getFooter());
+    }
+
+    private void editGroupName(String groupName) {
+        type(By.cssSelector(GROUP_NAME_INPUT_CSS), groupName);
+    }
+
+    private void editHeaderText(String headerText) {
+        type(By.cssSelector(GROUP_HEADER_TEXT_AREA_CSS), headerText);
+    }
+
+    private void editFooterText(String footerText) {
+        type(By.cssSelector(GROUP_FOOTER_TEXT_AREA_CSS), footerText);
+    }
+
+    private void clickUpdate() {
+        click(By.cssSelector(UPDATE_BUTTON_CSS));
     }
 }

@@ -29,13 +29,15 @@ public class CreateAddressTest extends TestBase {
     @Test
     public void addContact(){
         DataSet<AddressData> before = addressListHelper.all();
-
+        beforeCount = addressListHelper.count();
 
         AddressData frodo = AddressProvider.getAddress(Addresses.FRODO_BAGGINS);
         goTo.homePage();
 
         AddedDataStatus<AddressData> newAddress = createAddressIfNotExist(frodo);
 
+        goTo.homePage();
+        assertThat(addressListHelper.count(), equalTo(beforeCount+1));
         DataSet<AddressData> after = addressListHelper.all();
 
         goTo.homePage();

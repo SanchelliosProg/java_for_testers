@@ -1,5 +1,6 @@
 package ru.stqua.pft.addressbook.web.tests;
 
+import org.hamcrest.CoreMatchers;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.address.Addresses;
@@ -28,11 +29,13 @@ public class EditAddressTest extends TestBase{
     @Test
     public void editTest() {
         DataSet<AddressData> before = addressListHelper.all();
+        beforeCount = addressListHelper.count();
         goTo.homePage();
         AddressData newAddress = AddressData.newBuilder().firstName("Lionel").lastName("Richie").address("USA")
                 .phone("02").email("donwritehere@getoff.us").group(GroupLabels.GOOD_PEOPLE).build();
         AddressData oldAddress = addressListHelper.editFirstAddress(newAddress);
-
+        goTo.homePage();
+        assertThat(addressListHelper.count(), CoreMatchers.equalTo(beforeCount));
         DataSet<AddressData> after = addressListHelper.all();
         assertThat(after, equalTo(before.without(oldAddress).withAdded(newAddress)));
     }

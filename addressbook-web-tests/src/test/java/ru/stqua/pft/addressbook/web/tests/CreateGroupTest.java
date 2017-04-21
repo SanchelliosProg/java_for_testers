@@ -19,14 +19,18 @@ public class CreateGroupTest extends TestBase {
     public void createGroup() {
         boolean doAdd = false;
         DataSet<GroupData> before = group.all();
+        beforeCount = group.count();
 
         GroupData groupData = GroupProvider.get(GroupLabels.BROTHERHOOD_OF_RING);
         goTo.groupPage();
         if(!group.isGroupWithNamePresented(groupData.getName())){
             group.createGroup(GroupLabels.BROTHERHOOD_OF_RING);
             doAdd = true;
+        } else {
+            reduceBeforeCountDueToDataObjCreation();
         }
         goTo.groupPage();
+        assertThat(group.count(), equalTo(beforeCount+1));
         DataSet after = group.all();
         assertThat(group.isGroupWithNamePresented(groupData.getName()), is(true));
 
