@@ -11,6 +11,6 @@ public class RandomPhoneNumberProvider {
         int country = rnd.nextInt(10);
         int city = rnd.nextInt(1000 - 100) + 100;
         int phone = rnd.nextInt(10000000 - 1000000) + 1000000;
-        return String.valueOf(country + " (" + city + ") - " + phone);
+        return String.valueOf(country + "" + city + "" + phone);
     }
 }

@@ -6,7 +6,7 @@ import ru.stqua.pft.addressbook.web.appmanager.helpers.address.Contacts;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.AddedDataStatus;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupLabels;
 import ru.stqua.pft.addressbook.web.model.ContactData;
-import ru.stqua.pft.addressbook.web.model.AddressProvider;
+import ru.stqua.pft.addressbook.web.model.ContactProvider;
 import ru.stqua.pft.addressbook.web.model.DataSet;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -27,7 +27,7 @@ public class DeleteContactTest extends TestBase {
 
         DataSet<ContactData> before = contactListHelper.all();
         beforeCount = contactListHelper.count();
-        ContactData ghandi = AddressProvider.getAddress(Contacts.M_GHANDI);
+        ContactData ghandi = ContactProvider.getContact(Contacts.M_GHANDI);
         goTo.homePage();
 
         AddedDataStatus<ContactData> status = createContactIfNotExist(ghandi);

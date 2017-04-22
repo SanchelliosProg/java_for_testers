@@ -10,16 +10,20 @@ public class ContactData {
     private String firstName;
     private String lastName;
     private String address;
-    private String phone;
+    private String homePhone;
+    private String mobilePhone;
+    private String workPhone;
     private String email;
     private String groupName;
 
-    private ContactData(String firstName, String lastName, String address, String phone, String groupName, String email) {
+    private ContactData(String firstName, String lastName, String address, String homePhone, String mobilePhone, String workPhone, String groupName, String email) {
         this.id = Integer.MAX_VALUE;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
-        this.phone = phone;
+        this.homePhone = homePhone;
+        this.mobilePhone = mobilePhone;
+        this.workPhone = workPhone;
         this.email = email;
         this.groupName = groupName;
     }
@@ -39,11 +43,22 @@ public class ContactData {
     }
 
     public interface AddressStep{
-        PhoneStep address(String address);
+        HomePhoneStep address(String address);
     }
 
-    public interface PhoneStep{
-        EmailStep phone(String phone);
+    public interface HomePhoneStep {
+        EmailStep homePhoneOnly(String phone);
+        EmailStep homeAndMobile(String home, String mobile);
+        EmailStep noPhone();
+        MobilePhoneStep homePhone(String phone);
+    }
+
+    public interface MobilePhoneStep {
+        WorkPhoneStep mobilePhone(String phone);
+    }
+
+    public interface WorkPhoneStep {
+        EmailStep workPhone(String phone);
     }
 
     public interface EmailStep{
@@ -52,21 +67,28 @@ public class ContactData {
 
     public interface GroupStep{
         BuildStep group(GroupLabels group);
+        BuildStep emptyGroup();
     }
 
     public interface BuildStep{
         ContactData build();
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public static FirstNameStep newBuilder(){
         return new AddressBuilder();
     }
 
-    public static class AddressBuilder implements FirstNameStep, LastNameStep, AddressStep, PhoneStep, EmailStep, GroupStep, BuildStep{
+    public static class AddressBuilder implements FirstNameStep, LastNameStep, AddressStep, HomePhoneStep, MobilePhoneStep, WorkPhoneStep, EmailStep, GroupStep, BuildStep{
         private String firstName;
         private String lastName;
         private String address;
-        private String phone;
+        private String homePhone;
+        private String mobilePhone;
+        private String workPhone;
         private String email;
         private String groupName;
 
@@ -87,14 +109,50 @@ public class ContactData {
 
 
         @Override
-        public PhoneStep address(String address) {
+        public HomePhoneStep address(String address) {
             this.address = address;
             return this;
         }
 
         @Override
-        public EmailStep phone(String phone) {
-            this.phone = phone;
+        public EmailStep homePhoneOnly(String phone) {
+            this.homePhone = phone;
+            this.mobilePhone = "";
+            this.workPhone = "";
+            return this;
+        }
+
+        @Override
+        public EmailStep homeAndMobile(String home, String mobile) {
+            this.homePhone = home;
+            this.mobilePhone = mobile;
+            this.workPhone = "";
+            return this;
+        }
+
+        @Override
+        public EmailStep noPhone() {
+            this.homePhone = "";
+            this.mobilePhone = "";
+            this.workPhone = "";
+            return this;
+        }
+
+        @Override
+        public MobilePhoneStep homePhone(String phone) {
+            this.homePhone = phone;
+            return this;
+        }
+
+        @Override
+        public WorkPhoneStep mobilePhone(String phone) {
+            mobilePhone = phone;
+            return this;
+        }
+
+        @Override
+        public EmailStep workPhone(String phone) {
+            workPhone = phone;
             return this;
         }
 
@@ -106,12 +164,17 @@ public class ContactData {
 
         @Override
         public ContactData build() {
-            return new ContactData(firstName, lastName, address, phone, groupName, email);
+            return new ContactData(firstName, lastName, address, homePhone, mobilePhone, workPhone, groupName, email);
         }
 
         @Override
         public BuildStep group(GroupLabels group) {
             groupName = group.getName();
+            return this;
+        }
+
+        @Override
+        public BuildStep emptyGroup() {
             return this;
         }
     }
@@ -128,8 +191,8 @@ public class ContactData {
         return address;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getHomePhone() {
+        return homePhone;
     }
 
     public String getEmail() {
@@ -146,6 +209,14 @@ public class ContactData {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public String getMobilePhone() {
+        return mobilePhone;
+    }
+
+    public String getWorkPhone() {
+        return workPhone;
     }
 
     @Override

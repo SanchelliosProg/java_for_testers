@@ -21,6 +21,9 @@ public class ContactListHelper extends BaseHelper {
     private final String CHECKBOX_ROW_CSS = "input[type='checkbox']";
     private final String LABEL_LAST_NAME_CSS = "td:nth-child(2)";
     private final String LABEL_FIRST_NAME_CSS = "td:nth-child(3)";
+    private final String LABEL_ADDRESS_CSS = "td:nth-child(4)";
+    private final String LABEL_EMAIL_CSS = "td:nth-child(5)";
+    private final String LABEL_PHONES_CSS = "td:nth-child(6)";
 
     private DataSet<ContactData> addressCache = null;
 
@@ -88,7 +91,7 @@ public class ContactListHelper extends BaseHelper {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         List<WebElement> rows = findAll(By.cssSelector(LIST_OF_ADDRESSES_CSS));
         for (WebElement row : rows) {
-            String lastName = row.findElement(By.cssSelector(LABEL_LAST_NAME_CSS)).getText();
+            String lastName = parseTextFrom(row, LABEL_LAST_NAME_CSS);
             if(lastName.equals(data.getLastName())){
                 removedElement = convertElementToContactData(row);
                 removeElement(row);
@@ -106,11 +109,44 @@ public class ContactListHelper extends BaseHelper {
         driver.switchTo().alert().accept();
     }
 
+    public WebElement getRowContainingName(String name){
+        return find(By.xpath("//tr[contains(., '"+name+"')]"));
+    }
+
+    public ContactData getContactWithName(String name){
+        WebElement row = getRowContainingName(name);
+        return convertElementToContactData(row);
+    }
+
     private ContactData convertElementToContactData(WebElement row) {
         int id = Integer.parseInt(row.findElement(By.cssSelector(CHECKBOX_ROW_CSS)).getAttribute("value"));
-        String lastName = row.findElement(By.cssSelector(LABEL_LAST_NAME_CSS)).getText();
-        String firstName = row.findElement(By.cssSelector(LABEL_FIRST_NAME_CSS)).getText();
-        return new ContactData(id, firstName, lastName);
+        String lastName = parseTextFrom(row, LABEL_LAST_NAME_CSS);
+        String firstName = parseTextFrom(row, LABEL_FIRST_NAME_CSS);
+        String address = parseTextFrom(row, LABEL_ADDRESS_CSS);
+        String email = parseTextFrom(row, LABEL_EMAIL_CSS);
+        String phones = parseTextFrom(row, LABEL_PHONES_CSS);
+        String[] phonesArray = phones.split("\n");
+        ContactData data;
+        if(phonesArray.length == 3){
+            data = ContactData.newBuilder().firstName(firstName).lastName(lastName).address(address)
+                    .homePhone(phonesArray[0]).mobilePhone(phonesArray[1]).workPhone(phonesArray[2]).email(email).emptyGroup().build();
+        }else if (phonesArray.length == 2){
+            data = ContactData.newBuilder().firstName(firstName).lastName(lastName).address(address)
+                    .homeAndMobile(phonesArray[0], phonesArray[1]).email(email).emptyGroup().build();
+        }else if (phonesArray.length == 1){
+            data = ContactData.newBuilder().firstName(firstName).lastName(lastName).address(address)
+                    .homePhoneOnly(phonesArray[0]).email(email).emptyGroup().build();
+        } else {
+            data = ContactData.newBuilder().firstName(firstName).lastName(lastName).address(address)
+                    .noPhone().email(email).emptyGroup().build();
+        }
+
+        data.setId(id);
+        return data;
+    }
+
+    private String parseTextFrom(WebElement row, String locator) {
+        return row.findElement(By.cssSelector(locator)).getText();
     }
 
     private void clickEdit(WebElement firstElement) {

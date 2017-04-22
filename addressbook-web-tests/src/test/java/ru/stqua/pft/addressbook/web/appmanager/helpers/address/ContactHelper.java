@@ -8,6 +8,8 @@ import ru.stqua.pft.addressbook.web.appmanager.helpers.navigation.NavigationHelp
 import ru.stqua.pft.addressbook.web.model.ContactData;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.BaseHelper;
 
+import java.util.Objects;
+
 /**
  * Created by Александр on 19.03.2017.
  */
@@ -18,7 +20,9 @@ public class ContactHelper extends BaseHelper {
     private final String INPUT_LAST_NAME_CSS = "input[name='lastname']";
 
     private final String INPUT_ADDRESS_CSS = "textarea[name='address']";
-    private final String INPUT_HOME_CSS = "input[name='home']";
+    private final String INPUT_HOME_PHONE_CSS = "input[name='home']";
+    private final String INPUT_MOBILE_PHONE_CSS = "input[name='mobile']";
+    private final String INPUT_WORK_PHONE_CSS = "input[name='work']";
     private final String INPUT_EMAIL_CSS = "input[name='email']";
 
     private final String SELECT_GROUP_CSS = "select[name='new_group']";
@@ -43,9 +47,15 @@ public class ContactHelper extends BaseHelper {
         find(By.cssSelector(INPUT_FIRST_NAME_CSS)).sendKeys(data.getFirstName());
         find(By.cssSelector(INPUT_LAST_NAME_CSS)).sendKeys(data.getLastName());
         find(By.cssSelector(INPUT_ADDRESS_CSS)).sendKeys(data.getAddress());
-        find(By.cssSelector(INPUT_HOME_CSS)).sendKeys(data.getPhone());
+        if(!Objects.equals(data.getHomePhone(), ""))
+            find(By.cssSelector(INPUT_HOME_PHONE_CSS)).sendKeys(data.getHomePhone());
+        if(!Objects.equals(data.getMobilePhone(), ""))
+            find(By.cssSelector(INPUT_MOBILE_PHONE_CSS)).sendKeys(data.getMobilePhone());
+        if(!Objects.equals(data.getWorkPhone(), ""))
+            find(By.cssSelector(INPUT_WORK_PHONE_CSS)).sendKeys(data.getWorkPhone());
         find(By.cssSelector(INPUT_EMAIL_CSS)).sendKeys(data.getEmail());
-        selectGroup(data);
+        if (!Objects.equals(data.getGroupName(), ""))
+            selectGroup(data);
         click(By.cssSelector(BUTTON_SUBMIT_CSS));
     }
 
@@ -53,7 +63,12 @@ public class ContactHelper extends BaseHelper {
         editFirstName(newData.getFirstName());
         editLastName(newData.getLastName());
         editContact(newData.getAddress());
-        editHomePhone(newData.getPhone());
+        if(!Objects.equals(newData.getHomePhone(), ""))
+            editHomePhone(newData.getHomePhone());
+        if(!Objects.equals(newData.getMobilePhone(), ""))
+            editMobilePhone(newData.getMobilePhone());
+        if(!Objects.equals(newData.getWorkPhone(), ""))
+            editWorkPhone(newData.getWorkPhone());
         editEmail(newData.getEmail());
         click(By.cssSelector(BUTTON_UPDATE_CSS));
     }
@@ -71,8 +86,12 @@ public class ContactHelper extends BaseHelper {
     }
 
     public void editHomePhone(String homePhone){
-        type(By.cssSelector(INPUT_HOME_CSS), homePhone);
+        type(By.cssSelector(INPUT_HOME_PHONE_CSS), homePhone);
     }
+
+    public void editMobilePhone(String mobilePhone) {type(By.cssSelector(INPUT_MOBILE_PHONE_CSS), mobilePhone);}
+
+    public void editWorkPhone(String workPhone) {type(By.cssSelector(INPUT_WORK_PHONE_CSS), workPhone);}
 
     public void editEmail(String email){
         type(By.cssSelector(INPUT_EMAIL_CSS), email);
@@ -89,11 +108,9 @@ public class ContactHelper extends BaseHelper {
     }
 
     public void openEditContactWithName(String name){
-        WebElement row = getRowContainingName(name);
+        WebElement row = new ContactListHelper(driver).getRowContainingName(name);
         row.findElement(By.cssSelector("img[title='Edit']")).click();
     }
 
-    public WebElement getRowContainingName(String name){
-        return find(By.xpath("//tr[contains(., '"+name+"')]"));
-    }
+
 }

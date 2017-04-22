@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.address.Contacts;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupLabels;
 import ru.stqua.pft.addressbook.web.model.ContactData;
-import ru.stqua.pft.addressbook.web.model.AddressProvider;
+import ru.stqua.pft.addressbook.web.model.ContactProvider;
 import ru.stqua.pft.addressbook.web.model.DataSet;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -22,7 +22,7 @@ public class EditContactTest extends TestBase{
     public void preconditionsSetUp(){
         goTo.homePage();
         contactListHelper.cleanup();
-        contactListHelper.addContact(AddressProvider.getAddress(Contacts.JOHN_MATRIX));
+        contactListHelper.addContact(ContactProvider.getContact(Contacts.JOHN_MATRIX));
         createGroupIfNotExist(GroupLabels.GOOD_PEOPLE);
     }
 
@@ -32,7 +32,7 @@ public class EditContactTest extends TestBase{
         beforeCount = contactListHelper.count();
         goTo.homePage();
         ContactData newAddress = ContactData.newBuilder().firstName("Lionel").lastName("Richie").address("USA")
-                .phone("02").email("donwritehere@getoff.us").group(GroupLabels.GOOD_PEOPLE).build();
+                .homePhoneOnly("02").email("donwritehere@getoff.us").group(GroupLabels.GOOD_PEOPLE).build();
         ContactData oldAddress = contactListHelper.editFirstContact(newAddress);
         goTo.homePage();
         assertThat(contactListHelper.count(), CoreMatchers.equalTo(beforeCount));

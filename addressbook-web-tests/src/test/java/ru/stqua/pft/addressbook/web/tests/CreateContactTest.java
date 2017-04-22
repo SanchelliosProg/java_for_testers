@@ -3,7 +3,7 @@ import org.testng.annotations.*;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.AddedDataStatus;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupLabels;
 import ru.stqua.pft.addressbook.web.model.ContactData;
-import ru.stqua.pft.addressbook.web.model.AddressProvider;
+import ru.stqua.pft.addressbook.web.model.ContactProvider;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.address.Contacts;
 import ru.stqua.pft.addressbook.web.model.DataSet;
 
@@ -26,10 +26,13 @@ public class CreateContactTest extends TestBase {
         DataSet<ContactData> before = contactListHelper.all();
         beforeCount = contactListHelper.count();
 
-        ContactData frodo = AddressProvider.getAddress(Contacts.FRODO_BAGGINS);
+        ContactData frodo = ContactProvider.getContact(Contacts.FRODO_BAGGINS);
         goTo.homePage();
 
         AddedDataStatus<ContactData> newAddress = createContactIfNotExist(frodo);
+        if(!newAddress.isCreated()){
+            beforeCount -= 1;
+        }
 
         goTo.homePage();
         assertThat(contactListHelper.count(), equalTo(beforeCount+1));

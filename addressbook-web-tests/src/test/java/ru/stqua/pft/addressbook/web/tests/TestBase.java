@@ -3,7 +3,9 @@ package ru.stqua.pft.addressbook.web.tests;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.BrowserType;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.address.ContactListHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupLabels;
@@ -64,6 +66,11 @@ public class TestBase {
         } else {
             return new AddedDataStatus<>(false, address);
         }
+    }
+
+    protected void recreateContact(ContactData newContact){
+        contactListHelper.removeContact(newContact);
+        createContactIfNotExist(newContact);
     }
 
     protected void cleanUp(){

@@ -7,7 +7,9 @@ public enum Contacts {
     FRODO_BAGGINS ("Frodo"),
     JOHN_MATRIX ("John"),
     CASEY_RAYBACK ("Casey"),
-    M_GHANDI("Mahatma");
+    M_GHANDI("Mahatma"),
+    MARTIN_RIGGS("Martin");
+
 
     private String name;
 
