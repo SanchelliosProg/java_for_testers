@@ -5,6 +5,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.address.Contacts;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupLabels;
+import ru.stqua.pft.addressbook.web.appmanager.utils.RandomPhoneNumberProvider;
 import ru.stqua.pft.addressbook.web.model.ContactData;
 import ru.stqua.pft.addressbook.web.model.ContactProvider;
 import ru.stqua.pft.addressbook.web.model.DataSet;
@@ -32,7 +33,8 @@ public class EditContactTest extends TestBase{
         beforeCount = contactListHelper.count();
         goTo.homePage();
         ContactData newAddress = ContactData.newBuilder().firstName("Lionel").lastName("Richie").address("USA")
-                .homePhoneOnly("02").email("donwritehere@getoff.us").group(GroupLabels.GOOD_PEOPLE).build();
+                .homePhoneOnly(RandomPhoneNumberProvider.generateRandomNumber()).email("donwritehere@getoff.us")
+                .group(GroupLabels.GOOD_PEOPLE).build();
         ContactData oldAddress = contactListHelper.editFirstContact(newAddress);
         goTo.homePage();
         assertThat(contactListHelper.count(), CoreMatchers.equalTo(beforeCount));

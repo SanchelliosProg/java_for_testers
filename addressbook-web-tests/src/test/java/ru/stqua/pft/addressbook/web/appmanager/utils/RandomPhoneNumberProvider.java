@@ -9,8 +9,11 @@ public class RandomPhoneNumberProvider {
     public static String generateRandomNumber(){
         Random rnd = new Random();
         int country = rnd.nextInt(10);
-        int city = rnd.nextInt(1000 - 100) + 100;
-        int phone = rnd.nextInt(10000000 - 1000000) + 1000000;
-        return String.valueOf(country + "" + city + "" + phone);
+        int city = rnd.nextInt(900) + 100;
+        int firstThree = rnd.nextInt(900) + 100;
+        int firstTwo = rnd.nextInt(90) + 10;
+        int secondTwo = rnd.nextInt(90) + 10;
+
+        return String.valueOf("+" + country + " (" + city + ") " + firstThree + "-" + firstTwo + "-" + secondTwo);
     }
 }

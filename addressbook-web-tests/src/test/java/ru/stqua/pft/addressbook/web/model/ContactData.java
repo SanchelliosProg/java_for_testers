@@ -175,6 +175,7 @@ public class ContactData {
 
         @Override
         public BuildStep emptyGroup() {
+            groupName = "";
             return this;
         }
     }
