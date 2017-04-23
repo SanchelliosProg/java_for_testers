@@ -2,7 +2,7 @@ package ru.stqua.pft.addressbook.web.tests;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupLabels;
+import ru.stqua.pft.addressbook.web.model.labels.GroupLabels;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.AddedDataStatus;
 import ru.stqua.pft.addressbook.web.model.DataSet;
 import ru.stqua.pft.addressbook.web.model.GroupData;

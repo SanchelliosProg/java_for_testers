@@ -4,8 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.BrowserType;
 import org.testng.annotations.*;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.address.ContactDetailedScreenHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.address.ContactListHelper;
-import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupLabels;
+import ru.stqua.pft.addressbook.web.model.labels.GroupLabels;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.AddedDataStatus;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.navigation.NavigationHelper;
 import ru.stqua.pft.addressbook.web.model.*;
@@ -22,6 +23,7 @@ public class TestBase {
     protected static ContactHelper address = app.getContactHelper();
     protected static NavigationHelper goTo = app.getNavigationHelper();
     protected static ContactListHelper contactListHelper = app.getContactListHelper();
+    protected static ContactDetailedScreenHelper contactDetailedScreenHelper = app.getContactDetailedScreenHelper();
     protected static WebDriver driver = app.getDriver();
 
     protected int beforeCount = 0;
@@ -97,5 +99,10 @@ public class TestBase {
     protected void riseBeforeCountDueToDataObjCreation() {
         beforeCount += 1;
     }
+
+    protected String cleanedPhone(String phone){
+        return phone.replaceAll("[\\s()]", "").replaceAll("[-]", "");
+    }
+
 
 }

@@ -1,6 +1,6 @@
 package ru.stqua.pft.addressbook.web.model;
 
-import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupLabels;
+import ru.stqua.pft.addressbook.web.model.labels.GroupLabels;
 
 /**
  * Created by Александр on 18.03.2017.

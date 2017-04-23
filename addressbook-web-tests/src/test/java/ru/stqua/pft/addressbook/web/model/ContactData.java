@@ -1,6 +1,6 @@
 package ru.stqua.pft.addressbook.web.model;
 
-import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupLabels;
+import ru.stqua.pft.addressbook.web.model.labels.GroupLabels;
 
 /**
  * Created by Александр on 18.03.2017.
@@ -67,7 +67,7 @@ public class ContactData {
 
     public interface GroupStep{
         BuildStep group(GroupLabels group);
-        BuildStep emptyGroup();
+        BuildStep noGroup();
     }
 
     public interface BuildStep{
@@ -174,7 +174,7 @@ public class ContactData {
         }
 
         @Override
-        public BuildStep emptyGroup() {
+        public BuildStep noGroup() {
             groupName = "";
             return this;
         }
@@ -234,10 +234,10 @@ public class ContactData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ContactData that = (ContactData) o;
+        ContactData data = (ContactData) o;
 
-        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
-        return lastName != null ? lastName.equals(that.lastName) : that.lastName == null;
+        if (firstName != null ? !firstName.equals(data.firstName) : data.firstName != null) return false;
+        return lastName != null ? lastName.equals(data.lastName) : data.lastName == null;
     }
 
     @Override

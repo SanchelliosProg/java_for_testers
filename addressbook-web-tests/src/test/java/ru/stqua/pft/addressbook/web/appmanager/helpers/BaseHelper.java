@@ -22,6 +22,14 @@ public class BaseHelper {
         }
     }
 
+    public WebElement find(String locator){
+        try{
+            return driver.findElement(By.cssSelector(locator));
+        }catch (NoSuchElementException ex){
+            return null;
+        }
+    }
+
     public List<WebElement> findAll(By locator){
         return driver.findElements(locator);
     }

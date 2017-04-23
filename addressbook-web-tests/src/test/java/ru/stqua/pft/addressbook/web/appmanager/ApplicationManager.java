@@ -5,6 +5,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.BrowserType;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.address.ContactDetailedScreenHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.address.ContactHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.address.ContactListHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupHelper;
@@ -20,6 +21,7 @@ public class ApplicationManager {
     private ContactHelper contactHelper;
     private NavigationHelper navigationHelper;
     private ContactListHelper contactListHelper;
+    private ContactDetailedScreenHelper contactDetailedScreenHelper;
 
     private String browser;
 
@@ -36,6 +38,7 @@ public class ApplicationManager {
         contactHelper = new ContactHelper(getDriver());
         navigationHelper = new NavigationHelper(getDriver());
         contactListHelper = new ContactListHelper(getDriver());
+        contactDetailedScreenHelper = new ContactDetailedScreenHelper(getDriver());
     }
 
     private void initWebDriver(){
@@ -66,5 +69,9 @@ public class ApplicationManager {
 
     public ContactListHelper getContactListHelper() {
         return contactListHelper;
+    }
+
+    public ContactDetailedScreenHelper getContactDetailedScreenHelper() {
+        return contactDetailedScreenHelper;
     }
 }

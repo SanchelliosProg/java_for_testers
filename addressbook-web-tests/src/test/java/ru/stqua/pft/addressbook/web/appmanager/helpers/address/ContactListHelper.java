@@ -17,6 +17,7 @@ import java.util.List;
  */
 public class ContactListHelper extends BaseHelper {
     private final String BUTTON_DELETE_CSS = "input[onclick='DeleteSel()']";
+    private final String BUTTON_DETAILED_CSS = "td:nth-child(7)";
     private final String LIST_OF_ADDRESSES_CSS = "table tbody tr[name='entry']";
     private final String CHECKBOX_ROW_CSS = "input[type='checkbox']";
     private final String LABEL_LAST_NAME_CSS = "td:nth-child(2)";
@@ -33,6 +34,11 @@ public class ContactListHelper extends BaseHelper {
 
     public int count(){
         return findAll(By.cssSelector(LIST_OF_ADDRESSES_CSS)).size();
+    }
+
+    public void openDetailedInfoOfContactWithLastName(String lastName) {
+        WebElement row = getRowContainingName(lastName);
+        row.findElement(By.cssSelector(BUTTON_DETAILED_CSS)).click();
     }
 
     public DataSet<ContactData> all() {
@@ -129,16 +135,16 @@ public class ContactListHelper extends BaseHelper {
         ContactData data;
         if(phonesArray.length == 3){
             data = ContactData.newBuilder().firstName(firstName).lastName(lastName).address(address)
-                    .homePhone(phonesArray[0]).mobilePhone(phonesArray[1]).workPhone(phonesArray[2]).email(email).emptyGroup().build();
+                    .homePhone(phonesArray[0]).mobilePhone(phonesArray[1]).workPhone(phonesArray[2]).email(email).noGroup().build();
         }else if (phonesArray.length == 2){
             data = ContactData.newBuilder().firstName(firstName).lastName(lastName).address(address)
-                    .homeAndMobile(phonesArray[0], phonesArray[1]).email(email).emptyGroup().build();
+                    .homeAndMobile(phonesArray[0], phonesArray[1]).email(email).noGroup().build();
         }else if (phonesArray.length == 1){
             data = ContactData.newBuilder().firstName(firstName).lastName(lastName).address(address)
-                    .homePhoneOnly(phonesArray[0]).email(email).emptyGroup().build();
+                    .homePhoneOnly(phonesArray[0]).email(email).noGroup().build();
         } else {
             data = ContactData.newBuilder().firstName(firstName).lastName(lastName).address(address)
-                    .noPhone().email(email).emptyGroup().build();
+                    .noPhone().email(email).noGroup().build();
         }
 
         data.setId(id);

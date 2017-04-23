@@ -1,10 +1,10 @@
 package ru.stqua.pft.addressbook.web.tests;
 import org.testng.annotations.*;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.AddedDataStatus;
-import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupLabels;
+import ru.stqua.pft.addressbook.web.model.labels.GroupLabels;
 import ru.stqua.pft.addressbook.web.model.ContactData;
 import ru.stqua.pft.addressbook.web.model.ContactProvider;
-import ru.stqua.pft.addressbook.web.appmanager.helpers.address.Contacts;
+import ru.stqua.pft.addressbook.web.model.labels.ContactsLabels;
 import ru.stqua.pft.addressbook.web.model.DataSet;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -26,7 +26,7 @@ public class CreateContactTest extends TestBase {
         DataSet<ContactData> before = contactListHelper.all();
         beforeCount = contactListHelper.count();
 
-        ContactData frodo = ContactProvider.getContact(Contacts.FRODO_BAGGINS);
+        ContactData frodo = ContactProvider.getContact(ContactsLabels.FRODO_BAGGINS);
         goTo.homePage();
 
         AddedDataStatus<ContactData> newAddress = createContactIfNotExist(frodo);

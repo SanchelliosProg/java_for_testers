@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.navigation.NavigationHelper;
 import ru.stqua.pft.addressbook.web.model.GroupData;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.BaseHelper;
-import ru.stqua.pft.addressbook.web.appmanager.helpers.PageInteractor;
+import ru.stqua.pft.addressbook.web.model.labels.GroupLabels;
 import ru.stqua.pft.addressbook.web.model.GroupProvider;
 import ru.stqua.pft.addressbook.web.model.DataSet;
 

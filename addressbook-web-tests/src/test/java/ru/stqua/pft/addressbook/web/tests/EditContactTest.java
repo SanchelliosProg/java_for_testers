@@ -3,8 +3,8 @@ package ru.stqua.pft.addressbook.web.tests;
 import org.hamcrest.CoreMatchers;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import ru.stqua.pft.addressbook.web.appmanager.helpers.address.Contacts;
-import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupLabels;
+import ru.stqua.pft.addressbook.web.model.labels.ContactsLabels;
+import ru.stqua.pft.addressbook.web.model.labels.GroupLabels;
 import ru.stqua.pft.addressbook.web.appmanager.utils.RandomPhoneNumberProvider;
 import ru.stqua.pft.addressbook.web.model.ContactData;
 import ru.stqua.pft.addressbook.web.model.ContactProvider;
@@ -23,7 +23,7 @@ public class EditContactTest extends TestBase{
     public void preconditionsSetUp(){
         goTo.homePage();
         contactListHelper.cleanup();
-        contactListHelper.addContact(ContactProvider.getContact(Contacts.JOHN_MATRIX));
+        contactListHelper.addContact(ContactProvider.getContact(ContactsLabels.JOHN_MATRIX));
         createGroupIfNotExist(GroupLabels.GOOD_PEOPLE);
     }
 

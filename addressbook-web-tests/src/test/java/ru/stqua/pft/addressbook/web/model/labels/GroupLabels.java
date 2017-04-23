@@ -1,4 +1,4 @@
-package ru.stqua.pft.addressbook.web.appmanager.helpers.group;
+package ru.stqua.pft.addressbook.web.model.labels;
 
 /**
  * Created by Александр on 18.03.2017.
