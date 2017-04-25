@@ -2,6 +2,7 @@ package ru.stqua.pft.addressbook.web.appmanager.helpers;
 
 import org.openqa.selenium.*;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -51,6 +52,12 @@ public class BaseHelper {
                 driver.findElement(locator).clear();
                 driver.findElement(locator).sendKeys(text);
             }
+        }
+    }
+
+    public void attach(By locator, File file){
+        if(file != null){
+            driver.findElement(locator).sendKeys(file.getAbsolutePath());
         }
     }
 

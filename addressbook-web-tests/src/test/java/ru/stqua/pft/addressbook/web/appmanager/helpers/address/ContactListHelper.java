@@ -56,7 +56,7 @@ public class ContactListHelper extends BaseHelper {
         return addresses;
     }
 
-    public boolean isAddressesPresented() {
+    public boolean isContactsPresented() {
         List<WebElement> list = findAll(By.cssSelector(LIST_OF_ADDRESSES_CSS));
         if (list.size() > 0) {
             return true;
@@ -65,7 +65,9 @@ public class ContactListHelper extends BaseHelper {
         }
     }
 
-    public ContactData addContact(ContactData data){
+    public ContactData createContact(ContactData data){
+        if(isContactWithNamePresented(data.getLastName()))
+            removeContact(data);
         addressCache = null;
         NavigationHelper goTo = new NavigationHelper(driver);
         goTo.addNewAddressPage();
@@ -124,6 +126,11 @@ public class ContactListHelper extends BaseHelper {
         return convertElementToContactData(row);
     }
 
+    public boolean isContactWithNamePresented(String text){
+        WebElement we = find(By.xpath("//td[contains(., \""+ text +"\")]"));
+        return we != null;
+    }
+
     private ContactData convertElementToContactData(WebElement row) {
         int id = Integer.parseInt(row.findElement(By.cssSelector(CHECKBOX_ROW_CSS)).getAttribute("value"));
         String lastName = parseTextFrom(row, LABEL_LAST_NAME_CSS);
@@ -135,16 +142,16 @@ public class ContactListHelper extends BaseHelper {
         ContactData data;
         if(phonesArray.length == 3){
             data = ContactData.newBuilder().firstName(firstName).lastName(lastName).address(address)
-                    .homePhone(phonesArray[0]).mobilePhone(phonesArray[1]).workPhone(phonesArray[2]).email(email).noGroup().build();
+                    .homePhone(phonesArray[0]).mobilePhone(phonesArray[1]).workPhone(phonesArray[2]).email(email).noGroup().noPhoto().build();
         }else if (phonesArray.length == 2){
             data = ContactData.newBuilder().firstName(firstName).lastName(lastName).address(address)
-                    .homeAndMobile(phonesArray[0], phonesArray[1]).email(email).noGroup().build();
+                    .homeAndMobile(phonesArray[0], phonesArray[1]).email(email).noGroup().noPhoto().build();
         }else if (phonesArray.length == 1){
             data = ContactData.newBuilder().firstName(firstName).lastName(lastName).address(address)
-                    .homePhoneOnly(phonesArray[0]).email(email).noGroup().build();
+                    .homePhoneOnly(phonesArray[0]).email(email).noGroup().noPhoto().build();
         } else {
             data = ContactData.newBuilder().firstName(firstName).lastName(lastName).address(address)
-                    .noPhone().email(email).noGroup().build();
+                    .noPhone().email(email).noGroup().noPhoto().build();
         }
 
         data.setId(id);

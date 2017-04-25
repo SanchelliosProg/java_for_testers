@@ -2,6 +2,8 @@ package ru.stqua.pft.addressbook.web.model;
 
 import ru.stqua.pft.addressbook.web.model.labels.GroupLabels;
 
+import java.io.File;
+
 /**
  * Created by Александр on 18.03.2017.
  */
@@ -15,8 +17,10 @@ public class ContactData {
     private String workPhone;
     private String email;
     private String groupName;
+    private File photo;
 
-    private ContactData(String firstName, String lastName, String address, String homePhone, String mobilePhone, String workPhone, String groupName, String email) {
+    private ContactData(String firstName, String lastName, String address, String homePhone, String mobilePhone,
+                        String workPhone, String groupName, String email, File photo) {
         this.id = Integer.MAX_VALUE;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -26,12 +30,17 @@ public class ContactData {
         this.workPhone = workPhone;
         this.email = email;
         this.groupName = groupName;
+        this.photo = photo;
     }
 
     public ContactData(int id, String firstName, String lastName){
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public File getPhoto() {
+        return photo;
     }
 
     public interface FirstNameStep{
@@ -66,8 +75,13 @@ public class ContactData {
     }
 
     public interface GroupStep{
-        BuildStep group(GroupLabels group);
-        BuildStep noGroup();
+        PhotoStep group(GroupLabels group);
+        PhotoStep noGroup();
+    }
+
+    public interface PhotoStep{
+        BuildStep photo(File photo);
+        BuildStep noPhoto();
     }
 
     public interface BuildStep{
@@ -82,7 +96,8 @@ public class ContactData {
         return new AddressBuilder();
     }
 
-    public static class AddressBuilder implements FirstNameStep, LastNameStep, AddressStep, HomePhoneStep, MobilePhoneStep, WorkPhoneStep, EmailStep, GroupStep, BuildStep{
+    public static class AddressBuilder implements FirstNameStep, LastNameStep, AddressStep, HomePhoneStep,
+            MobilePhoneStep, WorkPhoneStep, EmailStep, GroupStep, PhotoStep, BuildStep{
         private String firstName;
         private String lastName;
         private String address;
@@ -91,6 +106,7 @@ public class ContactData {
         private String workPhone;
         private String email;
         private String groupName;
+        private File photo;
 
         public AddressBuilder() {
         }
@@ -164,18 +180,30 @@ public class ContactData {
 
         @Override
         public ContactData build() {
-            return new ContactData(firstName, lastName, address, homePhone, mobilePhone, workPhone, groupName, email);
+            return new ContactData(firstName, lastName, address, homePhone, mobilePhone, workPhone, groupName, email, photo);
         }
 
         @Override
-        public BuildStep group(GroupLabels group) {
+        public PhotoStep group(GroupLabels group) {
             groupName = group.getName();
             return this;
         }
 
         @Override
-        public BuildStep noGroup() {
+        public PhotoStep noGroup() {
             groupName = "";
+            return this;
+        }
+
+        @Override
+        public BuildStep photo(File photo) {
+            this.photo = photo;
+            return this;
+        }
+
+        @Override
+        public BuildStep noPhoto() {
+            this.photo = null;
             return this;
         }
     }
@@ -202,14 +230,6 @@ public class ContactData {
 
     public String getGroupName() {
         return groupName;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
     }
 
     public String getMobilePhone() {

@@ -23,7 +23,7 @@ public class EditContactTest extends TestBase{
     public void preconditionsSetUp(){
         goTo.homePage();
         contactListHelper.cleanup();
-        contactListHelper.addContact(ContactProvider.getContact(ContactsLabels.JOHN_MATRIX));
+        contactListHelper.createContact(ContactProvider.getContact(ContactsLabels.JOHN_MATRIX));
         createGroupIfNotExist(GroupLabels.GOOD_PEOPLE);
     }
 
@@ -34,7 +34,7 @@ public class EditContactTest extends TestBase{
         goTo.homePage();
         ContactData newAddress = ContactData.newBuilder().firstName("Lionel").lastName("Richie").address("USA")
                 .homePhoneOnly(RandomPhoneNumberProvider.generateRandomNumber()).email("donwritehere@getoff.us")
-                .group(GroupLabels.GOOD_PEOPLE).build();
+                .group(GroupLabels.GOOD_PEOPLE).noPhoto().build();
         ContactData oldAddress = contactListHelper.editFirstContact(newAddress);
         goTo.homePage();
         assertThat(contactListHelper.count(), CoreMatchers.equalTo(beforeCount));

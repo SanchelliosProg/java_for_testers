@@ -3,6 +3,8 @@ package ru.stqua.pft.addressbook.web.appmanager.helpers.navigation;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.BaseHelper;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.address.ContactListHelper;
+import ru.stqua.pft.addressbook.web.model.ContactData;
 
 /**
  * Created by avvasi78 on 21.03.2017.
@@ -33,9 +35,15 @@ public class NavigationHelper extends BaseHelper {
         click(By.linkText("home"));
     }
 
+    public void detailedContactPage(ContactData data){
+        ContactListHelper contactListHelper = new ContactListHelper(driver);
+        homePage();
+        contactListHelper.openDetailedInfoOfContactWithLastName(data.getLastName());
+    }
+
     public void addNewAddressPage() {
         if(isElementPresent(By.tagName("h1"))
-                && find(By.tagName("h1")).getText().equals("Edit / add address book entry")){
+                && find(By.tagName("h1")).getText().equals("Edit / add contactHelper book entry")){
             return;
         }
         click(By.linkText("add new"));

@@ -24,6 +24,7 @@ public class ContactHelper extends BaseHelper {
     private final String INPUT_MOBILE_PHONE_CSS = "input[name='mobile']";
     private final String INPUT_WORK_PHONE_CSS = "input[name='work']";
     private final String INPUT_EMAIL_CSS = "input[name='email']";
+    private final String INPUT_PHOTO_CSS = "input[name='photo']";
 
     private final String SELECT_GROUP_CSS = "select[name='new_group']";
 
@@ -47,6 +48,7 @@ public class ContactHelper extends BaseHelper {
         find(By.cssSelector(INPUT_FIRST_NAME_CSS)).sendKeys(data.getFirstName());
         find(By.cssSelector(INPUT_LAST_NAME_CSS)).sendKeys(data.getLastName());
         find(By.cssSelector(INPUT_ADDRESS_CSS)).sendKeys(data.getAddress());
+
         if(!Objects.equals(data.getHomePhone(), ""))
             find(By.cssSelector(INPUT_HOME_PHONE_CSS)).sendKeys(data.getHomePhone());
         if(!Objects.equals(data.getMobilePhone(), ""))
@@ -56,6 +58,8 @@ public class ContactHelper extends BaseHelper {
         find(By.cssSelector(INPUT_EMAIL_CSS)).sendKeys(data.getEmail());
         if (!Objects.equals(data.getGroupName(), ""))
             selectGroup(data);
+
+        attach(By.cssSelector(INPUT_PHOTO_CSS), data.getPhoto());
         click(By.cssSelector(BUTTON_SUBMIT_CSS));
     }
 
@@ -101,7 +105,7 @@ public class ContactHelper extends BaseHelper {
         Select select = new Select(find(By.cssSelector(SELECT_GROUP_CSS)));
         select.selectByVisibleText(data.getGroupName());
     }
-
+    @Deprecated
     public boolean isContactWithNamePresented(String text){
         WebElement we = find(By.xpath("//td[contains(., \""+ text +"\")]"));
         return we != null;

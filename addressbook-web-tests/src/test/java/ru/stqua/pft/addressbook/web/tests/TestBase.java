@@ -20,7 +20,7 @@ import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupHelper;
 public class TestBase {
     protected static ApplicationManager app = new ApplicationManager(BrowserType.CHROME);
     protected static GroupHelper group = app.getGroupHelper();
-    protected static ContactHelper address = app.getContactHelper();
+    protected static ContactHelper contactHelper = app.getContactHelper();
     protected static NavigationHelper goTo = app.getNavigationHelper();
     protected static ContactListHelper contactListHelper = app.getContactListHelper();
     protected static ContactDetailedScreenHelper contactDetailedScreenHelper = app.getContactDetailedScreenHelper();
@@ -59,14 +59,15 @@ public class TestBase {
 
     protected AddedDataStatus<ContactData> createContactIfNotExist(ContactData address){
         goTo.homePage();
-        if(!TestBase.address.isContactWithNamePresented(address.getFirstName())){
-            TestBase.contactListHelper.addContact(address);
+        if(!TestBase.contactHelper.isContactWithNamePresented(address.getFirstName())){
+            TestBase.contactListHelper.createContact(address);
             return new AddedDataStatus<>(true, address);
         } else {
             return new AddedDataStatus<>(false, address);
         }
     }
 
+    @Deprecated /*Метод ContactListHelper.createContact() должен заменять действия данного метода*/
     protected void recreateContact(ContactData newContact){
         contactListHelper.removeContact(newContact);
         createContactIfNotExist(newContact);
@@ -101,7 +102,7 @@ public class TestBase {
     }
 
     protected String cleanedPhone(String phone){
-        return phone.replaceAll("[\\s()]", "").replaceAll("[-]", "");
+        return phone.replaceAll("[\\s()-]", "");
     }
 
 
