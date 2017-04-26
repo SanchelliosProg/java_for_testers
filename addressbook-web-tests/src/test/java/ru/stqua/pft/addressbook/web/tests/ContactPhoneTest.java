@@ -25,7 +25,7 @@ public class ContactPhoneTest extends TestBase {
         goTo.editPageOf(newContact);
         newContact = contactHelper.parseEditPage();
         goTo.homePage();
-        ContactData contactToExamine = contactListHelper.getContactWithName(MARTIN_RIGGS.getName());
+        ContactData contactToExamine = contactListHelper.parseContactWithName(MARTIN_RIGGS.getName());
         assertThat("Home phones should be equal", cleanedPhone(newContact.getHomePhone()),
                 equalTo(contactToExamine.getHomePhone()));
         assertThat("Mobile phones should be equal", cleanedPhone(newContact.getMobilePhone()),

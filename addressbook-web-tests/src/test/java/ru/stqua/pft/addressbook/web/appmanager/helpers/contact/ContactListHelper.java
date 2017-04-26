@@ -130,7 +130,7 @@ public class ContactListHelper extends BaseHelper {
         return find(By.xpath("//tr[contains(., '"+name+"')]"));
     }
 
-    public ContactData getContactWithName(String name){
+    public ContactData parseContactWithName(String name){
         WebElement row = getRowContainingName(name);
         return convertElementToContactData(row);
     }

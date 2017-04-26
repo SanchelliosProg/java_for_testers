@@ -37,17 +37,18 @@ public class ContactWholeTest extends TestBase {
         goTo.homePage();
         ContactData gorby = ContactProvider.getContact(ContactsLabels.GORBY);
         contactListHelper.createContact(gorby);
-        goTo.detailedContactPage(gorby);
 
         goTo.homePage();
+        gorby = contactListHelper.parseContactWithName(gorby.getLastName());
         goTo.editPageOf(gorby);
-        ContactData parsedGorby = contactHelper.parseEditPage();
+        ContactData parsedFromEditPage = contactHelper.parseEditPage();
         goTo.homePage();
-        assertThat(gorby, equalTo(parsedGorby));
-        assertThat(gorby.getAddress(), equalTo(parsedGorby.getAddress()));
-        assertThat(gorby.getEmail(), equalTo(parsedGorby.getEmail()));
-        assertThat(gorby.getHomePhone(), equalTo(parsedGorby.getHomePhone()));
-        assertThat(gorby.getMobilePhone(), equalTo(parsedGorby.getMobilePhone()));
-        assertThat(gorby.getWorkPhone(), equalTo(parsedGorby.getWorkPhone()));
+
+        assertThat(gorby, equalTo(parsedFromEditPage));
+        assertThat(gorby.getAddress(), equalTo(parsedFromEditPage.getAddress()));
+        assertThat(gorby.getEmail(), equalTo(parsedFromEditPage.getEmail()));
+        assertThat(cleanedPhone(gorby.getHomePhone()), equalTo(parsedFromEditPage.getHomePhone()));
+        assertThat(cleanedPhone(gorby.getMobilePhone()), equalTo(parsedFromEditPage.getMobilePhone()));
+        assertThat(cleanedPhone(gorby.getWorkPhone()), equalTo(parsedFromEditPage.getWorkPhone()));
     }
 }
