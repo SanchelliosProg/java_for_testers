@@ -20,7 +20,10 @@ public class ContactPhoneTest extends TestBase {
         createGroupIfNotExist(GroupLabels.COOL_ACTION_MOVIES);
         goTo.homePage();
         ContactData newContact = ContactProvider.getContact(MARTIN_RIGGS);
-        recreateContact(newContact);
+        contactListHelper.createContact(newContact);
+        goTo.homePage();
+        goTo.editPageOf(newContact);
+        newContact = contactHelper.parseEditPage();
         goTo.homePage();
         ContactData contactToExamine = contactListHelper.getContactWithName(MARTIN_RIGGS.getName());
         assertThat("Home phones should be equal", cleanedPhone(newContact.getHomePhone()),

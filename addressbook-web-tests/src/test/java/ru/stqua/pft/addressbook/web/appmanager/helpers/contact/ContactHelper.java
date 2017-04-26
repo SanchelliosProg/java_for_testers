@@ -1,4 +1,4 @@
-package ru.stqua.pft.addressbook.web.appmanager.helpers.address;
+package ru.stqua.pft.addressbook.web.appmanager.helpers.contact;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -61,6 +61,20 @@ public class ContactHelper extends BaseHelper {
 
         attach(By.cssSelector(INPUT_PHOTO_CSS), data.getPhoto());
         click(By.cssSelector(BUTTON_SUBMIT_CSS));
+    }
+
+    public ContactData parseEditPage(){
+        String value = "value";
+        return ContactData.newBuilder().firstName(find(INPUT_FIRST_NAME_CSS).getAttribute(value))
+                .lastName(find(INPUT_LAST_NAME_CSS).getAttribute(value))
+                .address(find(INPUT_ADDRESS_CSS).getAttribute(value))
+                .homePhone(find(INPUT_HOME_PHONE_CSS).getAttribute(value))
+                .mobilePhone(find(INPUT_MOBILE_PHONE_CSS).getAttribute(value))
+                .workPhone(find(INPUT_WORK_PHONE_CSS).getAttribute(value))
+                .email(find(INPUT_EMAIL_CSS).getAttribute(value))
+                .noGroup()
+                .noPhoto()
+                .build();
     }
 
     public void editContact(ContactData newData) {

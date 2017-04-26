@@ -1,4 +1,4 @@
-package ru.stqua.pft.addressbook.web.appmanager.helpers.address;
+package ru.stqua.pft.addressbook.web.appmanager.helpers.contact;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -18,6 +18,7 @@ import java.util.List;
 public class ContactListHelper extends BaseHelper {
     private final String BUTTON_DELETE_CSS = "input[onclick='DeleteSel()']";
     private final String BUTTON_DETAILED_CSS = "td:nth-child(7)";
+    private final String BUTTON_EDIT_CSS = "td:nth-child(8)";
     private final String LIST_OF_ADDRESSES_CSS = "table tbody tr[name='entry']";
     private final String CHECKBOX_ROW_CSS = "input[type='checkbox']";
     private final String LABEL_LAST_NAME_CSS = "td:nth-child(2)";
@@ -37,8 +38,16 @@ public class ContactListHelper extends BaseHelper {
     }
 
     public void openDetailedInfoOfContactWithLastName(String lastName) {
-        WebElement row = getRowContainingName(lastName);
-        row.findElement(By.cssSelector(BUTTON_DETAILED_CSS)).click();
+        openRowsPage(lastName, By.cssSelector(BUTTON_DETAILED_CSS));
+    }
+
+    public void openEditPageOfContactWithLastName(String lastName) {
+        openRowsPage(lastName, By.cssSelector(BUTTON_EDIT_CSS));
+    }
+
+    private void openRowsPage(String name, By locator){
+        WebElement row = getRowContainingName(name);
+        row.findElement(locator).click();
     }
 
     public DataSet<ContactData> all() {

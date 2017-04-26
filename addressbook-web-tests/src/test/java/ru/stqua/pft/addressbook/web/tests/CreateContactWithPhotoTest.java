@@ -1,10 +1,6 @@
 package ru.stqua.pft.addressbook.web.tests;
 
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
 import org.testng.annotations.Test;
-import ru.stqua.pft.addressbook.web.appmanager.helpers.address.ContactPhoneNumbersState;
-import ru.stqua.pft.addressbook.web.appmanager.helpers.address.PhotoStatus;
 import ru.stqua.pft.addressbook.web.appmanager.utils.RandomPhoneNumberProvider;
 import ru.stqua.pft.addressbook.web.model.ContactData;
 
@@ -12,8 +8,8 @@ import java.io.File;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
-import static ru.stqua.pft.addressbook.web.appmanager.helpers.address.ContactPhoneNumbersState.*;
-import static ru.stqua.pft.addressbook.web.appmanager.helpers.address.PhotoStatus.*;
+import static ru.stqua.pft.addressbook.web.appmanager.helpers.contact.ContactPhoneNumbersState.*;
+import static ru.stqua.pft.addressbook.web.appmanager.helpers.contact.PhotoStatus.*;
 
 /**
  * Created by Александр on 25.04.2017.

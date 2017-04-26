@@ -1,4 +1,4 @@
-package ru.stqua.pft.addressbook.web.appmanager.helpers.address;
+package ru.stqua.pft.addressbook.web.appmanager.helpers.contact;
 
 import org.openqa.selenium.InvalidArgumentException;
 import org.openqa.selenium.WebDriver;

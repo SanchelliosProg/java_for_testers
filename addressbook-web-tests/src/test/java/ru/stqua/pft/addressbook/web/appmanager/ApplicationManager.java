@@ -5,9 +5,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.BrowserType;
-import ru.stqua.pft.addressbook.web.appmanager.helpers.address.ContactDetailedScreenHelper;
-import ru.stqua.pft.addressbook.web.appmanager.helpers.address.ContactHelper;
-import ru.stqua.pft.addressbook.web.appmanager.helpers.address.ContactListHelper;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.contact.ContactDetailedScreenHelper;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.contact.ContactHelper;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.contact.ContactListHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.navigation.NavigationHelper;
 
