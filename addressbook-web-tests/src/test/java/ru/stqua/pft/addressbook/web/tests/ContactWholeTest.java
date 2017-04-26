@@ -47,8 +47,8 @@ public class ContactWholeTest extends TestBase {
         assertThat(gorby, equalTo(parsedFromEditPage));
         assertThat(gorby.getAddress(), equalTo(parsedFromEditPage.getAddress()));
         assertThat(gorby.getEmail(), equalTo(parsedFromEditPage.getEmail()));
-        assertThat(cleanedPhone(gorby.getHomePhone()), equalTo(parsedFromEditPage.getHomePhone()));
-        assertThat(cleanedPhone(gorby.getMobilePhone()), equalTo(parsedFromEditPage.getMobilePhone()));
-        assertThat(cleanedPhone(gorby.getWorkPhone()), equalTo(parsedFromEditPage.getWorkPhone()));
+        assertThat(gorby.getHomePhone(), equalTo(cleanedPhone(parsedFromEditPage.getHomePhone())));
+        assertThat(gorby.getMobilePhone(), equalTo(cleanedPhone(parsedFromEditPage.getMobilePhone())));
+        assertThat(gorby.getWorkPhone(), equalTo(cleanedPhone(parsedFromEditPage.getWorkPhone())));
     }
 }
