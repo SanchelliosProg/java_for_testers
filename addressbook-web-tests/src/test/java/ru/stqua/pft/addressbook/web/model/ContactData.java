@@ -1,5 +1,6 @@
 package ru.stqua.pft.addressbook.web.model;
 
+import com.google.gson.annotations.Expose;
 import ru.stqua.pft.addressbook.web.model.labels.GroupLabels;
 
 import java.io.File;
@@ -9,14 +10,23 @@ import java.io.File;
  */
 public class ContactData {
     private int id;
+    @Expose
     private String firstName;
+    @Expose
     private String lastName;
+    @Expose
     private String address;
+    @Expose
     private String homePhone;
+    @Expose
     private String mobilePhone;
+    @Expose
     private String workPhone;
+    @Expose
     private String email;
+    @Expose
     private String groupName;
+    @Expose
     private File photo;
 
     private ContactData(String firstName, String lastName, String address, String homePhone, String mobilePhone,

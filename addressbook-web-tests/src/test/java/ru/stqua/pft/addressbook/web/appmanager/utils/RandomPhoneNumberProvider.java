@@ -16,4 +16,14 @@ public class RandomPhoneNumberProvider {
 
         return String.valueOf("+" + country + " (" + city + ") " + firstThree + "-" + firstTwo + "-" + secondTwo);
     }
+
+    public static String generateRandomNumber(int country){
+        Random rnd = new Random();
+        int city = rnd.nextInt(900) + 100;
+        int firstThree = rnd.nextInt(900) + 100;
+        int firstTwo = rnd.nextInt(90) + 10;
+        int secondTwo = rnd.nextInt(90) + 10;
+
+        return String.valueOf("+" + country + " (" + city + ") " + firstThree + "-" + firstTwo + "-" + secondTwo);
+    }
 }
