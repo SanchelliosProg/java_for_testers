@@ -94,8 +94,16 @@ public class GroupHelper extends BaseHelper {
         open();
         openNewGroupPage();
         GroupData groupData = GroupProvider.get(group);
-        createGroup(groupData);
+        addGroup(groupData);
         return groupData;
+    }
+
+    public GroupData createGroup(GroupData data) {
+        groupCache = null;
+        open();
+        openNewGroupPage();
+        addGroup(data);
+        return data;
     }
 
     public GroupData editFirstGroup(GroupData newGroupData) {
@@ -167,7 +175,7 @@ public class GroupHelper extends BaseHelper {
         driver.get(GROUPS_URL);
     }
 
-    private void createGroup(GroupData groupData) {
+    private void addGroup(GroupData groupData) {
         editGroupName(groupData.getName());
         find(By.cssSelector(GROUP_HEADER_TEXT_AREA_CSS)).sendKeys(groupData.getHeader());
         find(By.cssSelector(GROUP_FOOTER_TEXT_AREA_CSS)).sendKeys(groupData.getFooter());
