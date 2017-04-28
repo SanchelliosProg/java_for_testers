@@ -14,6 +14,11 @@ public class PropertiesProvider {
 
     public PropertiesProvider() {
         properties = new Properties();
+        try {
+            loadProperties();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getProperty(String key) {
@@ -22,6 +27,6 @@ public class PropertiesProvider {
 
     private void loadProperties() throws IOException {
         String target = System.getProperty("target", "local");
-        properties.load(new FileReader(new File("src/test/resources/%s.properties", target)));
+        properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
     }
 }
