@@ -64,9 +64,10 @@ public class ContactDataGenerator {
     }
 
     private void writeFile(File file, String json) throws IOException {
-        Writer writer = new FileWriter(file);
-        writer.write(json);
-        writer.close();
+        try(Writer writer = new FileWriter(file)){
+            writer.write(json);
+        }
+
     }
 
 

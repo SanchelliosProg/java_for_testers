@@ -11,12 +11,18 @@ import ru.stqua.pft.addressbook.web.appmanager.helpers.contact.ContactListHelper
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.navigation.NavigationHelper;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Objects;
+import java.util.Properties;
 
 /**
  * Created by Александр on 19.03.2017.
  */
 public class ApplicationManager {
+    private PropertiesProvider properties;
+
     private GroupHelper groupHelper;
     private ContactHelper contactHelper;
     private NavigationHelper navigationHelper;
@@ -27,8 +33,9 @@ public class ApplicationManager {
 
     private WebDriver driver;
 
-    public ApplicationManager(String browser){
+    public ApplicationManager(String browser)  {
         this.browser = browser;
+        properties = new PropertiesProvider();
         initWebDriver();
         initHelpers();
     }
@@ -74,4 +81,5 @@ public class ApplicationManager {
     public ContactDetailedScreenHelper getContactDetailedScreenHelper() {
         return contactDetailedScreenHelper;
     }
+
 }
