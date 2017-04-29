@@ -1,0 +1,52 @@
+[
+  {
+    "firstName": "firstName 0",
+    "lastName": "lastName 0",
+    "address": "address 0",
+    "homePhone": "+0 (934) 843-90-11",
+    "mobilePhone": "+0 (832) 900-27-36",
+    "workPhone": "+0 (725) 901-31-92",
+    "email": "email-0@testemail.un",
+    "groupName": ""
+  },
+  {
+    "firstName": "firstName 1",
+    "lastName": "lastName 1",
+    "address": "address 1",
+    "homePhone": "+1 (968) 598-34-86",
+    "mobilePhone": "+1 (431) 385-10-11",
+    "workPhone": "+1 (458) 774-77-89",
+    "email": "email-1@testemail.un",
+    "groupName": ""
+  },
+  {
+    "firstName": "firstName 2",
+    "lastName": "lastName 2",
+    "address": "address 2",
+    "homePhone": "+2 (545) 220-86-14",
+    "mobilePhone": "+2 (780) 707-14-46",
+    "workPhone": "+2 (431) 611-64-69",
+    "email": "email-2@testemail.un",
+    "groupName": ""
+  },
+  {
+    "firstName": "firstName 3",
+    "lastName": "lastName 3",
+    "address": "address 3",
+    "homePhone": "+3 (780) 641-40-16",
+    "mobilePhone": "+3 (481) 505-61-49",
+    "workPhone": "+3 (958) 519-34-25",
+    "email": "email-3@testemail.un",
+    "groupName": ""
+  },
+  {
+    "firstName": "firstName 4",
+    "lastName": "lastName 4",
+    "address": "address 4",
+    "homePhone": "+4 (560) 211-63-20",
+    "mobilePhone": "+4 (776) 558-25-24",
+    "workPhone": "+4 (878) 385-38-34",
+    "email": "email-4@testemail.un",
+    "groupName": ""
+  }
+]

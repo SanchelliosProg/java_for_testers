@@ -32,5 +32,7 @@ public class ContactPhoneTest extends TestBase {
                 equalTo(contactToExamine.getMobilePhone()));
         assertThat("Work phones should be equal", cleanedPhone(newContact.getWorkPhone()),
                 equalTo(contactToExamine.getWorkPhone()));
+        assertThat(newContact.getEmail(), equalTo(contactToExamine.getEmail()));
+        assertThat(newContact.getAddress(), equalTo(contactToExamine.getAddress()));
     }
 }
