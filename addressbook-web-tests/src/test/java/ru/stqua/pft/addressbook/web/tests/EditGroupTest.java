@@ -33,9 +33,10 @@ public class EditGroupTest extends TestBase {
         beforeCount = dbHelper.groups().size();
         GroupData newGroup = GroupProvider.get(GroupLabels.COOL_ACTION_MOVIES);
         GroupData modifiedGroup = group.modifyFirstGroup(newGroup);
+        newGroup.withId(modifiedGroup.getId());
         goTo.groupPage();
         assertThat(dbHelper.groups().size(), equalTo(beforeCount));
-        DataSet<GroupData> after = group.all();
+        DataSet<GroupData> after = dbHelper.groups();
 
         assertThat(after, equalTo(before.without(modifiedGroup).withAdded(newGroup)));
     }
