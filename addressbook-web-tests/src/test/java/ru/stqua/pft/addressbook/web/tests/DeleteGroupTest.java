@@ -26,13 +26,14 @@ public class DeleteGroupTest extends TestBase {
     @Test
     public void deleteTest() {
 
-        DataSet<GroupData> before = group.all();
-        beforeCount = group.count();
+        DataSet<GroupData> before = dbHelper.groups();
+        beforeCount = before.size();
         goTo.groupPage();
+        newGroupBundle.data().withId(group.getIdOfGroupWithName(newGroupBundle.data().getName()));
         group.removeGroupWithName(GroupLabels.GOOD_PEOPLE.getName());
         goTo.groupPage();
-        assertThat(group.count(), equalTo(beforeCount - 1));
-        DataSet<GroupData> after = group.all();
+        assertThat(dbHelper.groups().size(), equalTo(beforeCount - 1));
+        DataSet<GroupData> after = dbHelper.groups();
 
         group.removeGroupWithName(GroupLabels.GOOD_PEOPLE.getName());
 
