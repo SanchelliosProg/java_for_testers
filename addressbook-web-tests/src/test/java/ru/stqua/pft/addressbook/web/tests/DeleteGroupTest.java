@@ -39,5 +39,4 @@ public class DeleteGroupTest extends TestBase {
 
         assertThat(after, equalTo(before.without(newGroupBundle.data())));
     }
-
 }
