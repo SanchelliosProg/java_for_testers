@@ -21,24 +21,29 @@ public class EditContactTest extends TestBase{
 
     @BeforeMethod
     public void preconditionsSetUp(){
-        goTo.homePage();
-        contactListHelper.cleanup();
-        contactListHelper.createContact(ContactProvider.getContact(ContactsLabels.JOHN_MATRIX));
+        if (dbHelper.contacts().size() != 0) {
+            goTo.homePage();
+            contactListHelper.cleanup();
+            contactListHelper.createContact(ContactProvider.getContact(ContactsLabels.JOHN_MATRIX));
+        } else {
+            contactListHelper.createContact(ContactProvider.getContact(ContactsLabels.JOHN_MATRIX));
+        }
         createGroupIfNotExist(GroupLabels.GOOD_PEOPLE);
     }
 
     @Test
     public void editTest() {
-        DataSet<ContactData> before = contactListHelper.all();
-        beforeCount = contactListHelper.count();
+        DataSet<ContactData> before = dbHelper.contacts();
+        beforeCount = before.size();
         goTo.homePage();
         ContactData newAddress = ContactData.newBuilder().firstName("Lionel").lastName("Richie").address("USA")
                 .homePhoneOnly(RandomPhoneNumberProvider.generateRandomNumber()).email("donwritehere@getoff.us")
                 .group(GroupLabels.GOOD_PEOPLE).noPhoto().build();
         ContactData oldAddress = contactListHelper.editFirstContact(newAddress);
+        newAddress.setId(oldAddress.getId());
         goTo.homePage();
-        assertThat(contactListHelper.count(), CoreMatchers.equalTo(beforeCount));
-        DataSet<ContactData> after = contactListHelper.all();
+        assertThat(dbHelper.contacts().size(), CoreMatchers.equalTo(beforeCount));
+        DataSet<ContactData> after = dbHelper.contacts();
         assertThat(after, equalTo(before.without(oldAddress).withAdded(newAddress)));
     }
 }

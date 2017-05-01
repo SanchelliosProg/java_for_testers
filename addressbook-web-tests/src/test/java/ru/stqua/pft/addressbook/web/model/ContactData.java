@@ -65,7 +65,10 @@ public class ContactData {
         this.workPhone = workPhone;
         this.email = email;
         this.groupName = groupName;
-        this.photo = photo.getPath();
+        if (photo != null) {
+            this.photo = photo.getPath();
+        }
+
     }
 
     public ContactData(int id, String firstName, String lastName){
@@ -75,12 +78,21 @@ public class ContactData {
     }
 
     public File getPhoto() {
-        return new File(photo);
+        if (photo != null){
+            return new File(photo);
+        } else {
+            return null;
+        }
+
     }
 
 
     public void setPhoto(File photo) {
         this.photo = photo.getPath();
+    }
+
+    public int getId() {
+        return id;
     }
 
     public interface FirstNameStep{
@@ -220,7 +232,14 @@ public class ContactData {
 
         @Override
         public ContactData build() {
-            return new ContactData(firstName, lastName, address, homePhone, mobilePhone, workPhone, groupName, email, new File(photo));
+            File photoFile;
+            try {
+                photoFile = new File(photo);
+            }catch (NullPointerException ex){
+                photoFile = null;
+            }
+
+            return new ContactData(firstName, lastName, address, homePhone, mobilePhone, workPhone, groupName, email, photoFile);
         }
 
         @Override
