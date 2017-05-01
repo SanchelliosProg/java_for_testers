@@ -138,13 +138,28 @@ public class GroupHelper extends BaseHelper {
 
     public void removeGroupWithName(String name) {
         groupCache = null;
-        List<WebElement> groups = findAll(By.cssSelector(LIST_OF_GROUPS_CSS));
-        for (WebElement group : groups) {
+        for (WebElement group : parseGroups()) {
             if (group.getText().contains(name)) {
                 removeGroup(group);
                 return;
             }
         }
+    }
+
+
+
+    public int getIdOfGroupWithName(String name) {
+        int result = 0;
+        for (WebElement group : parseGroups()) {
+            if (group.getText().contains(name)) {
+                result = Integer.parseInt(find(CHECKBOX_CHOOSE_GROUP_CSS).getAttribute("value"));
+            }
+        }
+        return result;
+    }
+
+    private List<WebElement> parseGroups() {
+        return findAll(By.cssSelector(LIST_OF_GROUPS_CSS));
     }
 
     public void openEditGroupWithName(String name) {
@@ -176,7 +191,7 @@ public class GroupHelper extends BaseHelper {
     }
 
     private void addGroup(GroupData groupData) {
-        editGroupName(groupData.getName());
+        printGroupName(groupData.getName());
         find(By.cssSelector(GROUP_HEADER_TEXT_AREA_CSS)).sendKeys(groupData.getHeader());
         find(By.cssSelector(GROUP_FOOTER_TEXT_AREA_CSS)).sendKeys(groupData.getFooter());
         click(By.cssSelector(SUBMIT_BUTTON_CSS));
@@ -206,12 +221,12 @@ public class GroupHelper extends BaseHelper {
 
     private void editGroup(GroupData data) {
         groupCache = null;
-        editGroupName(data.getName());
+        printGroupName(data.getName());
         editHeaderText(data.getHeader());
         editFooterText(data.getFooter());
     }
 
-    private void editGroupName(String groupName) {
+    private void printGroupName(String groupName) {
         type(By.cssSelector(GROUP_NAME_INPUT_CSS), groupName);
     }
 

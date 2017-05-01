@@ -61,8 +61,8 @@ public class CreateGroupTest extends TestBase {
     @Test(dataProvider = "validGroupsFromJson")
     public void createGroup(GroupData groupData) {
         boolean doAdd = false;
-        DataSet<GroupData> before = group.all();
-        beforeCount = group.count();
+        DataSet<GroupData> before = dbHelper.groups();
+        beforeCount = before.size();
 
         goTo.groupPage();
         if(!group.isGroupWithNamePresented(groupData.getName())){
@@ -72,8 +72,10 @@ public class CreateGroupTest extends TestBase {
             reduceBeforeCountDueToDataObjCreation();
         }
         goTo.groupPage();
-        assertThat(group.count(), equalTo(beforeCount+1));
-        DataSet after = group.all();
+        groupData.withId(group.getIdOfGroupWithName(groupData.getName()));
+        DataSet<GroupData> after = dbHelper.groups();
+        assertThat(after.size(), equalTo(beforeCount+1));
+
         assertThat(group.isGroupWithNamePresented(groupData.getName()), is(true));
 
         if(doAdd){
