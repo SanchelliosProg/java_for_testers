@@ -46,8 +46,8 @@ public class CreateContactTest extends TestBase {
 
     @Test(dataProvider = "validContactsFromJson")
     public void createContactTest(ContactData contactData){
-        DataSet<ContactData> before = contactListHelper.all();
-        beforeCount = contactListHelper.count();
+        DataSet<ContactData> before = dbHelper.contacts();
+        beforeCount = before.size();
 
         goTo.homePage();
 
@@ -57,8 +57,9 @@ public class CreateContactTest extends TestBase {
         }
 
         goTo.homePage();
-        assertThat(contactListHelper.count(), equalTo(beforeCount+1));
-        DataSet<ContactData> after = contactListHelper.all();
+        DataSet<ContactData> after = dbHelper.contacts();
+        assertThat(after.size(), equalTo(beforeCount+1));
+
 
         goTo.homePage();
         if(newAddress.isCreated()){
