@@ -25,8 +25,8 @@ public class DeleteContactTest extends TestBase {
     @Test
     public void deleteTest() {
 
-        DataSet<ContactData> before = contactListHelper.all();
-        beforeCount = contactListHelper.count();
+        DataSet<ContactData> before = dbHelper.contacts();
+        beforeCount = before.size();
         ContactData ghandi = ContactProvider.getContact(ContactsLabels.M_GHANDI);
         goTo.homePage();
 
@@ -39,7 +39,7 @@ public class DeleteContactTest extends TestBase {
         goTo.homePage();
         contactListHelper.removeContact(ghandi);
         goTo.homePage();
-        assertThat(contactListHelper.count(), equalTo(beforeCount-1));
+        assertThat(dbHelper.contacts().size(), equalTo(beforeCount-1));
         DataSet<ContactData> after = contactListHelper.all();
 
         assertThat(after, equalTo(before.without(ghandi)));
