@@ -1,33 +1,58 @@
 package ru.stqua.pft.addressbook.web.model;
 
 import com.google.gson.annotations.Expose;
+import org.hibernate.annotations.Type;
 import ru.stqua.pft.addressbook.web.model.labels.GroupLabels;
 
+import javax.persistence.*;
 import java.io.File;
 
 /**
  * Created by Александр on 18.03.2017.
  */
+@Entity
+@Table(name = "addressbook")
 public class ContactData {
+    @Id
+    @Column(name = "id")
     private int id;
     @Expose
+    @Column(name = "firstname")
     private String firstName;
     @Expose
+    @Column(name = "lastname")
     private String lastName;
     @Expose
+    @Column(name = "address")
+    @Type(type = "text")
     private String address;
     @Expose
+    @Column(name = "home")
+    @Type(type = "text")
     private String homePhone;
     @Expose
+    @Column(name = "mobile")
+    @Type(type = "text")
     private String mobilePhone;
     @Expose
+    @Column(name = "work")
+    @Type(type = "text")
     private String workPhone;
     @Expose
+    @Column(name = "email")
+    @Type(type = "text")
     private String email;
     @Expose
+    @Transient
     private String groupName;
+
     @Expose
-    private File photo;
+    @Column(name = "photo")
+    @Type(type = "text")
+    private String photo;
+
+    public ContactData() {
+    }
 
     private ContactData(String firstName, String lastName, String address, String homePhone, String mobilePhone,
                         String workPhone, String groupName, String email, File photo) {
@@ -40,7 +65,7 @@ public class ContactData {
         this.workPhone = workPhone;
         this.email = email;
         this.groupName = groupName;
-        this.photo = photo;
+        this.photo = photo.getPath();
     }
 
     public ContactData(int id, String firstName, String lastName){
@@ -50,7 +75,12 @@ public class ContactData {
     }
 
     public File getPhoto() {
-        return photo;
+        return new File(photo);
+    }
+
+
+    public void setPhoto(File photo) {
+        this.photo = photo.getPath();
     }
 
     public interface FirstNameStep{
@@ -116,7 +146,7 @@ public class ContactData {
         private String workPhone;
         private String email;
         private String groupName;
-        private File photo;
+        private String photo;
 
         public AddressBuilder() {
         }
@@ -190,7 +220,7 @@ public class ContactData {
 
         @Override
         public ContactData build() {
-            return new ContactData(firstName, lastName, address, homePhone, mobilePhone, workPhone, groupName, email, photo);
+            return new ContactData(firstName, lastName, address, homePhone, mobilePhone, workPhone, groupName, email, new File(photo));
         }
 
         @Override
@@ -207,7 +237,7 @@ public class ContactData {
 
         @Override
         public BuildStep photo(File photo) {
-            this.photo = photo;
+            this.photo = photo.getPath();
             return this;
         }
 

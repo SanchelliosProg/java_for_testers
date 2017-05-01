@@ -106,7 +106,7 @@ public class GroupHelper extends BaseHelper {
         return data;
     }
 
-    public GroupData editFirstGroup(GroupData newGroupData) {
+    public GroupData modifyFirstGroup(GroupData newGroupData) {
         groupCache = null;
         WebElement groupElement = find(By.cssSelector(LIST_OF_GROUPS_CSS));
         GroupData oldGroup = transformElementToGroupData(groupElement);

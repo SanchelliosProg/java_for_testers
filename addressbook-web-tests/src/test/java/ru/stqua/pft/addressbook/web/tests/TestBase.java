@@ -3,6 +3,8 @@ package ru.stqua.pft.addressbook.web.tests;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.BrowserType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.*;
 import ru.stqua.pft.addressbook.web.appmanager.PropertiesProvider;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.contact.ContactDetailedScreenHelper;
@@ -15,10 +17,16 @@ import ru.stqua.pft.addressbook.web.appmanager.ApplicationManager;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.contact.ContactHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupHelper;
 
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Objects;
+
 /**
  * Created by Александр on 18.03.2017.
  */
 public class TestBase {
+    Logger logger = LoggerFactory.getLogger(TestBase.class);
+
     protected static ApplicationManager app = new ApplicationManager(System.getProperty("browser", BrowserType.CHROME));
     protected static GroupHelper group = app.getGroupHelper();
     protected static ContactHelper contactHelper = app.getContactHelper();
@@ -37,6 +45,16 @@ public class TestBase {
     @AfterSuite
     public void tearDown(){
         driver.quit();
+    }
+
+    @BeforeMethod
+    public void logTestStart(Method m) {
+        logger.info("Start test " + m.getName());
+    }
+
+    @BeforeMethod
+    public void logTestStop(Method m) {
+        logger.info("Stop test " + m.getName());
     }
 
     protected void login() {

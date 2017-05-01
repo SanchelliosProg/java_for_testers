@@ -4,9 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
 import org.testng.annotations.*;
-import ru.stqua.pft.addressbook.web.model.labels.GroupLabels;
 import ru.stqua.pft.addressbook.web.model.GroupData;
-import ru.stqua.pft.addressbook.web.model.GroupProvider;
+
 import ru.stqua.pft.addressbook.web.model.DataSet;
 
 import java.io.*;
@@ -23,6 +22,7 @@ import static org.hamcrest.Matchers.is;
  * Created by Александр on 18.03.2017.
  */
 public class CreateGroupTest extends TestBase {
+
     @DataProvider
     public Iterator<Object[]> validGroupsFromXml() throws IOException {
         List<Object[]> list = new ArrayList<>();
@@ -81,8 +81,6 @@ public class CreateGroupTest extends TestBase {
         } else {
             assertThat(after, equalTo(before));
         }
-
-
     }
 
 }
