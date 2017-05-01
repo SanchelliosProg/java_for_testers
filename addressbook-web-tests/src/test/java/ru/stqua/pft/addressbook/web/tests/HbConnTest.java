@@ -37,7 +37,6 @@ public class HbConnTest {
     }
     @Test
     public void testHbConnGroups(){
-
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         List<GroupData> groups = session.createQuery( "from GroupData" ).list();

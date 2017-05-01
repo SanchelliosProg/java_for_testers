@@ -65,7 +65,7 @@ public class GroupHelper extends BaseHelper {
     public DataSet<GroupData> all() {
         new NavigationHelper(driver).groupPage();
         if (groupCache != null) {
-            return new DataSet<>(groupCache);
+            return groupCache;
         }
         List<WebElement> elements = findAll(By.cssSelector("form span"));
         groupCache = new DataSet<>();

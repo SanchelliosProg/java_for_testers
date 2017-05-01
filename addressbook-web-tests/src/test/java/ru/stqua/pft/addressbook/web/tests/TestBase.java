@@ -9,6 +9,7 @@ import org.testng.annotations.*;
 import ru.stqua.pft.addressbook.web.appmanager.PropertiesProvider;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.contact.ContactDetailedScreenHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.contact.ContactListHelper;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.db.DbHelper;
 import ru.stqua.pft.addressbook.web.model.labels.GroupLabels;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.AddedDataStatus;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.navigation.NavigationHelper;
@@ -34,6 +35,7 @@ public class TestBase {
     protected static ContactListHelper contactListHelper = app.getContactListHelper();
     protected static ContactDetailedScreenHelper contactDetailedScreenHelper = app.getContactDetailedScreenHelper();
     protected static WebDriver driver = app.getDriver();
+    protected static DbHelper dbHelper = app.getDbHelper();
 
     protected int beforeCount = 0;
 

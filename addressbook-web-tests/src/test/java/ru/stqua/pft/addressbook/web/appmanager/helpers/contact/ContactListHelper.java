@@ -27,7 +27,7 @@ public class ContactListHelper extends BaseHelper {
     private final String LABEL_EMAIL_CSS = "td:nth-child(5)";
     private final String LABEL_PHONES_CSS = "td:nth-child(6)";
 
-    private DataSet<ContactData> addressCache = null;
+    private DataSet<ContactData> contactCache = null;
 
     public ContactListHelper(WebDriver driver) {
         super(driver);
@@ -51,8 +51,8 @@ public class ContactListHelper extends BaseHelper {
     }
 
     public DataSet<ContactData> all() {
-        if (addressCache != null) {
-            return new DataSet<>(addressCache);
+        if (contactCache != null) {
+            return contactCache;
         }
         DataSet<ContactData> addresses = new DataSet<>();
         NavigationHelper navigationHelper = new NavigationHelper(driver);
@@ -77,7 +77,7 @@ public class ContactListHelper extends BaseHelper {
     public ContactData createContact(ContactData data){
         if(isContactWithNamePresented(data.getLastName()))
             removeContact(data);
-        addressCache = null;
+        contactCache = null;
         NavigationHelper goTo = new NavigationHelper(driver);
         goTo.addNewAddressPage();
         new ContactHelper(driver).fillNewContactData(data);
@@ -85,7 +85,7 @@ public class ContactListHelper extends BaseHelper {
     }
 
     public ContactData editFirstContact(ContactData newAddress) {
-        addressCache = null;
+        contactCache = null;
         WebElement firstElement = find(By.cssSelector(LIST_OF_ADDRESSES_CSS));
         ContactData oldAddress = convertElementToContactData(firstElement);
         chooseAddress(firstElement);
@@ -103,7 +103,7 @@ public class ContactListHelper extends BaseHelper {
     }
 
     public ContactData removeContact(ContactData data) {
-        addressCache = null;
+        contactCache = null;
         ContactData removedElement;
         WebDriverWait wait = new WebDriverWait(driver, 10);
         List<WebElement> rows = findAll(By.cssSelector(LIST_OF_ADDRESSES_CSS));

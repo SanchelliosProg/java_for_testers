@@ -8,6 +8,7 @@ import org.openqa.selenium.remote.BrowserType;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.contact.ContactDetailedScreenHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.contact.ContactHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.contact.ContactListHelper;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.db.DbHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.navigation.NavigationHelper;
 
@@ -28,6 +29,7 @@ public class ApplicationManager {
     private NavigationHelper navigationHelper;
     private ContactListHelper contactListHelper;
     private ContactDetailedScreenHelper contactDetailedScreenHelper;
+    private DbHelper dbHelper;
 
     private String browser;
 
@@ -36,6 +38,7 @@ public class ApplicationManager {
     public ApplicationManager(String browser)  {
         this.browser = browser;
         properties = new PropertiesProvider();
+        dbHelper = new DbHelper();
         initWebDriver();
         initHelpers();
     }
@@ -82,4 +85,7 @@ public class ApplicationManager {
         return contactDetailedScreenHelper;
     }
 
+    public DbHelper getDbHelper() {
+        return dbHelper;
+    }
 }

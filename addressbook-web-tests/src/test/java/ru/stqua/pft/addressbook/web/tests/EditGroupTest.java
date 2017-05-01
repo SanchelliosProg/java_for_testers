@@ -19,20 +19,22 @@ public class EditGroupTest extends TestBase {
 
     @BeforeMethod
     public void preconditionsSetUp(){
-        goTo.groupPage();
-        if(!group.isAnyGroupPresented()){
-            group.createGroup(GroupLabels.FAIRY_WORLDS);
+        if (dbHelper.groups().size() == 0){
+            goTo.groupPage();
+            if(!group.isAnyGroupPresented()){
+                group.createGroup(GroupLabels.FAIRY_WORLDS);
+            }
         }
     }
 
     @Test
     public void editTest() {
         DataSet<GroupData> before = group.all();
-        beforeCount = group.count();
+        beforeCount = dbHelper.groups().size();
         GroupData newGroup = GroupProvider.get(GroupLabels.COOL_ACTION_MOVIES);
         GroupData modifiedGroup = group.modifyFirstGroup(newGroup);
         goTo.groupPage();
-        assertThat(group.count(), equalTo(beforeCount));
+        assertThat(dbHelper.groups().size(), equalTo(beforeCount));
         DataSet<GroupData> after = group.all();
 
         assertThat(after, equalTo(before.without(modifiedGroup).withAdded(newGroup)));
