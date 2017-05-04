@@ -5,7 +5,7 @@
         <classes>
             <class name="ru.stqua.pft.addressbook.web.tests.CreateGroupTest" />
             <class name="ru.stqua.pft.addressbook.web.tests.DeleteGroupTest" />
-            <class name="ru.stqua.pft.addressbook.web.tests.EditGroupTest" />
+            <class name="ru.stqua.pft.addressbook.web.tests.ModifyGroupTest" />
         </classes>
     </test>
 </suite>

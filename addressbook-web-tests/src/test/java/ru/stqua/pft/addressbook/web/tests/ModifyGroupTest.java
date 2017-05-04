@@ -15,7 +15,7 @@ import static org.hamcrest.Matchers.not;
 /**
  * Created by avvasi78 on 21.03.2017.
  */
-public class EditGroupTest extends TestBase {
+public class ModifyGroupTest extends TestBase {
 
     @BeforeMethod
     public void preconditionsSetUp(){
@@ -29,9 +29,10 @@ public class EditGroupTest extends TestBase {
 
     @Test
     public void editTest() {
-        DataSet<GroupData> before = group.all();
+        DataSet<GroupData> before = dbHelper.groups();
         beforeCount = dbHelper.groups().size();
         GroupData newGroup = GroupProvider.get(GroupLabels.COOL_ACTION_MOVIES);
+        goTo.groupPage();
         GroupData modifiedGroup = group.modifyFirstGroup(newGroup);
         newGroup.withId(modifiedGroup.getId());
         goTo.groupPage();
@@ -39,7 +40,6 @@ public class EditGroupTest extends TestBase {
         DataSet<GroupData> after = dbHelper.groups();
 
         assertThat(after, equalTo(before.without(modifiedGroup).withAdded(newGroup)));
+        verifyGroupListInUI();
     }
-
-
 }

@@ -113,7 +113,7 @@ public class GroupHelper extends BaseHelper {
 
         chooseGroup(groupElement);
         click(By.cssSelector(BUTTON_EDIT_CSS));
-        editGroup(newGroupData);
+        editGroup(newGroupData, oldGroup);
         click(BUTTON_UPDATE_EDIT_CSS);
         return oldGroup;
     }
@@ -152,7 +152,7 @@ public class GroupHelper extends BaseHelper {
         int result = 0;
         for (WebElement group : parseGroups()) {
             if (group.getText().contains(name)) {
-                result = Integer.parseInt(find(CHECKBOX_CHOOSE_GROUP_CSS).getAttribute("value"));
+                result = Integer.parseInt(group.findElement(By.cssSelector(CHECKBOX_CHOOSE_GROUP_CSS)).getAttribute("value"));
             }
         }
         return result;
@@ -219,8 +219,19 @@ public class GroupHelper extends BaseHelper {
         find(By.cssSelector("input[name='edit']")).click();
     }
 
+    private void editGroup(GroupData data, GroupData oldGroup) {
+        groupCache = null;
+        oldGroup.withHeader(getAttributeValue(By.cssSelector(GROUP_HEADER_TEXT_AREA_CSS)));
+        oldGroup.withFooter(getAttributeValue(By.cssSelector(GROUP_FOOTER_TEXT_AREA_CSS)));
+        editFields(data);
+    }
+
     private void editGroup(GroupData data) {
         groupCache = null;
+        editFields(data);
+    }
+
+    private void editFields(GroupData data) {
         printGroupName(data.getName());
         editHeaderText(data.getHeader());
         editFooterText(data.getFooter());

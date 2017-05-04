@@ -1,5 +1,7 @@
 package ru.stqua.pft.addressbook.web.tests;
 
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.BrowserType;
@@ -21,6 +23,10 @@ import ru.stqua.pft.addressbook.web.appmanager.helpers.group.GroupHelper;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.stream.Collectors;
+
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.*;
 
 /**
  * Created by Александр on 18.03.2017.
@@ -108,10 +114,12 @@ public class TestBase {
     }
 
     protected void debugWait() {
-        try {
-            Thread.sleep(1250);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if (Boolean.getBoolean("verifyUI")){
+            try {
+                Thread.sleep(1250);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -127,5 +135,18 @@ public class TestBase {
         return phone.replaceAll("[\\s()-]", "");
     }
 
+    public void verifyGroupListInUI() {
 
+        if(Boolean.getBoolean("verifyUI")){
+            goTo.groupPage();
+            DataSet<GroupData> dbGroups = dbHelper.groups();
+            DataSet<GroupData> uiGroups = group.all();
+            assertThat(uiGroups, equalTo(
+                    dbGroups.stream()
+                            .map((g) -> new GroupData()
+                                    .withId(g.getId())
+                                    .withName(g.getName())).collect(Collectors.toSet())));
+        }
+
+    }
 }

@@ -79,7 +79,8 @@ public class CreateGroupTest extends TestBase {
         assertThat(group.isGroupWithNamePresented(groupData.getName()), is(true));
 
         if(doAdd){
-            assertThat(after, equalTo(before.withAdded(groupData)));
+            DataSet<GroupData> expected = before.withAdded(groupData);
+            assertThat(after, equalTo(expected));
         } else {
             assertThat(after, equalTo(before));
         }
