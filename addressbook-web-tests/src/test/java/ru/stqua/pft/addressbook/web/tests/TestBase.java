@@ -55,15 +55,15 @@ public class TestBase {
         driver.quit();
     }
 
-    @BeforeMethod
-    public void logTestStart(Method m) {
-        logger.info("Start test " + m.getName());
-    }
-
-    @BeforeMethod
-    public void logTestStop(Method m) {
-        logger.info("Stop test " + m.getName());
-    }
+//    @BeforeMethod
+//    public void logTestStart(Method m) {
+//        logger.info("Start test " + m.getName());
+//    }
+//
+//    @BeforeMethod
+//    public void logTestStop(Method m) {
+//        logger.info("Stop test " + m.getName());
+//    }
 
     protected void login() {
         PropertiesProvider p = new PropertiesProvider();

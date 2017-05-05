@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.Select;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.navigation.NavigationHelper;
 import ru.stqua.pft.addressbook.web.model.ContactData;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.BaseHelper;
+import ru.stqua.pft.addressbook.web.model.GroupData;
 
 import java.util.Objects;
 
@@ -56,7 +57,7 @@ public class ContactHelper extends BaseHelper {
         if(!Objects.equals(data.getWorkPhone(), ""))
             find(By.cssSelector(INPUT_WORK_PHONE_CSS)).sendKeys(data.getWorkPhone());
         find(By.cssSelector(INPUT_EMAIL_CSS)).sendKeys(data.getEmail());
-        if (!Objects.equals(data.getGroupName(), ""))
+        if (!Objects.equals(data.getGroups(), ""))
             selectGroup(data);
 
         attach(By.cssSelector(INPUT_PHOTO_CSS), data.getPhoto());
@@ -117,7 +118,9 @@ public class ContactHelper extends BaseHelper {
 
     public void selectGroup(ContactData data) {
         Select select = new Select(find(By.cssSelector(SELECT_GROUP_CSS)));
-        select.selectByVisibleText(data.getGroupName());
+        for (GroupData groupData : data.getGroups()) {
+            select.selectByVisibleText(groupData.getName());
+        }
     }
     @Deprecated
     public boolean isContactWithNamePresented(String text){

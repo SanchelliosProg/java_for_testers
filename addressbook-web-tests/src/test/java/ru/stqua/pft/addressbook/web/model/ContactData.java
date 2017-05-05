@@ -6,6 +6,9 @@ import ru.stqua.pft.addressbook.web.model.labels.GroupLabels;
 
 import javax.persistence.*;
 import java.io.File;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Александр on 18.03.2017.
@@ -42,9 +45,12 @@ public class ContactData {
     @Column(name = "email")
     @Type(type = "text")
     private String email;
-    @Expose
-    @Transient
-    private String groupName;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "address_in_groups",
+            joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "group_id"))
+    private Set<GroupData> groups = new HashSet<>();
 
     @Expose
     @Column(name = "photo")
@@ -55,7 +61,7 @@ public class ContactData {
     }
 
     private ContactData(String firstName, String lastName, String address, String homePhone, String mobilePhone,
-                        String workPhone, String groupName, String email, File photo) {
+                        String workPhone, Set<GroupData> groups, String email, File photo) {
         this.id = Integer.MAX_VALUE;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -64,7 +70,7 @@ public class ContactData {
         this.mobilePhone = mobilePhone;
         this.workPhone = workPhone;
         this.email = email;
-        this.groupName = groupName;
+        this.groups = groups;
         if (photo != null) {
             this.photo = photo.getPath();
         }
@@ -85,7 +91,6 @@ public class ContactData {
         }
 
     }
-
 
     public void setPhoto(File photo) {
         this.photo = photo.getPath();
@@ -127,7 +132,7 @@ public class ContactData {
     }
 
     public interface GroupStep{
-        PhotoStep group(GroupLabels group);
+        PhotoStep group(GroupLabels... group);
         PhotoStep noGroup();
     }
 
@@ -157,7 +162,7 @@ public class ContactData {
         private String mobilePhone;
         private String workPhone;
         private String email;
-        private String groupName;
+        private Set<GroupData> groups = new HashSet<>();
         private String photo;
 
         public AddressBuilder() {
@@ -239,18 +244,19 @@ public class ContactData {
                 photoFile = null;
             }
 
-            return new ContactData(firstName, lastName, address, homePhone, mobilePhone, workPhone, groupName, email, photoFile);
+            return new ContactData(firstName, lastName, address, homePhone, mobilePhone, workPhone, groups, email, photoFile);
         }
 
         @Override
-        public PhotoStep group(GroupLabels group) {
-            groupName = group.getName();
+        public PhotoStep group(GroupLabels... groups) {
+            for (GroupLabels label : groups) {
+                this.groups.add(GroupProvider.get(label));
+            }
             return this;
         }
 
         @Override
         public PhotoStep noGroup() {
-            groupName = "";
             return this;
         }
 
@@ -287,8 +293,8 @@ public class ContactData {
         return email;
     }
 
-    public String getGroupName() {
-        return groupName;
+    public DataSet<GroupData> getGroups() {
+        return new DataSet<>(groups);
     }
 
     public String getMobilePhone() {
