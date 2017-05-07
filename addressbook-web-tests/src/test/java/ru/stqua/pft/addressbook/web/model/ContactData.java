@@ -100,6 +100,10 @@ public class ContactData {
         return id;
     }
 
+    public void removeGroup(GroupData data) {
+        groups.remove(data);
+    }
+
     public interface FirstNameStep{
         LastNameStep firstName(String name);
     }
@@ -143,6 +147,10 @@ public class ContactData {
 
     public interface BuildStep{
         ContactData build();
+    }
+
+    public void addGroup(GroupData groupData){
+        groups.add(groupData);
     }
 
     public void setId(int id) {

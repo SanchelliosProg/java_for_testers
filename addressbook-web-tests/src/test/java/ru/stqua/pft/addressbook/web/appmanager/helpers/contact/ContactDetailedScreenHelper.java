@@ -12,9 +12,14 @@ public class ContactDetailedScreenHelper extends BaseHelper {
 
 
     private final String CONTENT_CSS = "div#content";
+    private final String LINK_FIRST_GROUP = "div#content i a";
 
     public ContactDetailedScreenHelper(WebDriver driver) {
         super(driver);
+    }
+
+    public void clickFirstGroup(){
+        click(LINK_FIRST_GROUP);
     }
 
     public ContactData parseContactData(ContactPhoneNumbersState state, PhotoStatus photoStatus) {

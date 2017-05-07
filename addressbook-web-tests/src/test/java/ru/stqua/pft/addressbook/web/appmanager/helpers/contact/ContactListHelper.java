@@ -4,33 +4,38 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.BaseHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.navigation.NavigationHelper;
 import ru.stqua.pft.addressbook.web.model.ContactData;
 import ru.stqua.pft.addressbook.web.model.DataSet;
+import ru.stqua.pft.addressbook.web.model.GroupData;
 
 import java.util.List;
+
+import static ru.stqua.pft.addressbook.web.appmanager.helpers.contact.ContactListSelectors.*;
 
 /**
  * Created by Александр on 08.04.2017.
  */
 public class ContactListHelper extends BaseHelper {
-    private final String BUTTON_DELETE_CSS = "input[onclick='DeleteSel()']";
-    private final String BUTTON_DETAILED_CSS = "td:nth-child(7)";
-    private final String BUTTON_EDIT_CSS = "td:nth-child(8)";
-    private final String LIST_OF_ADDRESSES_CSS = "table tbody tr[name='entry']";
-    private final String CHECKBOX_ROW_CSS = "input[type='checkbox']";
-    private final String LABEL_LAST_NAME_CSS = "td:nth-child(2)";
-    private final String LABEL_FIRST_NAME_CSS = "td:nth-child(3)";
-    private final String LABEL_ADDRESS_CSS = "td:nth-child(4)";
-    private final String LABEL_EMAIL_CSS = "td:nth-child(5)";
-    private final String LABEL_PHONES_CSS = "td:nth-child(6)";
 
     private DataSet<ContactData> contactCache = null;
 
     public ContactListHelper(WebDriver driver) {
         super(driver);
+    }
+
+    public void setGroupsToContact(ContactData data) {
+        for (GroupData groupData : data.getGroups()) {
+            WebElement row = getRowContainingName(data.getLastName());
+            checkContact(row);
+            Select select = new Select(find(By.cssSelector(SELECT_GROUP)));
+            select.selectByVisibleText(groupData.getName());
+            click(BUTTON_ADD_TO);
+            new NavigationHelper(driver).homePage();
+        }
     }
 
     public int count(){
@@ -88,7 +93,7 @@ public class ContactListHelper extends BaseHelper {
         contactCache = null;
         WebElement firstElement = find(By.cssSelector(LIST_OF_ADDRESSES_CSS));
         ContactData oldAddress = convertElementToContactData(firstElement);
-        chooseAddress(firstElement);
+        checkContact(firstElement);
         clickEdit(firstElement);
         ContactHelper helper = new ContactHelper(driver);
         helper.editContact(newAddress);
@@ -125,6 +130,8 @@ public class ContactListHelper extends BaseHelper {
         wait.until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
     }
+
+
 
     public WebElement getRowContainingName(String name){
         return find(By.xpath("//tr[contains(., '"+name+"')]"));
@@ -177,13 +184,13 @@ public class ContactListHelper extends BaseHelper {
 
     private void removeElement(WebElement firstElement) {
         WebDriverWait wait = new WebDriverWait(driver, 10);
-        chooseAddress(firstElement);
+        checkContact(firstElement);
         click(By.cssSelector(BUTTON_DELETE_CSS));
         wait.until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
     }
 
-    private void chooseAddress(WebElement firstElement) {
-        firstElement.findElement(By.cssSelector(CHECKBOX_ROW_CSS)).click();
+    public void checkContact(WebElement row) {
+        row.findElement(By.cssSelector(CHECKBOX_ROW_CSS)).click();
     }
 }

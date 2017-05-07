@@ -11,6 +11,7 @@ import org.testng.annotations.*;
 import ru.stqua.pft.addressbook.web.appmanager.PropertiesProvider;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.contact.ContactDetailedScreenHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.contact.ContactListHelper;
+import ru.stqua.pft.addressbook.web.appmanager.helpers.contact.ContactListOfGroupHelper;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.db.DbHelper;
 import ru.stqua.pft.addressbook.web.model.labels.GroupLabels;
 import ru.stqua.pft.addressbook.web.appmanager.helpers.group.AddedDataStatus;
@@ -42,6 +43,7 @@ public class TestBase {
     protected static ContactDetailedScreenHelper contactDetailedScreenHelper = app.getContactDetailedScreenHelper();
     protected static WebDriver driver = app.getDriver();
     protected static DbHelper dbHelper = app.getDbHelper();
+    protected static ContactListOfGroupHelper contactListOfGroupHelper = app.getContactListOfGroupHelper();
 
     protected int beforeCount = 0;
 
@@ -82,6 +84,17 @@ public class TestBase {
             return new AddedDataStatus<>(true, newGroup);
         } else {
             return new AddedDataStatus<>(false, GroupProvider.get(group));
+        }
+    }
+
+    protected AddedDataStatus<GroupData> createGroupIfNotExist(GroupData group){
+        GroupData newGroup;
+        goTo.groupPage();
+        if(!TestBase.group.isGroupWithNamePresented(group.getName())){
+            newGroup = TestBase.group.createGroup(group);
+            return new AddedDataStatus<>(true, newGroup);
+        } else {
+            return new AddedDataStatus<>(false, group);
         }
     }
 

@@ -41,4 +41,13 @@ public class DbHelper {
         session.close();
         return new DataSet<>(contacts);
     }
+
+    public ContactData getContactWithLastName(String lastName) throws Exception {
+        for (ContactData data : contacts()){
+            if(data.getLastName().equals(lastName)){
+                return data;
+            }
+        }
+        throw new Exception();
+    }
 }
