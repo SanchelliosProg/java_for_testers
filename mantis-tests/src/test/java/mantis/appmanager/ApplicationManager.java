@@ -17,16 +17,36 @@ public class ApplicationManager {
     private String browser;
 
     private WebDriver driver;
+    private RegistrationHelper registrationHelper;
 
     public ApplicationManager(String browser)  {
         this.browser = browser;
         properties = new PropertiesProvider();
-        initWebDriver();
-        initHelpers();
     }
 
-    private void initHelpers(){
+    public HttpSession newSession() {
+        return new HttpSession(this);
+    }
 
+
+    public WebDriver getDriver() {
+        if (driver == null) {
+            initWebDriver();
+        }
+        return driver;
+    }
+
+    public void stop(){
+        if (driver != null){
+            driver.quit();
+        }
+    }
+
+    public RegistrationHelper registration() {
+        if (registrationHelper == null){
+            registrationHelper =  new RegistrationHelper(this);
+        }
+        return registrationHelper;
     }
 
     private void initWebDriver(){
@@ -39,7 +59,4 @@ public class ApplicationManager {
         }
     }
 
-    public WebDriver getDriver() {
-        return driver;
-    }
 }
