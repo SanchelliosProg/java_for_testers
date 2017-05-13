@@ -32,12 +32,12 @@ public class TestBase {
     }
 
     protected void debugWait() {
-        if (Boolean.getBoolean("verifyUI")){
+
             try {
-                Thread.sleep(1250);
+                Thread.sleep(6000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
+
     }
 }

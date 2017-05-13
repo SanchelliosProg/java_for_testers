@@ -16,7 +16,5 @@ public class LoginTest extends TestBase {
         HttpSession session = app.newSession();
         assertTrue(session.login(props.getProperty("web.adminLogin"),
                 props.getProperty("web.adminPassword")));
-
-
     }
 }

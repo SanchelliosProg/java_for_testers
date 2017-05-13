@@ -36,6 +36,19 @@ public class RegistrationTest extends TestBase {
         assertTrue(app.newSession().login(user, password));
     }
 
+    @Test
+    public void registration() throws IOException, MessagingException {
+        long now = System.currentTimeMillis();
+        String email = "alex@localhost.localdomain";
+        String user = "alex";
+        String password = "password";
+        app.registration().start(user, email);
+        List<MailMessage> messages = app.mail().waitForMail(2, 10000);
+        String confirmationLink = findConfirmationLink(messages, email);
+        app.registration().finish(confirmationLink, password);
+        assertTrue(app.newSession().login(user, password));
+    }
+
     private String findConfirmationLink(List<MailMessage> messages, String email) {
         MailMessage message = messages.stream().filter((m) -> m.to.equals(email)).findFirst().get();
         VerbalExpression regex = VerbalExpression.regex().find("http://").nonSpace().oneOrMore().build();
