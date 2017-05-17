@@ -23,7 +23,7 @@ public class TestBase {
 
         Set<Issue> is = new Gson().fromJson(issues, new TypeToken<Set<Issue>>(){}.getType());
         Issue issue = is.iterator().next();
-        if (issue.getState().equals("0")){
+        if (issue.getState().equals("0") || issue.getState().equals("1")){
             return true;
         } else {
             return false;

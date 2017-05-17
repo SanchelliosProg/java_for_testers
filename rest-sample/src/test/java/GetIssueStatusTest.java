@@ -16,7 +16,11 @@ public class GetIssueStatusTest extends TestBase{
     public Iterator<Object[]> openedIssues(){
         List<Object[]> openIssuesIds = new ArrayList<>();
         openIssuesIds.add(new Object[]{1});
+        openIssuesIds.add(new Object[]{2});
         openIssuesIds.add(new Object[]{3});
+        openIssuesIds.add(new Object[]{5});
+        openIssuesIds.add(new Object[]{6});
+        openIssuesIds.add(new Object[]{7});
         openIssuesIds.add(new Object[]{9});
         return openIssuesIds.iterator();
     }
