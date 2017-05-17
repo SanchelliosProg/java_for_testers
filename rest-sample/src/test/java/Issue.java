@@ -5,6 +5,7 @@ public class Issue {
     private int id;
     private String subject;
     private String description;
+    private String state;
 
     public int getId() {
         return id;
@@ -51,5 +52,23 @@ public class Issue {
         result = 31 * result + (subject != null ? subject.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    @Override
+    public String toString() {
+        return "Issue{" +
+                "id=" + id +
+                ", subject='" + subject + '\'' +
+                ", description='" + description + '\'' +
+                ", state='" + state + '\'' +
+                '}';
     }
 }
