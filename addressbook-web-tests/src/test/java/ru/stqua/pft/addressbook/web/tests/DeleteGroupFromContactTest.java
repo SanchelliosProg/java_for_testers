@@ -24,16 +24,16 @@ public class DeleteGroupFromContactTest extends TestBase{
     public void setData() {
         addedGroup = createGroupIfNotExist(GroupLabels.COOL_ACTION_MOVIES);
         addedContact = createContactIfNotExist(ContactProvider.getContact(ContactsLabels.JOHN_MATRIX));
+        contactListHelper.setGroupsToContact(addedContact.data());
     }
 
     @Test
-    public void addToGroup() {
+    public void deleteFromGroup() {
         goTo.homePage();
         contactListHelper.openDetailedInfoOfContactWithLastName(addedContact.data().getLastName());
         contactDetailedScreenHelper.clickFirstGroup();
         contactListOfGroupHelper.removeFromGroup(addedContact.data());
         addedContact.data().removeGroup(addedGroup.data());
-
 
         ContactData dataFormDb = null;
 
