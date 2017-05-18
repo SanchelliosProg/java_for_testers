@@ -25,5 +25,6 @@ public class PointTest {
         Point p2 = new Point(3, 45);
         double answer = p1.getDistance(p2);
         assertThat(answer, is(ANSWER));
+
     }
 }
